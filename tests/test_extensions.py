@@ -87,7 +87,8 @@ def test_html_report_has_sections_and_working_links(toy_analysis, tmp_path: Path
         assert f'id="{section}"' in page
     assert "LIG900:A" in page
     for target in re.findall(r'(?:src|href)="([^"#]+)"', page):
-        if not target.startswith("http"):
+        # "../" is the overview, which only exists while `proteinscope serve` is running.
+        if not target.startswith("http") and target != "../":
             assert (paths.directory / target).is_file(), target
     assert "report.html" in paths.markdown.read_text(encoding="utf-8")
 
