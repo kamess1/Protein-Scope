@@ -7,6 +7,7 @@ without it this module reports that it is unavailable and the report omits the s
 
 from __future__ import annotations
 
+import importlib.util
 from pathlib import Path
 from typing import Any
 
@@ -16,11 +17,7 @@ CHEMCOMP_URL = "https://data.rcsb.org/rest/v1/core/chemcomp/{comp_id}"
 
 
 def available() -> bool:
-    try:
-        import rdkit  # noqa: F401
-    except ImportError:
-        return False
-    return True
+    return importlib.util.find_spec("rdkit") is not None
 
 
 def component(comp_id: str, cache_dir: Path | None = None) -> dict[str, Any]:

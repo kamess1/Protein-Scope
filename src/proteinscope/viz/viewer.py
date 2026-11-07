@@ -154,6 +154,10 @@ if (typeof $3Dmol === 'undefined') { document.getElementById('error').style.disp
     const atoms=viewer.selectedAtoms(PROTEIN).filter(a=>Math.hypot(a.x-p.center[0],a.y-p.center[1],a.z-p.center[2])<14);
     viewer.zoomTo({serial:atoms.map(a=>a.serial)},400);
   }
+  addEventListener('message',e=>{const d=e.data;if(!d||d.type!=='focusPocket')return;
+    const p=POCKETS.find(x=>x.id===d.id);if(!p)return;
+    if(!showPockets){showPockets=true;document.getElementById('toggle').setAttribute('aria-pressed',true);drawPockets();}
+    focusPocket(p);});
   setProtein('cartoon'); drawPockets(); viewer.zoomTo(); viewer.render();
   addEventListener('resize',()=>viewer.resize());
   window.PROTEINSCOPE_READY=true;
