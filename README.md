@@ -62,8 +62,11 @@ proteinscope serve                    # http://127.0.0.1:8765, opens a browser w
 proteinscope serve -o runs -p 9000 --no-open
 ```
 
-It is a reader, not a launcher: analyses are still started with `proteinscope report`. The server
-binds to the loopback interface only and needs no extra dependency.
+It is a reader, not a launcher: analyses are still started with `proteinscope report`. It needs
+no extra dependency and keeps to itself: the socket is bound to `127.0.0.1`, nothing outside the
+output directory is served (symlinks out of it are refused), directories are never listed, and
+responses carry `Referrer-Policy: no-referrer` so the local URL does not travel to the CDN that
+`viewer.html` loads 3Dmol.js from. The page shows the output folder by name, not by full path.
 
 ## Claude Code as the agent (MCP, no API key)
 
@@ -75,8 +78,13 @@ Then just ask in the chat:
 > compare it with the ChEMBL data and write the report.
 
 Claude plans the steps and calls `search_pdb`, `analyze_structure`, `pocket_detail`,
-`ligand_chemistry`, `functional_sites`, `target_bioactivity` and `write_report`. Reports land in `output/`.
-To register the server outside this folder:
+`ligand_chemistry`, `functional_sites`, `target_bioactivity` and `write_report`. Reports land in
+`output/`.
+
+The paths in `.mcp.json` are relative, so the committed file names no directory of yours; the
+client starts the server with the project root as its working directory. If you want the server
+available outside this folder, register it in your own config instead of editing the committed
+one — that writes an absolute path, but into your user config, not into the repository:
 
 ```bash
 claude mcp add proteinscope -- "$PWD/.venv/bin/proteinscope" mcp --out "$PWD/output"

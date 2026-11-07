@@ -6,7 +6,11 @@ output directory, so the existing `report.html` (with its figures, viewer and do
 unchanged. Nothing is analysed here: the page is a reader for what `proteinscope report` wrote.
 
 The index is rendered per request, so a report written while the server runs shows up on
-reload. Only the standard library is used, and the socket is bound to 127.0.0.1.
+reload. Only the standard library is used.
+
+What it does not do: bind anywhere but the loopback interface, serve a file outside the
+output directory (symlinks included), list directory contents, or print the full path of
+your output directory on a page that could end up in a screenshot.
 """
 
 from __future__ import annotations
@@ -134,6 +138,21 @@ def _e(value: Any) -> str:
     return escape(str(value), quote=True)
 
 
+def display_path(path: Path) -> str:
+    """A path safe to show on screen: never the home directory, never a full absolute path.
+
+    Relative to the working directory when it sits inside it, otherwise the folder name alone.
+    Absolute paths carry the account name and the layout of someone's disk, and the page may
+    be screenshotted or shared.
+    """
+    path = Path(path).expanduser().resolve()
+    try:
+        relative = path.relative_to(Path.cwd())
+    except ValueError:
+        return path.name or str(path)
+    return f"./{relative}" if relative.parts else "."
+
+
 def _tone(entry: Entry) -> str:
     return {"high": "good", "moderate": "warn", "low": "muted"}.get(entry.top_class or "", "muted")
 
@@ -221,7 +240,7 @@ def render_index(entries: list[Entry], out_dir: Path) -> str:
 <body>
 <header class="top"><div class="wrap">
   <h1>ProteinScope</h1>
-  <p class="subtitle">{_e(count)} in {_e(out_dir)}</p>
+  <p class="subtitle">{_e(count)} in {_e(display_path(out_dir))}</p>
   <div class="meta"><button id="theme" type="button">Theme: auto</button>
     <span class="byline">ProteinScope {_e(__version__)} · reload after writing a new report</span></div>
 </div></header>
@@ -235,7 +254,38 @@ coordinates by ProteinScope.</footer>
 
 
 class _Handler(SimpleHTTPRequestHandler):
-    """Serves the generated index at /, and the output directory everywhere else."""
+    """Serves the generated index at /, and the output directory everywhere else.
+
+    Everything outside the output directory is refused, and directories are never listed.
+    """
+
+    def end_headers(self) -> None:
+        self.send_header("X-Content-Type-Options", "nosniff")
+        # viewer.html loads 3Dmol.js from a CDN; without this the local URL travels with it.
+        self.send_header("Referrer-Policy", "no-referrer")
+        super().end_headers()
+
+    def translate_path(self, path: str) -> str:
+        # Follow symlinks here so send_head sees where the request really points.
+        return str(Path(super().translate_path(path)).resolve())
+
+    def send_head(self):  # type: ignore[no-untyped-def] - the base class is untyped.
+        """Refuse anything outside the output directory before opening it.
+
+        The base class normalises `..` but resolves no symlinks, so a link inside the
+        output directory would otherwise hand out a file from anywhere on disk.
+        """
+        target = Path(self.translate_path(self.path))
+        root = Path(self.directory).resolve()
+        if target != root and root not in target.parents:
+            self.send_error(404, "Not found")
+            return None
+        return super().send_head()
+
+    def list_directory(self, path: str) -> None:
+        # A listing would expose file names of anything that happens to sit in the directory.
+        self.send_error(404, "No listing")
+        return None
 
     def do_GET(self) -> None:  # noqa: N802 - the base class defines the name.
         if self.path.split("?")[0] in ("/", "/index.html"):
@@ -268,8 +318,8 @@ def build_server(out_dir: Path, port: int = 8765) -> ThreadingHTTPServer:
 def serve(out_dir: Path, port: int = 8765, open_browser: bool = False) -> None:
     server = build_server(out_dir, port)
     url = f"http://{HOST}:{server.server_address[1]}/"
-    print(f"ProteinScope reports: {url}")
-    print(f"Serving {Path(out_dir).expanduser().resolve()}. Press Ctrl+C to stop.")
+    print(f"ProteinScope reports: {url}", flush=True)
+    print(f"Serving {display_path(Path(out_dir))} to this machine only. Press Ctrl+C to stop.", flush=True)
     if open_browser:
         import webbrowser
 

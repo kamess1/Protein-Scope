@@ -1,8 +1,8 @@
 {
   "mcpServers": {
     "proteinscope": {
-      "command": "/Users/kamess/Desktop/Python, C++/Protein Scope/.venv/bin/proteinscope",
-      "args": ["mcp", "--out", "/Users/kamess/Desktop/Python, C++/Protein Scope/output"]
+      "command": ".venv/bin/proteinscope",
+      "args": ["mcp", "--out", "output"]
     }
   }
 }
