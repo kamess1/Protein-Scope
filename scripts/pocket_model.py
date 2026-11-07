@@ -36,10 +36,14 @@ MODEL_PATH = ROOT / "src" / "proteinscope" / "data" / "ligandability.json"
 MIN_LIGAND_ATOMS = 9      # Below this a component is a buffer or cryoprotectant, not a ligand.
 POSITIVE_OVERLAP = 0.5    # Fraction of ligand atoms that must lie in the pocket.
 
+# The complexes `tests/test_network.py` checks. They are kept out of training so that test
+# measures generalisation rather than recall of its own training data.
+HELD_OUT = frozenset({"1HSG", "2HYY", "3ERT", "1HCK", "2RH1", "3PTB"})
+
 # A spread of families with a well-characterised drug-like ligand bound: proteases,
 # kinases, nuclear receptors, GPCRs, oxidoreductases, chaperones, transferases.
 # Entries that fail to download, carry no drug-like ligand or yield no pocket are skipped.
-BENCHMARK = (
+BENCHMARK = tuple(pdb_id for pdb_id in (
     "1HSG", "1HPV", "1HVR", "3PTB", "1BJU", "1PPC", "1DWD", "1ETS", "1A42", "1AZM",
     "4DFR", "1STP", "1FKF", "1ACJ", "1EVE", "1E66", "2HYY", "1IEP", "1M17", "1XKK",
     "1T46", "1AQ1", "1DI8", "2VTA", "1HCK", "1STC", "1YDT", "3ERT", "1GWR", "2AM9",
@@ -48,7 +52,7 @@ BENCHMARK = (
     "1NVQ", "1SJ0", "3NY8", "1OPJ", "1FPU", "2OIQ", "3PP0", "4ASD", "2RKU", "1Y57",
     "1BZC", "1CBX", "1E1X", "1H1S", "1MMV", "1N46", "1OF6", "1P44", "1R58", "1S19",
     "1UOU", "1V0P", "1W2G", "1YVF", "1Z95", "2BM2", "2CET", "2F7O", "2IWI", "2OBJ",
-)
+) if pdb_id not in HELD_OUT)
 
 
 def _row(pdb_id: str) -> dict:
@@ -73,6 +77,7 @@ def _row(pdb_id: str) -> dict:
             "pocket_id": pocket.pocket_id,
             "label": int(overlap >= POSITIVE_OVERLAP),
             "overlap": round(overlap, 3),
+            "heuristic": round(pocket.heuristic_score, 4),
             "volume_A3": round(pocket.volume, 1),
             "features": {name: round(value, 4) for name, value in feature_vector(pocket).items()},
         })
@@ -168,8 +173,11 @@ def fit(folds: int = 5, penalty: float = 1.0) -> None:
     top1 = np.mean([
         y[groups == i][np.argmax(held_out[groups == i])] for i in range(len(entries))
     ])
+    # The hand-weighted heuristic on exactly the same pockets, as the baseline to beat.
+    heuristic = np.array([p["heuristic"] for row in entries for p in row["pockets"]])
+    heuristic_auc = _auc(y, heuristic)
     heuristic_top1 = np.mean([
-        1.0 if entries[i]["pockets"][0]["label"] else 0.0 for i in range(len(entries))
+        y[groups == i][np.argmax(heuristic[groups == i])] for i in range(len(entries))
     ])
 
     mean, scale = x.mean(axis=0), x.std(axis=0)
@@ -205,13 +213,17 @@ def fit(folds: int = 5, penalty: float = 1.0) -> None:
             "grouped_by": "pdb entry",
             "roc_auc": round(float(auc), 3),
             "top1_accuracy": round(float(top1), 3),
-            "top1_accuracy_heuristic": round(float(heuristic_top1), 3),
+            "baseline_heuristic": {
+                "roc_auc": round(float(heuristic_auc), 3),
+                "top1_accuracy": round(float(heuristic_top1), 3),
+            },
         },
     }
     MODEL_PATH.write_text(json.dumps(model, indent=1), encoding="utf-8")
 
     print(f"{len(entries)} entries, {len(y)} pockets, {int(y.sum())} positive")
-    print(f"grouped {folds}-fold CV: ROC-AUC {auc:.3f}, top-1 {top1:.3f} (heuristic {heuristic_top1:.3f})")
+    print(f"grouped {folds}-fold CV: ROC-AUC {auc:.3f}, top-1 {top1:.3f}")
+    print(f"hand-weighted baseline:  ROC-AUC {heuristic_auc:.3f}, top-1 {heuristic_top1:.3f}")
     print("thresholds:", model["thresholds"])
     for name, coefficient in zip(FEATURES, beta[1:]):
         print(f"  {name:>17}  {coefficient:+.3f}")

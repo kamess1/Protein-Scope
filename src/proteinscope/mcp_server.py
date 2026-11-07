@@ -17,9 +17,11 @@ from .agents.tools import ToolError, Workspace, build_tools
 INSTRUCTIONS = """\
 ProteinScope analyses protein structures from the PDB, AlphaFold DB or local files.
 Typical flow: search_pdb (or entry_info) -> analyze_structure -> pocket_detail /
-ligand_detail / ligand_chemistry / target_bioactivity -> write_report.
-Every number comes from the tools; never invent values. Pocket druggability is a
-hand-weighted heuristic that ranks pockets within one structure, not a probability.
+ligand_detail / ligand_chemistry / functional_sites / target_bioactivity -> write_report.
+Every number comes from the tools; never invent values. The pocket score is a logistic
+model cross-validated on 78 complexes; it ranks the cavities of one structure and says
+nothing about how tractable the target is. A well-shaped pocket is not necessarily the
+functional one, so check functional_sites before calling a site the binding site.
 Identifiers: 4-character PDB IDs (1HSG), AlphaFold models as AF-<UniProt> (AF-P00533),
 or a path to a .pdb/.cif file."""
 
