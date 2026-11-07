@@ -27,9 +27,16 @@ def _pocket(**kwargs) -> Pocket:
 
 
 def test_site_tags_mark_a_small_charged_anchor_like_trypsin_s1() -> None:
-    # Numbers of the 3PTB S1 pocket: small, polar, strongly negative potential.
-    s1 = score_pocket(_pocket(volume=109, enclosure=0.82, apolar_fraction=0.39, mean_potential=-3.7))
-    assert s1.druggability_class == "low"  # The score itself is unchanged by design.
+    # Numbers of the 3PTB S1 pocket: small, polar, strongly negative potential. It is the real
+    # binding site, but far too small for a drug-like molecule, so the score stays low and the
+    # tags carry the information instead. The ranking against the other pockets of 3PTB is
+    # checked against the structure itself in tests/test_network.py.
+    s1 = score_pocket(_pocket(
+        volume=109, enclosure=0.82, depth=1.7, apolar_fraction=0.39, mean_potential=-3.66,
+        lining_residues=["LEU1:A"] * 22, charged_residues=3, donor_acceptor_atoms=37,
+        mean_hydropathy=-0.56,
+    ))
+    assert s1.druggability_class == "low"
     assert "fragment-sized" in s1.site_tags
     assert "anionic anchor: favours cationic groups" in s1.site_tags
 
@@ -102,7 +109,8 @@ def test_mcp_server_exposes_every_tool(tmp_path: Path) -> None:
     names = {tool.name for tool in asyncio.run(server.list_tools())}
     assert names == {
         "search_pdb", "entry_info", "analyze_structure", "pocket_detail", "ligand_detail",
-        "ligand_chemistry", "target_bioactivity", "compare_structures", "write_report",
+        "ligand_chemistry", "target_bioactivity", "functional_sites", "compare_structures",
+        "write_report",
     }
 
 

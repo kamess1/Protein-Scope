@@ -25,10 +25,14 @@ def test_search_filters_by_resolution() -> None:
 
 @pytest.mark.parametrize(
     ("pdb_id", "ligand"),
-    [("1HSG", "MK1"), ("2HYY", "STI"), ("3ERT", "OHT"), ("1HCK", "ATP"), ("2RH1", "CAU")],
+    [("1HSG", "MK1"), ("2HYY", "STI"), ("3ERT", "OHT"), ("3PTB", "BEN"), ("2RH1", "CAU")],
 )
 def test_known_ligand_sits_in_the_top_pocket(pdb_id: str, ligand: str) -> None:
-    """The detector must put each of these ligands in its highest-ranked pocket."""
+    """The detector must put each of these ligands in its highest-ranked pocket.
+
+    These entries are held out of the training set of the fitted score
+    (`scripts/pocket_model.py`), so this measures generalisation, not recall.
+    """
     result = run_analysis(pdb_id, probe_pockets=0)
     instances = [item for item in result.structure.ligands if item.key.name == ligand]
     assert instances, f"{ligand} not parsed from {pdb_id}"
@@ -48,3 +52,19 @@ def test_target_context_and_ligand_chemistry_for_1hsg(tmp_path) -> None:
     chemistry = result.context["ligand_chemistry"]["MK1902:B"]
     assert chemistry["comp_id"] == "MK1" and chemistry["smiles"]
     assert result.context["targets"][0]["accession"] == "P03367"
+
+
+@pytest.mark.network
+def test_uniprot_annotation_finds_the_atp_site_of_egfr() -> None:
+    """1M17 is erlotinib in the EGFR ATP site, with PDB numbering 24 behind UniProt."""
+    result = run_analysis("1M17", probe_pockets=0)
+    annotations = result.context["annotations"]
+    protein = annotations["proteins"][0]
+    assert protein["accession"] == "P00533" and protein["genes"] == ["EGFR"]
+    assert protein["chain_identity"]["A"] > 0.95  # The alignment found the right protein.
+
+    top = annotations["pockets"][result.pockets[0].pocket_id]
+    assert top["is_functional_site"] and "ATP" in top["cofactors"]
+    assert top["categories"]["catalytic"] >= 1 and top["variants"] >= 5
+    # PDB residue 694 is UniProt 718: the signal peptide offset must be corrected.
+    assert {r["residue"]: r["uniprot_position"] for r in top["residues"]}["LEU694:A"] == 718
