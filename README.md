@@ -32,6 +32,7 @@ Three ways to run it, and only the last needs an API key:
 ```bash
 proteinscope analyze 1HSG                  # analyse and print; caches the download
 proteinscope report 1HSG --open            # plus figures, HTML, PDF, Markdown, JSON, 3D viewer
+proteinscope serve                         # browse every written report in a browser
 proteinscope report AF-P00533              # an AlphaFold model
 proteinscope report ./my-model.cif         # a local file
 proteinscope report 1HSG --offline         # skip ligand chemistry and ChEMBL
@@ -47,6 +48,22 @@ from proteinscope.report.builder import build_report
 result = run_analysis("1HSG")
 paths = build_report(result, "output")   # paths.html, paths.pdf, paths.markdown, ...
 ```
+
+## Browsing the reports
+
+`proteinscope serve` opens an overview of everything in `output/` in your browser, so you pick a
+structure from a list of cards instead of typing its ID. Each card shows the top pocket with its
+score and function, the ligands, the quality and a thumbnail; clicking it opens the usual
+interactive report, which now carries an "All reports" link back. The page is rebuilt on every
+request, so a report written in another shell appears on reload.
+
+```bash
+proteinscope serve                    # http://127.0.0.1:8765, opens a browser window
+proteinscope serve -o runs -p 9000 --no-open
+```
+
+It is a reader, not a launcher: analyses are still started with `proteinscope report`. The server
+binds to the loopback interface only and needs no extra dependency.
 
 ## Claude Code as the agent (MCP, no API key)
 
@@ -140,9 +157,8 @@ PROTEINSCOPE_NETWORK_TESTS=1 pytest     # adds the RCSB, AlphaFold, ChEMBL and b
 ```
 
 Structures and API responses are cached in `~/.cache/proteinscope`, or `$PROTEINSCOPE_CACHE`.
-To browse reports with working figures: `python3 -m http.server 8765 --directory output`.
 
 Code lives in `src/proteinscope/`: data sources (`rcsb`, `alphafold`, `chemistry`, `uniprot`,
 `targets`, `enrich`), analysis (`structure`, `audit`, `surface`, `electrostatics`, `pockets`,
 `druggability`, `interactions`, `pipeline`), and output (`viz/`, `report/`, `agents/`,
-`mcp_server.py`, `cli.py`).
+`mcp_server.py`, `web.py`, `cli.py`).
