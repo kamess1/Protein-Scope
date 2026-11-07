@@ -462,7 +462,7 @@ def _gallery(figures: dict[str, Path], base: Path) -> str:
     return f'<div class="gallery">{items}</div>'
 
 
-_CSS = """
+CSS = """
 :root{--bg:#fcfcfb;--panel:#f3f2ee;--card:#ffffff;--ink:#0b0b0b;--muted:#5d5c58;--line:#dcdbd5;--accent:#2a78d6;
 --good:#137a52;--good-bg:#dff3ea;--warn:#8a5a00;--warn-bg:#fbefd0;--bad:#a8231f;--bad-bg:#f9dedc;--chip:#ecebe6;color-scheme:light}
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#161615;--panel:#21211f;--card:#1c1c1b;--ink:#f0efec;
@@ -569,16 +569,23 @@ footer{padding:24px 16px 40px;color:var(--muted);font-size:13px}
 tr.detail{display:table-row!important}section{break-inside:avoid-page;border:0}body{font-size:12px}}
 """
 
-_JS = """
+# Shared with the overview page in `proteinscope.web`, so both remember the same choice.
+THEME_JS = """
 (function(){
   const root=document.documentElement;
   const themes=['auto','light','dark'];
+  const button=document.getElementById('theme');
   function apply(t){if(t==='auto')root.removeAttribute('data-theme');else root.setAttribute('data-theme',t);
-    const b=document.getElementById('theme');if(b)b.textContent='Theme: '+t;}
+    if(button)button.textContent='Theme: '+t;}
   let theme='auto';try{theme=localStorage.getItem('ps-theme')||'auto';}catch(e){}
   apply(theme);
-  document.getElementById('theme').addEventListener('click',()=>{theme=themes[(themes.indexOf(theme)+1)%3];apply(theme);
+  if(button)button.addEventListener('click',()=>{theme=themes[(themes.indexOf(theme)+1)%3];apply(theme);
     try{localStorage.setItem('ps-theme',theme);}catch(e){}});
+})();
+"""
+
+JS = THEME_JS + """
+(function(){
 
   document.querySelectorAll('tr.pocket-row').forEach(row=>{
     const toggle=()=>{const d=document.querySelector('tr[data-detail="'+row.dataset.pocket+'"]');
@@ -673,13 +680,14 @@ def write_html_report(
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>{_e(result.identifier)} Structure Report</title>
-<style>{_CSS}</style>
+<style>{CSS}</style>
 </head>
 <body>
 <header class="top"><div class="wrap">
   <h1>{_e(result.identifier)}</h1>
   <p class="subtitle">{_e(audit.title or '')}</p>
-  <div class="meta">{links}<button id="theme" type="button">Theme: auto</button>
+  <div class="meta"><a href="../" title="All reports in the output directory">&#8592; All reports</a>{links}
+    <button id="theme" type="button">Theme: auto</button>
     <span class="byline">Generated {date.today().isoformat()} by ProteinScope {__version__} · text: {_e(narrative.source)}</span></div>
 </div></header>
 <nav class="sections" aria-label="Sections"><div class="wrap">{nav}</div></nav>
@@ -688,7 +696,7 @@ def write_html_report(
 cavities of this structure and says nothing about a target's tractability; functional annotation is curated
 UniProt evidence, not a measurement.</footer>
 <dialog id="lightbox"><img alt=""><p></p></dialog>
-<script>{_JS}</script>
+<script>{JS}</script>
 </body>
 </html>
 """

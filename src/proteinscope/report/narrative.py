@@ -32,7 +32,7 @@ def rule_based_narrative(result: AnalysisResult) -> Narrative:
         summary.append(
             f"{len(result.pockets)} pocket(s) were detected. The top-ranked pocket has a volume of "
             f"{top.volume:.0f} A3, an apolar lining fraction of {top.apolar_fraction:.2f} and a "
-            f"heuristic druggability score of {top.druggability:.2f} ({top.druggability_class})."
+            f"pocket score of {top.druggability:.2f} ({top.druggability_class})."
         )
     else:
         summary.append("No pocket passed the volume and enclosure thresholds.")

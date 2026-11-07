@@ -11,6 +11,7 @@ import argparse
 import json
 import sys
 import webbrowser
+from pathlib import Path
 from typing import Any
 
 from . import __version__
@@ -103,6 +104,13 @@ def command_mcp(args: argparse.Namespace) -> int:
     from .mcp_server import main as serve
 
     serve(args.out)
+    return 0
+
+
+def command_serve(args: argparse.Namespace) -> int:
+    from .web import serve
+
+    serve(Path(args.out), args.port, open_browser=not args.no_open)
     return 0
 
 
@@ -210,6 +218,14 @@ def build_parser() -> argparse.ArgumentParser:
     mcp.add_argument("-o", "--out", default=None,
                      help="Report directory (default $PROTEINSCOPE_OUT or ./output)")
     mcp.set_defaults(func=command_mcp)
+
+    serve = subparsers.add_parser(
+        "serve", help="Browse the written reports in a browser instead of the terminal",
+    )
+    serve.add_argument("-o", "--out", default="output", help="Report directory (default ./output)")
+    serve.add_argument("-p", "--port", type=int, default=8765, help="Port (default 8765; 0 picks a free one)")
+    serve.add_argument("--no-open", action="store_true", help="Do not open a browser window")
+    serve.set_defaults(func=command_serve)
 
     agent = subparsers.add_parser("agent", help="Run the agent crew on one structure (needs an API key)")
     agent.add_argument("source", help="PDB ID or file path")
