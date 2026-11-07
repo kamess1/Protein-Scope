@@ -53,6 +53,7 @@ class Pocket:
     druggability: float = 0.0
     druggability_class: str = "not scored"
     score_components: dict[str, float] = field(default_factory=dict)
+    site_tags: list[str] = field(default_factory=list)
 
     def summary(self) -> dict[str, Any]:
         return {
@@ -70,6 +71,7 @@ class Pocket:
             "druggability": round(self.druggability, 3),
             "druggability_class": self.druggability_class,
             "score_components": {k: round(v, 3) for k, v in self.score_components.items()},
+            "site_tags": self.site_tags,
             "lining_residues": self.lining_residues,
         }
 

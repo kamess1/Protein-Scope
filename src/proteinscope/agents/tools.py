@@ -15,6 +15,7 @@ from ..pipeline import AnalysisResult, run_analysis
 from ..pockets import PocketParams
 from ..report.builder import ReportPaths, analysis_digest, build_report
 from ..report.narrative import Narrative
+from ..webdata import DataSourceError
 
 MAX_SEARCH_RESULTS = 25
 
@@ -66,7 +67,28 @@ def _schema(properties: dict[str, Any], required: list[str]) -> dict[str, Any]:
     }
 
 
-def build_tools(workspace: Workspace) -> dict[str, Tool]:
+def _context_summary(context: dict[str, Any]) -> dict[str, Any]:
+    summary: dict[str, Any] = {"notes": context.get("notes", [])}
+    if "plddt" in context:
+        summary["plddt"] = context["plddt"]
+    if "ligand_chemistry" in context:
+        summary["ligands_with_chemistry"] = sorted(context["ligand_chemistry"])
+    if "targets" in context:
+        summary["targets"] = [
+            {
+                "accession": row["accession"],
+                "chembl_id": (row.get("chembl") or {}).get("target_chembl_id"),
+                "measured_activities": row.get("measured_activities", 0),
+                "approved_drugs": row.get("approved_drugs", 0),
+            }
+            for row in context["targets"]
+        ]
+    return summary
+
+
+def build_tools(
+    workspace: Workspace, narrative_source: str = "Claude, from the computed data"
+) -> dict[str, Tool]:
     def search_pdb(
         query: str,
         max_results: int = 5,
@@ -94,7 +116,7 @@ def build_tools(workspace: Workspace) -> dict[str, Tool]:
                 source, params=PocketParams(max_pockets=max(1, min(max_pockets, 20))),
                 probe_pockets=max(0, min(probe_pockets, 6)),
             )
-        except (ValueError, FileNotFoundError, rcsb.RCSBError) as exc:
+        except (ValueError, FileNotFoundError, rcsb.RCSBError, DataSourceError) as exc:
             raise ToolError(str(exc)) from exc
         workspace.analyses[result.identifier] = result
         digest = analysis_digest(result)
@@ -104,6 +126,9 @@ def build_tools(workspace: Workspace) -> dict[str, Tool]:
             pocket["lining_residues"] = pocket["lining_residues"][:12]
         for ligand in digest["ligands"].values():
             ligand.pop("top_residue_vdw_kcal", None)
+        # Target and chemistry context have their own tools; keep the headline here.
+        context = digest.pop("context", {})
+        digest["context_summary"] = _context_summary(context)
         return digest
 
     def pocket_detail(pdb_id: str, pocket_id: int) -> dict[str, Any]:
@@ -130,6 +155,24 @@ def build_tools(workspace: Workspace) -> dict[str, Tool]:
                 f"{ligand!r} is not a ligand of {pdb_id}. Available: {sorted(result.ligand_profiles)}"
             )
         return {**profile.summary(), "pockets": result.ligand_pockets.get(ligand, [])}
+
+    def ligand_chemistry(pdb_id: str) -> dict[str, Any]:
+        result = workspace.require(pdb_id)
+        chemistry = result.context.get("ligand_chemistry")
+        if chemistry is None:
+            raise ToolError(
+                "No ligand chemistry for this structure. " + " ".join(result.context.get("notes", []))
+            )
+        return {label: {k: v for k, v in entry.items() if k != "svg"} for label, entry in chemistry.items()}
+
+    def target_bioactivity(pdb_id: str) -> dict[str, Any]:
+        result = workspace.require(pdb_id)
+        rows = result.context.get("targets")
+        if rows is None:
+            raise ToolError(
+                "No target context for this structure. " + " ".join(result.context.get("notes", []))
+            )
+        return {"targets": rows}
 
     def compare_structures(pdb_ids: list[str]) -> dict[str, Any]:
         rows = []
@@ -160,7 +203,7 @@ def build_tools(workspace: Workspace) -> dict[str, Tool]:
             pocket_interpretation=pocket_interpretation,
             ligand_interpretation=ligand_interpretation,
             recommendations=recommendations or [],
-            source="Claude, from the computed data",
+            source=narrative_source,
         )
         workspace.narrative = narrative
         paths = build_report(result, workspace.out_dir, narrative)
@@ -194,11 +237,12 @@ def build_tools(workspace: Workspace) -> dict[str, Tool]:
         ),
         Tool(
             "analyze_structure",
-            "Download and analyse a structure, given a PDB ID or a local file path. Runs the quality "
-            "audit, surface and electrostatics, pocket detection with druggability ranking, ligand "
-            "contact profiling and probe simulation. Returns the full numeric digest.",
+            "Download and analyse a structure, given a PDB ID, an AlphaFold DB ID or a local file path. "
+            "Runs the quality audit, surface and electrostatics, pocket detection with druggability "
+            "ranking and site tags, ligand contact profiling and probe simulation, and fetches ligand "
+            "chemistry and ChEMBL target data. Returns the numeric digest.",
             _schema({
-                "source": {"type": "string", "description": "A 4-character PDB ID or a path to a .pdb/.cif file"},
+                "source": {"type": "string", "description": "A PDB ID (1HSG), an AlphaFold ID (AF-P00533) or a path to a .pdb/.cif file"},
                 "probe_pockets": {"type": "integer", "description": "How many top pockets to probe, 0-6, default 3"},
                 "max_pockets": {"type": "integer", "description": "Maximum pockets to keep, 1-20, default 12"},
             }, ["source", "probe_pockets", "max_pockets"]),
@@ -220,6 +264,22 @@ def build_tools(workspace: Workspace) -> dict[str, Tool]:
                 "ligand": {"type": "string", "description": "Ligand label as reported, e.g. 'MK1902:B'"},
             }, ["pdb_id", "ligand"]),
             ligand_detail,
+        ),
+        Tool(
+            "ligand_chemistry",
+            "Drug-likeness of the bound ligands of an analysed structure: SMILES from the PDB "
+            "Chemical Component Dictionary and RDKit descriptors (MW, cLogP, HBD/HBA, TPSA, QED, "
+            "Lipinski and Veber violations, rule of three).",
+            _schema({"pdb_id": {"type": "string"}}, ["pdb_id"]),
+            ligand_chemistry,
+        ),
+        Tool(
+            "target_bioactivity",
+            "What ChEMBL knows about the protein of an analysed structure: UniProt accession, ChEMBL "
+            "target, number of measured potencies, the most potent compounds and drugs with a known "
+            "mechanism. Use it to put the geometric druggability score into context.",
+            _schema({"pdb_id": {"type": "string"}}, ["pdb_id"]),
+            target_bioactivity,
         ),
         Tool(
             "compare_structures",

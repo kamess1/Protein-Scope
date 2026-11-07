@@ -26,6 +26,34 @@ def _size_score(volume: float) -> float:
     return 1.0 - 0.6 * _ramp(volume, 1200.0, 4000.0)
 
 
+ANCHOR_POTENTIAL = 2.5  # kT/e; above this the pocket field steers charged ligand groups.
+
+
+def site_tags(pocket: Pocket) -> list[str]:
+    """Describe what kind of site a pocket is, independent of the drug-likeness score.
+
+    The score favours large apolar pockets, so small charged sites that bind fragments or
+    charged ligands (trypsin S1 and benzamidine, for example) rank low. The tags make such
+    sites visible instead of reweighting the score for one binding mode.
+    """
+    tags = []
+    if pocket.volume < 300:
+        tags.append("fragment-sized")
+    elif pocket.volume > 2000:
+        tags.append("large cavity or channel")
+    if pocket.enclosure < 0.75:
+        tags.append("shallow")
+    if pocket.apolar_fraction >= 0.5 and 300 <= pocket.volume <= 2000 and pocket.enclosure >= 0.8:
+        tags.append("drug-like apolar")
+    elif pocket.apolar_fraction < 0.4:
+        tags.append("polar")
+    if pocket.mean_potential <= -ANCHOR_POTENTIAL:
+        tags.append("anionic anchor: favours cationic groups")
+    elif pocket.mean_potential >= ANCHOR_POTENTIAL:
+        tags.append("cationic anchor: favours anionic groups")
+    return tags
+
+
 def score_pocket(pocket: Pocket) -> Pocket:
     charge_density = pocket.charged_residues / max(len(pocket.lining_residues), 1)
     components = {
@@ -43,6 +71,7 @@ def score_pocket(pocket: Pocket) -> Pocket:
         pocket.druggability_class = "moderate"
     else:
         pocket.druggability_class = "low"
+    pocket.site_tags = site_tags(pocket)
     return pocket
 
 

@@ -1,7 +1,8 @@
 """Command line interface.
 
-`analyze` and `report` run entirely offline after the structure is downloaded; `agent` and
-`ask` additionally need an Anthropic API key.
+`analyze`, `report` and `mcp` need no API key: the first two are rule-based, and `mcp` lets
+an MCP client such as Claude Code act as the agent. `agent` and `ask` run the built-in crew
+and need an Anthropic API key.
 """
 
 from __future__ import annotations
@@ -65,7 +66,9 @@ def _analysis(args: argparse.Namespace) -> Any:
     from .pipeline import run_analysis
 
     print(_color(f"Analysing {args.source} ...", _DIM), file=sys.stderr)
-    return run_analysis(args.source, params=_params(args), probe_pockets=args.probe_pockets)
+    return run_analysis(
+        args.source, params=_params(args), probe_pockets=args.probe_pockets, context=not args.offline,
+    )
 
 
 def command_analyze(args: argparse.Namespace) -> int:
@@ -86,12 +89,20 @@ def command_report(args: argparse.Namespace) -> int:
         print(_color(f"! {warning}", _DIM), file=sys.stderr)
     print(_color("\nWritten:", _BOLD))
     for label, path in [
-        ("PDF", paths.pdf), ("Markdown", paths.markdown), ("Data", paths.data), ("Viewer", paths.viewer),
+        ("HTML", paths.html), ("PDF", paths.pdf), ("Markdown", paths.markdown), ("Data", paths.data),
+        ("Viewer", paths.viewer),
     ]:
         if path:
             print(f"  {label:<9} {path}")
-    if args.open and paths.viewer:
-        webbrowser.open(paths.viewer.resolve().as_uri())
+    if args.open:
+        webbrowser.open((paths.html or paths.viewer or paths.pdf).resolve().as_uri())
+    return 0
+
+
+def command_mcp(args: argparse.Namespace) -> int:
+    from .mcp_server import main as serve
+
+    serve(args.out)
     return 0
 
 
@@ -168,7 +179,7 @@ def build_parser() -> argparse.ArgumentParser:
     subparsers = parser.add_subparsers(dest="command", required=True)
 
     def add_analysis_options(sub: argparse.ArgumentParser) -> None:
-        sub.add_argument("source", help="PDB ID (e.g. 1HSG) or path to a .pdb/.cif file")
+        sub.add_argument("source", help="PDB ID (1HSG), AlphaFold ID (AF-P00533) or a .pdb/.cif file")
         sub.add_argument("--grid-spacing", type=float, default=1.0, metavar="A",
                          help="Pocket grid spacing in Angstrom (default 1.0; smaller is slower)")
         sub.add_argument("--enclosure", type=int, default=4, choices=range(1, 8), metavar="1-7",
@@ -178,6 +189,8 @@ def build_parser() -> argparse.ArgumentParser:
         sub.add_argument("--max-pockets", type=int, default=12, help="Pockets to keep (default 12)")
         sub.add_argument("--probe-pockets", type=int, default=3,
                          help="Top pockets to run the probe simulation on (default 3)")
+        sub.add_argument("--offline", action="store_true",
+                         help="Skip online context: ligand chemistry and ChEMBL bioactivity")
 
     analyze = subparsers.add_parser("analyze", help="Analyse a structure and print the results")
     add_analysis_options(analyze)
@@ -187,9 +200,16 @@ def build_parser() -> argparse.ArgumentParser:
     report = subparsers.add_parser("report", help="Analyse and write report files, without an LLM")
     add_analysis_options(report)
     report.add_argument("-o", "--out", default="output", help="Output directory (default ./output)")
-    report.add_argument("--open", action="store_true", help="Open the 3D viewer in a browser")
+    report.add_argument("--open", action="store_true", help="Open the HTML report in a browser")
     report.add_argument("-q", "--quiet", action="store_true", help="Only print the written paths")
     report.set_defaults(func=command_report)
+
+    mcp = subparsers.add_parser(
+        "mcp", help="Serve the analysis tools over MCP (stdio) for Claude Code; no API key needed",
+    )
+    mcp.add_argument("-o", "--out", default=None,
+                     help="Report directory (default $PROTEINSCOPE_OUT or ./output)")
+    mcp.set_defaults(func=command_mcp)
 
     agent = subparsers.add_parser("agent", help="Run the agent crew on one structure (needs an API key)")
     agent.add_argument("source", help="PDB ID or file path")

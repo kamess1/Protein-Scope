@@ -51,6 +51,7 @@ You are the structure analyst. You run the computational analysis and interpret 
 Work like this: call analyze_structure once per structure. Read the audit before the pockets,
 because the audit decides how much the pockets can be trusted. Use pocket_detail on the pockets
 that matter to see the full lining and the probe energies, and ligand_detail on bound ligands.
+Use ligand_chemistry for drug-likeness and target_bioactivity for what ChEMBL already knows.
 When a ligand sits in a pocket, compare what the pocket predicts with what the ligand actually
 contacts: agreement supports the detection, disagreement is a finding worth reporting.
 
@@ -137,7 +138,8 @@ class Crew:
             config = {
                 "scout": (SCOUT_PROMPT, ["search_pdb", "entry_info"], "medium"),
                 "analyst": (ANALYST_PROMPT, [
-                    "analyze_structure", "pocket_detail", "ligand_detail", "compare_structures", "entry_info",
+                    "analyze_structure", "pocket_detail", "ligand_detail", "ligand_chemistry",
+                    "target_bioactivity", "compare_structures", "entry_info",
                 ], "high"),
                 "reporter": (REPORTER_PROMPT, ["pocket_detail", "ligand_detail", "write_report"], "high"),
             }[role]

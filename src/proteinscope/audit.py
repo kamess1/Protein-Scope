@@ -41,6 +41,9 @@ class AuditReport:
     clash_count: int
     warnings: list[str] = field(default_factory=list)
     quality_grade: str = "unknown"
+    is_predicted_model: bool = False
+    mean_plddt: float | None = None
+    low_confidence_residues: list[str] = field(default_factory=list)
 
     def to_dict(self) -> dict[str, Any]:
         return asdict(self)
@@ -95,6 +98,9 @@ def _clashes(structure: LoadedStructure) -> int:
 
 
 def _grade(report: AuditReport) -> str:
+    if report.is_predicted_model and report.mean_plddt is not None:
+        plddt = report.mean_plddt
+        return "high" if plddt >= 90 else "good" if plddt >= 70 else "moderate" if plddt >= 50 else "low"
     resolution = report.resolution_A
     if resolution is None:
         return "unknown"
@@ -124,7 +130,13 @@ def audit_structure(structure: LoadedStructure, metadata: dict[str, Any] | None 
     mean_by_residue = {key: float(np.mean(values)) for key, values in per_residue.items()}
     overall = float(np.mean(table.bfactors)) if len(table) else 0.0
     spread = float(np.std(list(mean_by_residue.values()))) if mean_by_residue else 0.0
-    high_b = [key.label for key, value in mean_by_residue.items() if spread and value > overall + 2 * spread]
+    predicted = metadata.get("source") == "alphafold"
+    if predicted:  # The B-factor column holds pLDDT: low values, not high ones, are the problem.
+        high_b = []
+        low_confidence = [key.label for key, value in mean_by_residue.items() if value < 50.0]
+    else:
+        high_b = [key.label for key, value in mean_by_residue.items() if spread and value > overall + 2 * spread]
+        low_confidence = []
 
     disordered = sum(
         1 for residue in structure.protein_residues for atom in residue.get_atoms()
@@ -156,10 +168,20 @@ def audit_structure(structure: LoadedStructure, metadata: dict[str, Any] | None 
         mean_bfactor=overall,
         high_bfactor_residues=high_b,
         clash_count=_clashes(structure),
+        is_predicted_model=predicted,
+        mean_plddt=round(overall, 1) if predicted else None,
+        low_confidence_residues=low_confidence,
     )
 
     warn = report.warnings.append
-    if resolution is None:
+    if predicted:
+        warn(
+            f"Predicted model (mean pLDDT {overall:.0f}). There is no experimental density: pockets in "
+            "regions below pLDDT 70 are unreliable, and apo-state predictions can miss induced-fit pockets."
+        )
+        if low_confidence:
+            warn(f"{len(low_confidence)} residues have pLDDT < 50 (likely disordered); ignore pockets they line.")
+    elif resolution is None:
         warn("No resolution available; side-chain positions cannot be assessed.")
     elif resolution > 3.0:
         warn(f"Resolution {resolution:.2f} A: side-chain and ligand poses are uncertain.")

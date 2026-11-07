@@ -9,10 +9,11 @@ from typing import Any
 import numpy as np
 from scipy.spatial import cKDTree
 
-from . import rcsb
+from . import alphafold, rcsb
 from .audit import AuditReport, audit_structure
 from .druggability import rank_pockets
 from .electrostatics import ChargeModel, build_charge_model, potential_at
+from .enrich import enrich
 from .interactions import LigandProfile, ProbeResult, profile_ligand, simulate_probes
 from .pockets import Grid, Pocket, PocketParams, detect_pockets, ligand_pocket_overlap
 from .structure import LigandInstance, LoadedStructure, ResidueKey, load_structure
@@ -37,6 +38,12 @@ class AnalysisResult:
     ligand_profiles: dict[str, LigandProfile]
     ligand_pockets: dict[str, list[dict[str, float]]]
     probes: dict[int, list[ProbeResult]] = field(default_factory=dict)
+    context: dict[str, Any] = field(default_factory=dict)
+
+    @property
+    def is_model(self) -> bool:
+        """True for predicted models, whose B-factor column holds pLDDT."""
+        return self.metadata.get("source") == "alphafold"
 
     def pocket(self, pocket_id: int) -> Pocket:
         for pocket in self.pockets:
@@ -59,16 +66,25 @@ class AnalysisResult:
         raise KeyError(f"Ligand {label!r} not found; available: {known}")
 
 
-def resolve_source(source: str, cache_dir: Path | None = None) -> tuple[Path, str, bool]:
-    """Turn a file path or PDB ID into (path, identifier, is_remote_entry)."""
+def resolve_source(source: str, cache_dir: Path | None = None) -> tuple[Path, str, str]:
+    """Turn a file path, PDB ID or AlphaFold ID into (path, identifier, kind).
+
+    kind is "file", "pdb" or "alphafold".
+    """
     path = Path(source).expanduser()
     if path.is_file():
-        return path, path.stem.upper(), False
+        return path, path.stem.upper(), "file"
+    accession = alphafold.parse_alphafold_id(source)
+    if accession:
+        model_path, _ = alphafold.download_model(accession, cache_dir)
+        return model_path, alphafold.identifier(accession), "alphafold"
     try:
         pdb_id = rcsb.normalize_pdb_id(source)
     except ValueError as exc:
-        raise ValueError(f"{source!r} is neither an existing file nor a valid PDB ID") from exc
-    return rcsb.download_structure(pdb_id, cache_dir), pdb_id, True
+        raise ValueError(
+            f"{source!r} is neither an existing file, a PDB ID (1HSG) nor an AlphaFold ID (AF-P00533)"
+        ) from exc
+    return rcsb.download_structure(pdb_id, cache_dir), pdb_id, "pdb"
 
 
 def _surface_points(coords: np.ndarray) -> np.ndarray:
@@ -87,16 +103,20 @@ def run_analysis(
     params: PocketParams | None = None,
     probe_pockets: int = 3,
     cache_dir: Path | None = None,
+    context: bool = True,
 ) -> AnalysisResult:
-    path, identifier, remote = resolve_source(source, cache_dir)
+    """Analyse a structure. `context=False` skips the online lookups (chemistry, ChEMBL)."""
+    path, identifier, kind = resolve_source(source, cache_dir)
     structure = load_structure(path, identifier)
 
     metadata: dict[str, Any] = {}
-    if remote:
+    if kind == "pdb":
         try:
             metadata = rcsb.entry_metadata(identifier)
         except rcsb.RCSBError as exc:  # Coordinates are cached, so metadata alone is not fatal.
             metadata = {"metadata_error": str(exc)}
+    elif kind == "alphafold":
+        _, metadata = alphafold.download_model(identifier.removeprefix("AF-"), cache_dir)
 
     audit = audit_structure(structure, metadata)
     surface = analyze_surface(structure)
@@ -144,4 +164,6 @@ def run_analysis(
     )
     for pocket in pockets[:probe_pockets]:
         result.probes_for(pocket.pocket_id)
+    # Local files have no database identity, so only the offline part of the context applies.
+    result.context = enrich(result, cache_dir, online=context and kind != "file")
     return result

@@ -30,10 +30,11 @@ from reportlab.platypus import (
     TableStyle,
 )
 
-from .. import __version__
+from .. import __version__, chemistry
 from ..pipeline import AnalysisResult
 from ..viz.figures import generate_figures
 from ..viz.viewer import write_html_viewer, write_pymol_session
+from .html import write_html_report
 from .narrative import Narrative, rule_based_narrative
 
 METHOD_NOTES = [
@@ -42,6 +43,10 @@ METHOD_NOTES = [
     "Electrostatics: screened Coulomb sum with formal pH 7 charges and a distance-dependent dielectric. It indicates sign and rough size only; use APBS for quantitative potentials.",
     "Ligand contacts: heavy-atom geometry without hydrogens or ligand protonation states, so hydrogen bonds and salt bridges are candidates.",
     "Probe simulation: rigid protein, Lennard-Jones plus Coulomb plus an H-bond well, without desolvation or entropy. Values compare probes and pockets and are not binding free energies.",
+    "Site tags: rule-based labels (size, enclosure, polarity, mean potential beyond +/-2.5 kT/e) that flag fragment-sized or charged anchor sites the drug-likeness score ranks low.",
+    "Ligand chemistry: SMILES from the wwPDB Chemical Component Dictionary, descriptors from RDKit (Crippen cLogP, QED). Rule-of-five and Veber checks are filters, not verdicts.",
+    "Target context: UniProt mapping from RCSB and bioactivity from ChEMBL. Known potent ligands and approved drugs are stronger evidence of druggability than any geometric score.",
+    "AlphaFold models: the B-factor column holds pLDDT. Pockets lined by residues below pLDDT 70 are unreliable, and side chains of apo predictions may close induced-fit pockets.",
 ]
 
 
@@ -55,6 +60,7 @@ class ReportPaths:
     pymol: Path | None
     figures: dict[str, Path]
     warnings: list[str]
+    html: Path | None = None
 
 
 def analysis_digest(result: AnalysisResult) -> dict[str, Any]:
@@ -72,7 +78,19 @@ def analysis_digest(result: AnalysisResult) -> dict[str, Any]:
             str(pocket_id): [probe.to_dict() for probe in probes]
             for pocket_id, probes in sorted(result.probes.items())
         },
+        "context": _json_context(result.context),
     }
+
+
+def _json_context(context: dict[str, Any]) -> dict[str, Any]:
+    """The context without inline SVG drawings, which the HTML report renders itself."""
+    clean = dict(context)
+    if "ligand_chemistry" in clean:
+        clean["ligand_chemistry"] = {
+            label: {k: v for k, v in entry.items() if k != "svg"}
+            for label, entry in clean["ligand_chemistry"].items()
+        }
+    return clean
 
 
 def _fmt(value: Any, digits: int = 2, unit: str = "") -> str:
@@ -86,10 +104,19 @@ def _fmt(value: Any, digits: int = 2, unit: str = "") -> str:
 def _summary_rows(result: AnalysisResult) -> list[list[str]]:
     audit = result.audit
     surface = result.surface.summary
+    if audit.is_predicted_model:
+        confidence = [
+            ["Mean pLDDT", _fmt(audit.mean_plddt, 1)],
+            ["Residues with pLDDT < 50", str(len(audit.low_confidence_residues))],
+        ]
+    else:
+        confidence = [
+            ["Resolution", _fmt(audit.resolution_A, 2, " A")],
+            ["R-free / R-work", f"{_fmt(audit.r_free, 3)} / {_fmt(audit.r_work, 3)}"],
+        ]
     return [
         ["Method", _fmt(audit.method)],
-        ["Resolution", _fmt(audit.resolution_A, 2, " A")],
-        ["R-free / R-work", f"{_fmt(audit.r_free, 3)} / {_fmt(audit.r_work, 3)}"],
+        *confidence,
         ["Quality grade", audit.quality_grade],
         ["Chains (residues)", ", ".join(f"{c} ({n})" for c, n in audit.chains.items())],
         ["Heavy atoms", str(audit.heavy_atom_count)],
@@ -106,14 +133,61 @@ def _summary_rows(result: AnalysisResult) -> list[list[str]]:
 
 
 def _pocket_rows(result: AnalysisResult) -> list[list[str]]:
-    rows = [["#", "Volume (A3)", "Enclosure", "Depth (A)", "Apolar", "Potential (kT/e)", "Score", "Class"]]
+    plddt = (result.context.get("plddt") or {}).get("pockets", {})
+    head = ["#", "Volume (A3)", "Enclosure", "Depth (A)", "Apolar", "Potential (kT/e)", "Score", "Class"]
+    rows = [head + (["pLDDT"] if plddt else []) + ["Site"]]
     for pocket in result.pockets:
-        rows.append([
+        row = [
             str(pocket.pocket_id), f"{pocket.volume:.0f}", f"{pocket.enclosure:.2f}", f"{pocket.depth:.1f}",
             f"{pocket.apolar_fraction:.2f}", f"{pocket.mean_potential:+.1f}", f"{pocket.druggability:.2f}",
             pocket.druggability_class,
-        ])
+        ]
+        if plddt:
+            row.append(_fmt((plddt.get(pocket.pocket_id) or {}).get("mean_plddt"), 0))
+        rows.append(row + ["; ".join(pocket.site_tags) or "-"])
     return rows
+
+
+def _chemistry_rows(result: AnalysisResult) -> list[list[str]]:
+    chemistry = result.context.get("ligand_chemistry") or {}
+    rows = [["Ligand", "MW", "cLogP", "HBD/HBA", "TPSA", "RotB", "QED", "Rule-of-five", "Name"]]
+    seen = set()
+    for label, entry in chemistry.items():
+        props = entry.get("properties")
+        if not props or entry["comp_id"] in seen:
+            continue
+        seen.add(entry["comp_id"])
+        violations = props["lipinski_violations"]
+        rows.append([
+            label, f"{props['molecular_weight']:.0f}", f"{props['clogp']:.1f}", f"{props['hbd']}/{props['hba']}",
+            f"{props['tpsa']:.0f}", str(props["rotatable_bonds"]), f"{props['qed']:.2f}",
+            "pass" if not violations else ", ".join(violations), (entry.get("name") or "")[:60],
+        ])
+    return rows if len(rows) > 1 else []
+
+
+def _target_rows(result: AnalysisResult) -> list[list[str]]:
+    rows = [["UniProt", "Protein", "ChEMBL target", "Measured potencies", "Drugs (approved)"]]
+    for row in result.context.get("targets") or []:
+        chembl = row.get("chembl") or {}
+        drugs = row.get("drugs") or []
+        rows.append([
+            row["accession"], (row.get("description") or "")[:50],
+            f"{chembl.get('target_chembl_id', '-')} {chembl.get('pref_name') or ''}".strip(),
+            str(row.get("measured_activities", 0)), f"{len(drugs)} ({row.get('approved_drugs', 0)})",
+        ])
+    return rows if len(rows) > 1 else []
+
+
+def _top_compound_rows(result: AnalysisResult, limit: int = 6) -> list[list[str]]:
+    rows = [["Compound", "Name", "pChEMBL", "Assay type"]]
+    for row in result.context.get("targets") or []:
+        for compound in (row.get("top_compounds") or [])[:limit]:
+            rows.append([
+                compound["molecule_chembl_id"], compound.get("name") or "-",
+                _fmt(compound.get("pchembl"), 1), compound.get("type") or "-",
+            ])
+    return rows if len(rows) > 1 else []
 
 
 def _ligand_rows(result: AnalysisResult) -> list[list[str]]:
@@ -208,8 +282,23 @@ def write_markdown(
         for name, file_path in figures.items():
             if name.startswith("ligand_"):
                 parts.append(figure(name, f"Contact map for {name.removeprefix('ligand_').replace('_', ':')}"))
+        chemistry = _chemistry_rows(result)
+        if chemistry:
+            parts.append("### Ligand chemistry\n\n" + _md_table(chemistry) + "\n")
+            for name in figures:
+                if name.startswith("chem_"):
+                    parts.append(figure(name, f"2D structure of {name.removeprefix('chem_')}"))
 
-    links = []
+    target_rows = _target_rows(result)
+    if target_rows:
+        parts.append("## Target context (ChEMBL)\n\n" + _md_table(target_rows) + "\n")
+        compounds = _top_compound_rows(result)
+        if compounds:
+            parts.append("### Most potent measured compounds\n\n" + _md_table(compounds) + "\n")
+    if result.context.get("notes"):
+        parts.append("### Context notes\n\n" + "\n".join(f"- {n}" for n in result.context["notes"]) + "\n")
+
+    links = ["- Interactive HTML report: [report.html](report.html)"]
     if viewer:
         links.append(f"- Interactive 3D viewer: [{viewer.name}]({os.path.relpath(viewer, path.parent)})")
     if pymol:
@@ -358,6 +447,23 @@ def write_pdf(result: AnalysisResult, narrative: Narrative, figures: dict[str, P
         for name, file_path in figures.items():
             if name.startswith("ligand_"):
                 pdf.image(file_path, f"Contact map for {name.removeprefix('ligand_').replace('_', ':')}.", max_height=14 * cm)
+        chemistry = _chemistry_rows(result)
+        if chemistry:
+            pdf.heading("Ligand chemistry", pdf.h3)
+            pdf.table(chemistry)
+            for name, file_path in figures.items():
+                if name.startswith("chem_"):
+                    pdf.image(file_path, f"2D structure of {name.removeprefix('chem_')}.", max_width=8 * cm, max_height=6 * cm)
+
+    target_rows = _target_rows(result)
+    if target_rows:
+        pdf.story.append(CondPageBreak(6 * cm))
+        pdf.heading("Target context (ChEMBL)", pdf.h2)
+        pdf.table(target_rows)
+        compounds = _top_compound_rows(result)
+        if compounds:
+            pdf.heading("Most potent measured compounds", pdf.h3)
+            pdf.table(compounds)
 
     pdf.story.append(CondPageBreak(7 * cm))
     pdf.heading("Methods and limits", pdf.h2)
@@ -385,6 +491,7 @@ def build_report(result: AnalysisResult, out_dir: Path | str, narrative: Narrati
     directory.mkdir(parents=True, exist_ok=True)
     narrative = narrative or rule_based_narrative(result)
     figures = generate_figures(result, directory)
+    figures.update(_chemistry_figures(result, directory / "figures"))
 
     warnings: list[str] = []
     viewer = pymol = None
@@ -398,4 +505,20 @@ def build_report(result: AnalysisResult, out_dir: Path | str, narrative: Narrati
     data.write_text(json.dumps(analysis_digest(result), indent=2, default=str), encoding="utf-8")
     markdown = write_markdown(result, narrative, figures, directory / "report.md", viewer, pymol)
     pdf = write_pdf(result, narrative, figures, directory / "report.pdf")
-    return ReportPaths(directory, markdown, pdf, data, viewer, pymol, figures, warnings)
+    html_report = write_html_report(result, narrative, figures, directory / "report.html", viewer, pymol)
+    return ReportPaths(directory, markdown, pdf, data, viewer, pymol, figures, warnings, html_report)
+
+
+def _chemistry_figures(result: AnalysisResult, directory: Path) -> dict[str, Path]:
+    """2D depictions of each ligand type, for the PDF and Markdown (the HTML inlines SVG)."""
+    if not chemistry.available():
+        return {}
+    figures = {}
+    for entry in (result.context.get("ligand_chemistry") or {}).values():
+        name = f"chem_{entry['comp_id']}"
+        if entry.get("smiles") and entry.get("properties") and name not in figures:
+            try:
+                figures[name] = chemistry.depiction_png(entry["smiles"], directory / f"{name}.png")
+            except ValueError:
+                continue
+    return figures
