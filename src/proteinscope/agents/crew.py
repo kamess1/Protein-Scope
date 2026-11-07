@@ -139,7 +139,7 @@ class Crew:
                 "scout": (SCOUT_PROMPT, ["search_pdb", "entry_info"], "medium"),
                 "analyst": (ANALYST_PROMPT, [
                     "analyze_structure", "pocket_detail", "ligand_detail", "ligand_chemistry",
-                    "target_bioactivity", "compare_structures", "entry_info",
+                    "target_bioactivity", "functional_sites", "compare_structures", "entry_info",
                 ], "high"),
                 "reporter": (REPORTER_PROMPT, ["pocket_detail", "ligand_detail", "write_report"], "high"),
             }[role]

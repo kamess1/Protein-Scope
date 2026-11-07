@@ -11,7 +11,7 @@ from typing import TYPE_CHECKING, Any
 
 import numpy as np
 
-from . import alphafold, chemistry, targets
+from . import alphafold, chemistry, targets, uniprot
 from .webdata import DataSourceError
 
 if TYPE_CHECKING:
@@ -55,6 +55,111 @@ def ligand_chemistry(result: AnalysisResult, cache_dir: Path | None = None) -> d
     return output
 
 
+_SITE_CATEGORIES = ("catalytic", "binding", "functional")
+
+# Category -> the phrase the reports use, in the order they are listed.
+CATEGORY_LABELS = {
+    "catalytic": "active site", "binding": "cofactor site", "functional": "annotated site",
+    "modification": "modification", "disulfide": "disulfide", "mutagenesis": "mutagenesis",
+}
+
+
+def annotation_summary(row: dict[str, Any] | None) -> str:
+    """One compact phrase for the functional annotation of a pocket."""
+    if not row:
+        return "-"
+    parts = []
+    if row.get("cofactors"):
+        parts.append("binds " + ", ".join(row["cofactors"]))
+    for category, label in CATEGORY_LABELS.items():
+        count = row["categories"].get(category)
+        if count:
+            parts.append(label if count == 1 else f"{label} ({count})")
+    if row.get("variants"):
+        parts.append(f"{row['variants']} variants")
+    return "; ".join(parts) or "-"
+
+
+def functional_context(
+    result: AnalysisResult, accessions: list[dict[str, Any]], cache_dir: Path | None = None
+) -> dict[str, Any]:
+    """UniProt features of the pocket-lining residues, per UniProt accession of the entry.
+
+    The structure's residue numbers are mapped onto the reference sequence by alignment, so
+    truncated constructs, engineered mutations and gaps do not shift the annotation.
+    """
+    proteins: list[dict[str, Any]] = []
+    pockets: dict[int, dict[str, Any]] = {}
+    for item in accessions:
+        data = uniprot.entry(item["accession"], cache_dir)
+        reference = uniprot.sequence(data)
+        chains = item.get("chains") or result.structure.chains
+        positions, identities = uniprot.residue_positions(
+            result.structure.protein_residues, chains, reference
+        )
+        by_position: dict[int, list[dict[str, Any]]] = {}
+        for feature in uniprot.features(data):
+            for position in feature["positions"]:
+                by_position.setdefault(position, []).append(feature)
+        regions = uniprot.regions(data)
+        protein = uniprot.description(data) | {
+            "chain_identity": identities,
+            "mapped_residues": len(positions),
+            "annotated_positions": len(by_position),
+            "regions": regions,
+        }
+        proteins.append(protein)
+        if not positions:
+            continue
+
+        for pocket in result.pockets:
+            residues = []
+            counts: dict[str, int] = {}
+            for key in pocket.lining_keys:
+                position = positions.get(key)
+                if position is None:
+                    continue
+                hits = by_position.get(position, [])
+                if not hits:
+                    continue
+                for feature in hits:
+                    counts[feature["category"]] = counts.get(feature["category"], 0) + 1
+                residues.append({
+                    "residue": key.label,
+                    "uniprot_position": position,
+                    "features": [
+                        {"type": f["type"], "category": f["category"],
+                         "description": f["description"], "ligand": f["ligand"]}
+                        for f in hits
+                    ],
+                })
+            covered = [positions[key] for key in pocket.lining_keys if key in positions]
+            entry_regions = [
+                region["description"] or region["type"] for region in regions
+                if covered and any(region["start"] <= p <= region["end"] for p in covered)
+            ]
+            if not residues and not entry_regions:
+                continue
+            row = pockets.setdefault(pocket.pocket_id, {
+                "residues": [], "categories": {}, "regions": [], "accessions": [],
+            })
+            row["residues"].extend(residues)
+            row["regions"] = sorted(set(row["regions"]) | set(entry_regions))
+            row["accessions"] = sorted(set(row["accessions"]) | {protein["accession"]})
+            for category, count in counts.items():
+                row["categories"][category] = row["categories"].get(category, 0) + count
+
+    for row in pockets.values():
+        row["is_functional_site"] = any(row["categories"].get(c) for c in _SITE_CATEGORIES)
+        row["variants"] = row["categories"].get("variant", 0)
+        row["cofactors"] = sorted({
+            feature["ligand"]
+            for residue in row["residues"] for feature in residue["features"]
+            if feature["ligand"]
+        })
+    return {"proteins": proteins, "pockets": pockets}
+
+
 def enrich(result: AnalysisResult, cache_dir: Path | None = None, online: bool = True) -> dict[str, Any]:
     context: dict[str, Any] = {"notes": []}
     note = context["notes"].append
@@ -73,6 +178,7 @@ def enrich(result: AnalysisResult, cache_dir: Path | None = None, online: bool =
         except DataSourceError as exc:
             note(f"Ligand chemistry unavailable: {exc}")
 
+    accessions: list[dict[str, Any]] = []
     try:
         if source == "alphafold":
             accessions = [{
@@ -82,7 +188,18 @@ def enrich(result: AnalysisResult, cache_dir: Path | None = None, online: bool =
             }]
         else:
             accessions = targets.uniprot_for_entry(result.identifier)
-        context["targets"] = targets.target_context(accessions, cache_dir)
-    except (DataSourceError, ValueError) as exc:
-        note(f"Target context unavailable: {exc}")
+    except (DataSourceError, ValueError, KeyError) as exc:
+        note(f"UniProt accessions unavailable: {exc}")
+
+    if accessions:
+        try:
+            context["targets"] = targets.target_context(accessions, cache_dir)
+        except (DataSourceError, ValueError) as exc:
+            note(f"Target context unavailable: {exc}")
+        try:
+            context["annotations"] = functional_context(result, accessions, cache_dir)
+        except (DataSourceError, ValueError, KeyError) as exc:
+            note(f"UniProt annotation unavailable: {exc}")
+    else:
+        note("No UniProt accession for this entry, so there is no functional annotation.")
     return context

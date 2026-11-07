@@ -73,6 +73,19 @@ def _context_summary(context: dict[str, Any]) -> dict[str, Any]:
         summary["plddt"] = context["plddt"]
     if "ligand_chemistry" in context:
         summary["ligands_with_chemistry"] = sorted(context["ligand_chemistry"])
+    if "annotations" in context:
+        summary["functional_annotation"] = {
+            "proteins": [
+                {"accession": p.get("accession"), "protein_name": p.get("protein_name"),
+                 "genes": p.get("genes"), "mapped_residues": p.get("mapped_residues")}
+                for p in context["annotations"]["proteins"]
+            ],
+            "pockets": {
+                pocket_id: {"categories": row["categories"], "cofactors": row["cofactors"],
+                            "is_functional_site": row["is_functional_site"], "regions": row["regions"]}
+                for pocket_id, row in context["annotations"]["pockets"].items()
+            },
+        }
     if "targets" in context:
         summary["targets"] = [
             {
@@ -173,6 +186,24 @@ def build_tools(
                 "No target context for this structure. " + " ".join(result.context.get("notes", []))
             )
         return {"targets": rows}
+
+    def functional_sites(pdb_id: str, pocket_id: int | None = None) -> dict[str, Any]:
+        result = workspace.require(pdb_id)
+        annotations = result.context.get("annotations")
+        if not annotations:
+            raise ToolError(
+                "No UniProt annotation for this structure. " + " ".join(result.context.get("notes", []))
+            )
+        pockets = annotations["pockets"]
+        if pocket_id is None:
+            return {"proteins": annotations["proteins"], "pockets": pockets}
+        if pocket_id not in pockets:
+            annotated = sorted(pockets) or ["none"]
+            raise ToolError(
+                f"Pocket {pocket_id} of {pdb_id} has no annotated residue. "
+                f"Annotated pockets: {', '.join(str(p) for p in annotated)}"
+            )
+        return {"proteins": annotations["proteins"], "pocket": pockets[pocket_id]}
 
     def compare_structures(pdb_ids: list[str]) -> dict[str, Any]:
         rows = []
@@ -280,6 +311,18 @@ def build_tools(
             "mechanism. Use it to put the geometric druggability score into context.",
             _schema({"pdb_id": {"type": "string"}}, ["pdb_id"]),
             target_bioactivity,
+        ),
+        Tool(
+            "functional_sites",
+            "UniProt annotation of an analysed structure, mapped onto its residues by sequence "
+            "alignment: active and cofactor binding sites, modifications, disulfides, disease "
+            "variants and domains, grouped per pocket. Use it to tell whether a well-shaped pocket "
+            "is the functional site, and which pockets carry disease mutations.",
+            _schema({
+                "pdb_id": {"type": "string"},
+                "pocket_id": {"type": ["integer", "null"], "description": "One pocket, or null for all"},
+            }, ["pdb_id", "pocket_id"]),
+            functional_sites,
         ),
         Tool(
             "compare_structures",
