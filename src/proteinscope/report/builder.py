@@ -31,6 +31,7 @@ from reportlab.platypus import (
 )
 
 from .. import __version__, chemistry
+from ..enrich import CATEGORY_LABELS, annotation_summary
 from ..pipeline import AnalysisResult
 from ..viz.figures import generate_figures
 from ..viz.viewer import write_html_viewer, write_pymol_session
@@ -39,13 +40,15 @@ from .narrative import Narrative, rule_based_narrative
 
 METHOD_NOTES = [
     "Pockets: LIGSITE-style grid scan (1 A grid, 7 scan lines, 14 A range) on the protein only, so bound ligands do not influence detection.",
-    "Druggability: hand-weighted heuristic of size, enclosure, apolarity, depth and charge. It ranks pockets within this structure and is not a calibrated probability.",
+    "Pocket score: logistic regression over eight descriptors, fitted on 72 PDB entries (469 pockets) where the label says whether the entry's ligand sits in the pocket. Cross-validated 5-fold grouped by entry: ROC-AUC 0.93 and the top-ranked pocket correct in 90 % of entries, against 0.91 and 83 % for the hand-weighted heuristic it replaces. It is a probability for the cavities of this structure, not a measure of how tractable the target is.",
+    "Where the pocket score fails: the training set has no entry that is mostly polar, so the model treats a high density of polar atoms as evidence against a binding site and can rank a nucleotide or cofactor site below a smaller apolar one. Check the functional annotation before trusting the ranking alone.",
     "Electrostatics: screened Coulomb sum with formal pH 7 charges and a distance-dependent dielectric. It indicates sign and rough size only; use APBS for quantitative potentials.",
     "Ligand contacts: heavy-atom geometry without hydrogens or ligand protonation states, so hydrogen bonds and salt bridges are candidates.",
     "Probe simulation: rigid protein, Lennard-Jones plus Coulomb plus an H-bond well, without desolvation or entropy. Values compare probes and pockets and are not binding free energies.",
     "Site tags: rule-based labels (size, enclosure, polarity, mean potential beyond +/-2.5 kT/e) that flag fragment-sized or charged anchor sites the drug-likeness score ranks low.",
     "Ligand chemistry: SMILES from the wwPDB Chemical Component Dictionary, descriptors from RDKit (Crippen cLogP, QED). Rule-of-five and Veber checks are filters, not verdicts.",
     "Target context: UniProt mapping from RCSB and bioactivity from ChEMBL. Known potent ligands and approved drugs are stronger evidence of druggability than any geometric score.",
+    "Functional annotation: UniProtKB features (active and binding sites, modifications, disulfides, disease variants, mutagenesis) mapped onto the observed residues by BLOSUM62 alignment of each chain against the reference sequence, so renumbered or truncated constructs stay correct. Features are curated evidence, not measurements, and absence of annotation is not absence of function.",
     "AlphaFold models: the B-factor column holds pLDDT. Pockets lined by residues below pLDDT 70 are unreliable, and side chains of apo predictions may close induced-fit pockets.",
 ]
 
@@ -134,8 +137,9 @@ def _summary_rows(result: AnalysisResult) -> list[list[str]]:
 
 def _pocket_rows(result: AnalysisResult) -> list[list[str]]:
     plddt = (result.context.get("plddt") or {}).get("pockets", {})
+    annotations = ((result.context.get("annotations") or {}).get("pockets") or {})
     head = ["#", "Volume (A3)", "Enclosure", "Depth (A)", "Apolar", "Potential (kT/e)", "Score", "Class"]
-    rows = [head + (["pLDDT"] if plddt else []) + ["Site"]]
+    rows = [head + (["pLDDT"] if plddt else []) + ["Site"] + (["Function"] if annotations else [])]
     for pocket in result.pockets:
         row = [
             str(pocket.pocket_id), f"{pocket.volume:.0f}", f"{pocket.enclosure:.2f}", f"{pocket.depth:.1f}",
@@ -144,8 +148,46 @@ def _pocket_rows(result: AnalysisResult) -> list[list[str]]:
         ]
         if plddt:
             row.append(_fmt((plddt.get(pocket.pocket_id) or {}).get("mean_plddt"), 0))
-        rows.append(row + ["; ".join(pocket.site_tags) or "-"])
+        row.append("; ".join(pocket.site_tags) or "-")
+        if annotations:
+            row.append(annotation_summary(annotations.get(pocket.pocket_id)))
+        rows.append(row)
     return rows
+
+
+def _annotation_rows(result: AnalysisResult, limit: int = 8) -> list[list[str]]:
+    """Which annotated residues line which pocket, most informative pockets first."""
+    annotations = ((result.context.get("annotations") or {}).get("pockets") or {})
+    rows = [["Pocket", "Residue", "UniProt", "Annotation"]]
+    for pocket_id, row in sorted(annotations.items()):
+        # Functional features first; variants alone rarely explain what a pocket does.
+        residues = sorted(
+            row["residues"],
+            key=lambda r: min(list(CATEGORY_LABELS).index(f["category"])
+                              if f["category"] in CATEGORY_LABELS else 9 for f in r["features"]),
+        )
+        for residue in residues[:limit]:
+            feature = residue["features"][0]
+            text = feature["description"] or feature["type"]
+            rows.append([
+                str(pocket_id), residue["residue"], str(residue["uniprot_position"]),
+                f"{feature['type']}: {text}"[:90] if feature["description"] else feature["type"],
+            ])
+        if len(residues) > limit:
+            rows.append([str(pocket_id), f"+{len(residues) - limit} more", "", ""])
+    return rows if len(rows) > 1 else []
+
+
+def _protein_rows(result: AnalysisResult) -> list[list[str]]:
+    rows = [["UniProt", "Protein", "Gene", "Length", "Mapped residues", "Pfam"]]
+    for protein in ((result.context.get("annotations") or {}).get("proteins") or []):
+        rows.append([
+            protein.get("accession") or "-", (protein.get("protein_name") or "")[:46],
+            ", ".join(protein.get("genes") or []) or "-", _fmt(protein.get("length"), 0),
+            str(protein.get("mapped_residues", 0)),
+            ", ".join(f"{p['id']} {p['name']}" for p in (protein.get("pfam") or [])[:3]) or "-",
+        ])
+    return rows if len(rows) > 1 else []
 
 
 def _chemistry_rows(result: AnalysisResult) -> list[list[str]]:
@@ -288,6 +330,15 @@ def write_markdown(
             for name in figures:
                 if name.startswith("chem_"):
                     parts.append(figure(name, f"2D structure of {name.removeprefix('chem_')}"))
+
+    protein_rows = _protein_rows(result)
+    annotation_rows = _annotation_rows(result)
+    if protein_rows or annotation_rows:
+        parts.append("## Functional annotation (UniProt)\n")
+        if protein_rows:
+            parts.append(_md_table(protein_rows) + "\n")
+        if annotation_rows:
+            parts.append("### Annotated residues lining the pockets\n\n" + _md_table(annotation_rows) + "\n")
 
     target_rows = _target_rows(result)
     if target_rows:
@@ -454,6 +505,17 @@ def write_pdf(result: AnalysisResult, narrative: Narrative, figures: dict[str, P
             for name, file_path in figures.items():
                 if name.startswith("chem_"):
                     pdf.image(file_path, f"2D structure of {name.removeprefix('chem_')}.", max_width=8 * cm, max_height=6 * cm)
+
+    protein_rows = _protein_rows(result)
+    annotation_rows = _annotation_rows(result)
+    if protein_rows or annotation_rows:
+        pdf.story.append(CondPageBreak(6 * cm))
+        pdf.heading("Functional annotation (UniProt)", pdf.h2)
+        if protein_rows:
+            pdf.table(protein_rows)
+        if annotation_rows:
+            pdf.heading("Annotated residues lining the pockets", pdf.h3)
+            pdf.table(annotation_rows, widths=[1.4 * cm, 2.6 * cm, 1.8 * cm, pdf.width - 5.8 * cm])
 
     target_rows = _target_rows(result)
     if target_rows:

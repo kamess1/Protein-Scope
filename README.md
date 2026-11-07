@@ -58,7 +58,7 @@ Then just ask in the chat:
 > compare it with the ChEMBL data and write the report.
 
 Claude plans the steps and calls `search_pdb`, `analyze_structure`, `pocket_detail`,
-`ligand_chemistry`, `target_bioactivity` and `write_report`. Reports land in `output/`.
+`ligand_chemistry`, `functional_sites`, `target_bioactivity` and `write_report`. Reports land in `output/`.
 To register the server outside this folder:
 
 ```bash
@@ -74,22 +74,41 @@ claude mcp add proteinscope -- "$PWD/.venv/bin/proteinscope" mcp --out "$PWD/out
 | Surface | Shrake–Rupley SASA, relative exposure, dimensions, hydrophobic patches |
 | Electrostatics | Screened Coulomb, pH 7 formal charges, distance-dependent dielectric |
 | Pockets | LIGSITE-style grid scan on the protein alone, clustering, enclosure and depth |
-| Druggability | Weighted heuristic over size, enclosure, apolarity, depth and buried charge, plus site tags |
+| Pocket score | Logistic regression over eight descriptors, fitted on 72 complexes; plus site tags |
 | Model confidence | For AlphaFold models: pLDDT per residue and per pocket |
 | Ligand chemistry | CCD SMILES, RDKit descriptors (MW, cLogP, TPSA, QED), rule of five, 2D depiction |
+| Function | UniProt active sites, cofactor sites, modifications and disease variants per pocket |
 | Target context | UniProt mapping, then ChEMBL target, measured potencies and known drugs |
 | Ligands | Hydrogen bonds, salt bridges, hydrophobic contacts, π-stacking, buried surface |
 | Probes | Six chemical probes scored on the pocket grid against the rigid protein |
 
-Pocket detection is checked against known complexes: `tests/test_network.py` asserts that the
-ligand of 1HSG, 2HYY, 3ERT, 1HCK and 2RH1 lands in the top-ranked pocket of its structure.
+The **pocket score** is fitted, not guessed. `scripts/pocket_model.py` analyses a benchmark of
+PDB entries with a ligand bound, labels each pocket by whether the ligand sits in it, and fits
+a logistic regression over the pocket descriptors; the coefficients ship in
+`src/proteinscope/data/ligandability.json`:
+
+```bash
+python scripts/pocket_model.py collect && python scripts/pocket_model.py fit
+```
+
+Cross-validated 5-fold, grouped by entry so pockets of one structure never span the split:
+**ROC-AUC 0.93** and the top-ranked pocket correct in **90 %** of entries, against 0.91 and 83 %
+for the hand-weighted heuristic it replaces (which stays in the output for comparison). The five
+complexes `tests/test_network.py` checks are held out of training, so that test measures
+generalisation.
 
 ### What the numbers are not
 
-- The **druggability score** is hand-weighted, not fitted. It ranks pockets within one structure
-  and favours large apolar ones, so small charged sites rank low: trypsin's S1 pocket in 3PTB
-  scores 0.20. The **site tags** flag those ("fragment-sized", "anionic anchor") instead of
-  reweighting the score for one binding mode.
+- The **pocket score** ranks the cavities of one structure. It says nothing about whether the
+  target as a whole is tractable, and 72 training entries are few. Its known failure: no mostly
+  polar entry is in the training set, so a high density of polar atoms counts against a pocket
+  and a nucleotide site can rank below a smaller apolar one (CDK2/ATP in 1HCK does). Read it
+  together with the function section.
+- A small site can still be the real one. Trypsin's S1 pocket in 3PTB scores 0.10 because no
+  drug-like molecule fits, yet it ranks first and the **site tags** say why ("fragment-sized",
+  "anionic anchor").
+- **Functional annotation** is curated UniProt evidence mapped by sequence alignment, so an
+  unannotated pocket is not a pocket without function — only one nobody has annotated.
 - **ChEMBL context** is matched by UniProt accession, and some proteins sit under a different
   target entry, so a low count is not proof that a target is undrugged.
 - **Electrostatics** indicate sign and rough size only; use APBS for quantitative potentials.
@@ -104,7 +123,7 @@ ligand of 1HSG, 2HYY, 3ERT, 1HCK and 2RH1 lands in the top-ranked pocket of its 
 
 ```
 report.html        Interactive: summary tiles, 3D viewer, sortable pocket table with expandable
-                   details, ligand chemistry, ChEMBL context, figure gallery, light/dark theme
+                   details, ligand chemistry, UniProt function, ChEMBL context, figure gallery
 report.pdf         Typeset report with every figure and table
 report.md          The same content as Markdown
 analysis.json      Every computed value, for your own scripts
@@ -123,7 +142,7 @@ PROTEINSCOPE_NETWORK_TESTS=1 pytest     # adds the RCSB, AlphaFold, ChEMBL and b
 Structures and API responses are cached in `~/.cache/proteinscope`, or `$PROTEINSCOPE_CACHE`.
 To browse reports with working figures: `python3 -m http.server 8765 --directory output`.
 
-Code lives in `src/proteinscope/`: data sources (`rcsb`, `alphafold`, `chemistry`, `targets`,
-`enrich`), analysis (`structure`, `audit`, `surface`, `electrostatics`, `pockets`,
+Code lives in `src/proteinscope/`: data sources (`rcsb`, `alphafold`, `chemistry`, `uniprot`,
+`targets`, `enrich`), analysis (`structure`, `audit`, `surface`, `electrostatics`, `pockets`,
 `druggability`, `interactions`, `pipeline`), and output (`viz/`, `report/`, `agents/`,
 `mcp_server.py`, `cli.py`).

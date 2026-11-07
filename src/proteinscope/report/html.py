@@ -16,6 +16,7 @@ from typing import TYPE_CHECKING, Any
 
 from .. import __version__
 from ..druggability import WEIGHTS
+from ..enrich import CATEGORY_LABELS, annotation_summary
 
 if TYPE_CHECKING:
     from ..pipeline import AnalysisResult
@@ -145,6 +146,7 @@ def _pockets(result: AnalysisResult, figures: dict[str, Path], base: Path, has_v
     if not result.pockets:
         return "<p>No pockets passed the detection thresholds.</p>"
     plddt = (result.context.get("plddt") or {}).get("pockets", {})
+    annotations = ((result.context.get("annotations") or {}).get("pockets") or {})
     occupants: dict[int, list[str]] = {}
     for label, entries in result.ligand_pockets.items():
         for entry in entries:
@@ -158,10 +160,12 @@ def _pockets(result: AnalysisResult, figures: dict[str, Path], base: Path, has_v
         "<th data-sort='n' class='n'>Enclosure</th><th data-sort='n' class='n'>Depth (Å)</th>"
         "<th data-sort='n' class='n'>Apolar</th><th data-sort='n' class='n'>Potential</th>"
         + ("<th data-sort='n' class='n'>pLDDT</th>" if plddt else "")
-        + "<th data-sort='n' class='score-col'>Score</th><th data-sort='t'>Site</th><th>Ligand</th><th></th></tr></thead>"
+        + "<th data-sort='n' class='score-col'>Score</th><th data-sort='t'>Site</th>"
+        + ("<th data-sort='t'>Function</th>" if annotations else "")
+        + "<th>Ligand</th><th></th></tr></thead>"
     )
     rows = []
-    columns = 11 + (1 if plddt else 0)
+    columns = 11 + (1 if plddt else 0) + (1 if annotations else 0)
     for pocket in result.pockets:
         pid = pocket.pocket_id
         tags = "".join(f'<span class="chip">{_e(t)}</span>' for t in pocket.site_tags) or '<span class="muted">-</span>'
@@ -183,13 +187,18 @@ def _pockets(result: AnalysisResult, figures: dict[str, Path], base: Path, has_v
             + f"<td data-v='{pocket.druggability:.3f}' class='score-col'><div class='score'>"
             f"<span class='badge tone-{_class_tone(pocket.druggability_class)}'>{pocket.druggability:.2f} "
             f"{_e(pocket.druggability_class)}</span>{_score_bar(pocket)}</div></td>"
-            f"<td data-v='{_e(' '.join(pocket.site_tags))}'>{tags}</td><td>{_e(ligands)}</td><td>{show}</td></tr>"
+            f"<td class='tags' data-v='{_e(' '.join(pocket.site_tags))}'>{tags}</td>"
+            + (f"<td class='fn' data-v='{_e(annotation_summary(annotations.get(pid)))}'>"
+               f"{_function_cell(annotations.get(pid))}</td>" if annotations else "")
+            + f"<td>{_e(ligands)}</td><td>{show}</td></tr>"
         )
         figure = figures.get(f"pocket_{pid}")
         detail = [
             f"<p><b>Lining residues ({len(pocket.lining_residues)}):</b> {_e(', '.join(pocket.lining_residues))}</p>",
             f"<p class='muted'>Charged residues {pocket.charged_residues}, net charge {pocket.net_charge:+.1f}, "
-            f"polar atoms {pocket.donor_acceptor_atoms}, mean hydropathy {pocket.mean_hydropathy:+.2f}.</p>",
+            f"polar atoms {pocket.donor_acceptor_atoms}, mean hydropathy {pocket.mean_hydropathy:+.2f}. "
+            f"Hand-weighted heuristic {pocket.heuristic_score:.2f}; headline score from {_e(pocket.score_model)}.</p>",
+            _annotation_detail(annotations.get(pid)),
             _probe_table(result, pid),
         ]
         if figure:
@@ -197,9 +206,16 @@ def _pockets(result: AnalysisResult, figures: dict[str, Path], base: Path, has_v
                              f'src="{_rel(figure, base)}" alt="{_e(_figure_caption(figure.stem))}"></a>')
         rows.append(f'<tr class="detail" data-detail="{pid}" hidden><td colspan="{columns}"><div class="detail-grid">'
                     + "".join(detail) + "</div></td></tr>")
+    model = result.pockets[0].score_model
+    explanation = (
+        f"The score is a calibrated probability from the {_e(model)}; the bar breaks down the "
+        f"hand-weighted heuristic for comparison."
+        if model.startswith("fitted") else
+        "The score is the hand-weighted heuristic, broken down by the bar."
+    )
     return (
-        f'<p class="muted">Click a row for lining residues and probe energies. Column headers sort. '
-        f'Score segments: {legend}</p>'
+        f'<p class="muted">Click a row for lining residues, annotations and probe energies. '
+        f'Column headers sort. {explanation} Segments: {legend}</p>'
         f'<div class="table-wrap"><table id="pocket-table" class="data">{head}<tbody>{"".join(rows)}</tbody></table></div>'
     )
 
@@ -279,6 +295,91 @@ def _ligands(result: AnalysisResult, figures: dict[str, Path], base: Path) -> st
             + (f'<a class="thumb" href="{_rel(contact_map, base)}" data-lightbox><img loading="lazy" '
                f'src="{_rel(contact_map, base)}" alt="Contact map for {_e(label)}"></a>' if contact_map else "")
             + "</div></article>"
+        )
+    return "".join(cards)
+
+
+_CATEGORY_TONE = {
+    "catalytic": "warn", "binding": "good", "functional": "good",
+    "variant": "bad", "modification": "muted", "disulfide": "muted", "mutagenesis": "muted",
+}
+
+
+def _function_cell(row: dict[str, Any] | None, limit: int = 3) -> str:
+    """The Function column: the most telling annotations only; the row detail has them all."""
+    if not row:
+        return '<span class="muted">-</span>'
+    chips = [("good", f"binds {name}") for name in row.get("cofactors") or []]
+    for category, label in CATEGORY_LABELS.items():
+        count = row["categories"].get(category)
+        if count:
+            chips.append((_CATEGORY_TONE.get(category, "muted"), label if count == 1 else f"{label} ×{count}"))
+    if row.get("variants"):
+        chips.append(("bad", f"{row['variants']} variants"))
+    if not chips:
+        return '<span class="muted">-</span>'
+    shown = "".join(f'<span class="chip tone-{tone}">{_e(text)}</span>' for tone, text in chips[:limit])
+    rest = len(chips) - limit
+    return shown + (f'<span class="chip" title="Open the row for all annotations">+{rest}</span>' if rest > 0 else "")
+
+
+def _annotation_detail(row: dict[str, Any] | None, limit: int = 14) -> str:
+    """The annotated residues of one pocket, functional features before variants."""
+    if not row or not row.get("residues"):
+        return ""
+    order = list(CATEGORY_LABELS)
+    residues = sorted(row["residues"], key=lambda r: min(
+        order.index(f["category"]) if f["category"] in order else 9 for f in r["features"]
+    ))
+    rows = "".join(
+        f"<tr><td>{_e(residue['residue'])}</td><td class='n'>{residue['uniprot_position']}</td><td>"
+        + "".join(
+            f'<span class="chip tone-{_CATEGORY_TONE.get(f["category"], "muted")}">{_e(f["type"])}</span> '
+            f'<span class="muted">{_e(f["description"] or "")}</span><br>' for f in residue["features"][:4]
+        )
+        + "</td></tr>"
+        for residue in residues[:limit]
+    )
+    more = (f"<p class='muted'>+{len(residues) - limit} further annotated residues.</p>"
+            if len(residues) > limit else "")
+    regions = (f"<p class='muted'>Within: {_e(', '.join(row['regions']))}.</p>" if row.get("regions") else "")
+    return (
+        "<div><h4>Functional annotation (UniProt)</h4>" + regions
+        + "<table class='mini'><thead><tr><th>Residue</th><th class='n'>UniProt</th>"
+        f"<th>Feature</th></tr></thead><tbody>{rows}</tbody></table>{more}</div>"
+    )
+
+
+def _annotations(result: AnalysisResult) -> str:
+    """Protein-level card: identity of the mapped chains, domains and Pfam families."""
+    proteins = ((result.context.get("annotations") or {}).get("proteins") or [])
+    if not proteins:
+        return ""
+    cards = []
+    for protein in proteins:
+        accession = protein.get("accession") or "?"
+        identity = ", ".join(f"{chain} {value:.0%}" for chain, value in (protein.get("chain_identity") or {}).items())
+        pfam = " ".join(
+            f"<a class='chip' href='https://www.ebi.ac.uk/interpro/entry/pfam/{_e(p['id'])}/' rel='noopener'>"
+            f"{_e(p['id'])} {_e(p['name'] or '')}</a>" for p in (protein.get("pfam") or [])
+        )
+        domains = " ".join(
+            f"<span class='chip'>{_e(region['description'] or region['type'])} "
+            f"{region['start']}-{region['end']}</span>"
+            for region in (protein.get("regions") or [])[:8]
+        )
+        cards.append(
+            f"<article class='card'><h3>"
+            f"<a href='https://www.uniprot.org/uniprotkb/{_e(accession)}' rel='noopener'>{_e(accession)}</a> "
+            f"<span class='muted'>{_e(protein.get('protein_name') or '')}</span></h3>"
+            f"<p>{_e(', '.join(protein.get('genes') or []) or 'no gene name')} · "
+            f"reference sequence {_num(protein.get('length'), 0)} residues · "
+            f"<b>{protein.get('mapped_residues', 0)}</b> observed residues mapped by alignment "
+            f"(identity {_e(identity) or 'n/a'}) · "
+            f"<b>{protein.get('annotated_positions', 0)}</b> annotated positions in the reference.</p>"
+            + (f"<p>{domains}</p>" if domains else "")
+            + (f"<p>{pfam}</p>" if pfam else "")
+            + "</article>"
         )
     return "".join(cards)
 
@@ -424,7 +525,12 @@ position:sticky;left:10px;max-width:min(1120px,calc(100vw - 54px))}
 .badge{display:inline-block;font-size:12px;font-weight:600;padding:2px 7px;border-radius:999px;white-space:nowrap}
 .tone-good{background:var(--good-bg);color:var(--good)}.tone-warn{background:var(--warn-bg);color:var(--warn)}
 .tone-bad{background:var(--bad-bg);color:var(--bad)}.tone-muted{background:var(--chip);color:var(--muted)}
+#pocket-table td.fn{min-width:168px}#pocket-table td.tags{min-width:132px}
 .chip{display:inline-block;font-size:12px;background:var(--chip);border-radius:6px;padding:1px 7px;margin:1px 3px 1px 0}
+a.chip{text-decoration:none}a.chip:hover{text-decoration:underline}
+.chip.tone-good{background:var(--good-bg);color:var(--good)}
+.chip.tone-warn{background:var(--warn-bg);color:var(--warn)}
+.chip.tone-bad{background:var(--bad-bg);color:var(--bad)}
 button.ghost{font:inherit;font-size:12.5px;padding:3px 9px;border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:6px;cursor:pointer}
 button.ghost:hover{border-color:var(--accent);color:var(--accent)}
 table.mini{font-size:13px;border:1px solid var(--line);border-radius:8px;overflow:hidden}
@@ -541,6 +647,9 @@ def write_html_report(
         ligand_html = (f'<div class="summary"><p class="byline">Written by: {_e(narrative.source)}</p>'
                        f'<p>{_e(narrative.ligand_interpretation)}</p></div><br>') + ligand_html
     sections.append(("ligands", f"Ligands ({len(result.ligand_profiles)})", ligand_html))
+    annotation_html = _annotations(result)
+    if annotation_html:
+        sections.append(("function", "Function", annotation_html))
     target_html = _targets(result)
     if target_html:
         sections.append(("target", "Target context", target_html))
@@ -575,8 +684,9 @@ def write_html_report(
 </div></header>
 <nav class="sections" aria-label="Sections"><div class="wrap">{nav}</div></nav>
 <main class="wrap">{body}</main>
-<footer class="wrap">All numbers are computed from the coordinates by ProteinScope. The druggability score ranks
-pockets within this structure; it is not a probability.</footer>
+<footer class="wrap">All numbers are computed from the coordinates by ProteinScope. The pocket score ranks the
+cavities of this structure and says nothing about a target's tractability; functional annotation is curated
+UniProt evidence, not a measurement.</footer>
 <dialog id="lightbox"><img alt=""><p></p></dialog>
 <script>{_JS}</script>
 </body>
