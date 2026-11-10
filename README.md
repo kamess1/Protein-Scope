@@ -32,7 +32,7 @@ Three ways to run it, and only the last needs an API key:
 ```bash
 proteinscope analyze 1HSG                  # analyse and print; caches the download
 proteinscope report 1HSG --open            # plus figures, HTML, PDF, Markdown, JSON, 3D viewer
-proteinscope serve                         # browse every written report in a browser
+proteinscope serve                         # pick proteins and read reports in a browser
 proteinscope report AF-P00533              # an AlphaFold model
 proteinscope report ./my-model.cif         # a local file
 proteinscope report 1HSG --offline         # skip ligand chemistry and ChEMBL
@@ -49,24 +49,36 @@ result = run_analysis("1HSG")
 paths = build_report(result, "output")   # paths.html, paths.pdf, paths.markdown, ...
 ```
 
-## Browsing the reports
+## Picking a protein in the browser
 
-`proteinscope serve` opens an overview of everything in `output/` in your browser, so you pick a
-structure from a list of cards instead of typing its ID. Each card shows the top pocket with its
-score and function, the ligands, the quality and a thumbnail; clicking it opens the usual
-interactive report, which now carries an "All reports" link back. The page is rebuilt on every
-request, so a report written in another shell appears on reload.
+`proteinscope serve` opens a page where you pick a protein instead of typing commands:
+
+- a **catalogue** of 23 well-known drug targets (EGFR, KRAS G12C, the SARS-CoV-2 protease,
+  BRD4, HIV protease, the oestrogen receptor, two GPCRs and more), one structure each, filterable
+  by area. A card shows whether its report exists; otherwise "Analyse" builds it while the card
+  shows each step;
+- a field for **any PDB or AlphaFold ID**;
+- **your reports**, with the top pocket, its function and a thumbnail. Each report links back.
 
 ```bash
-proteinscope serve                    # http://127.0.0.1:8765, opens a browser window
+proteinscope serve                      # http://127.0.0.1:8765, opens a browser window
+proteinscope serve --read-only          # browse existing reports only
 proteinscope serve -o runs -p 9000 --no-open
 ```
 
-It is a reader, not a launcher: analyses are still started with `proteinscope report`. It needs
-no extra dependency and keeps to itself: the socket is bound to `127.0.0.1`, nothing outside the
-output directory is served (symlinks out of it are refused), directories are never listed, and
-responses carry `Referrer-Policy: no-referrer` so the local URL does not travel to the CDN that
-`viewer.html` loads 3Dmol.js from. The page shows the output folder by name, not by full path.
+A new target takes up to a minute or two, mostly spent asking ChEMBL and UniProt, and one
+analysis runs at a time. Running analyses live in the server's memory, so a restart forgets
+them (finished reports stay). The catalogue is `src/proteinscope/data/catalog.json`; add entries
+with the same fields.
+
+Because the page can start work on your machine, the server defends against other web pages
+in the same browser, which can send requests to `127.0.0.1` too. It binds to the loopback
+interface and answers only to its own host name, which stops DNS rebinding. Starting an
+analysis needs a token that exists only in the server's own page, plus a same-origin JSON
+request. The browser may submit PDB and AlphaFold IDs, never a file path, and the pipeline is
+told not to read local files for those requests. Errors carry no traceback or local path, nothing
+outside the output directory is served, and the page shows the output folder by name only.
+No extra dependency is needed.
 
 ## Claude Code as the agent (MCP, no API key)
 
@@ -169,4 +181,4 @@ Structures and API responses are cached in `~/.cache/proteinscope`, or `$PROTEIN
 Code lives in `src/proteinscope/`: data sources (`rcsb`, `alphafold`, `chemistry`, `uniprot`,
 `targets`, `enrich`), analysis (`structure`, `audit`, `surface`, `electrostatics`, `pockets`,
 `druggability`, `interactions`, `pipeline`), and output (`viz/`, `report/`, `agents/`,
-`mcp_server.py`, `web.py`, `cli.py`).
+`mcp_server.py`, `web.py`, `jobs.py`, `catalog.py`, `cli.py`).
