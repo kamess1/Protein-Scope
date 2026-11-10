@@ -7,7 +7,7 @@ the geometric pocket score is only a structural hint. This module puts both side
 from __future__ import annotations
 
 from pathlib import Path
-from typing import Any
+from typing import Any, Callable
 from urllib.parse import urlencode
 
 import requests
@@ -122,14 +122,23 @@ def chembl_drugs(target_id: str, cache_dir: Path | None = None) -> list[dict[str
     return drugs
 
 
-def target_context(accessions: list[dict[str, Any]], cache_dir: Path | None = None, limit: int = 8) -> list[dict[str, Any]]:
+def target_context(
+    accessions: list[dict[str, Any]],
+    cache_dir: Path | None = None,
+    limit: int = 8,
+    progress: Callable[[str], None] | None = None,
+) -> list[dict[str, Any]]:
+    say = progress or (lambda stage: None)
     rows = []
     for item in accessions:
         row: dict[str, Any] = {**item}
+        say(f"Finding the ChEMBL target for {item['accession']}")
         target = chembl_target(item["accession"], cache_dir)
         row["chembl"] = target
         if target:
+            say(f"Reading measured potencies from ChEMBL ({target['target_chembl_id']})")
             row.update(chembl_activities(target["target_chembl_id"], limit, cache_dir))
+            say(f"Reading known drugs from ChEMBL ({target['target_chembl_id']})")
             row["drugs"] = chembl_drugs(target["target_chembl_id"], cache_dir)
             row["approved_drugs"] = sum(1 for d in row["drugs"] if (d["max_phase"] or 0) >= 4)
         rows.append(row)

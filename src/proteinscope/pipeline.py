@@ -187,6 +187,11 @@ def run_analysis(
     for pocket in pockets[:probe_pockets]:
         result.probes_for(pocket.pocket_id)
     # Local files have no database identity, so only the offline part of the context applies.
-    step("Looking up UniProt and ChEMBL", 0.74)
-    result.context = enrich(result, cache_dir, online=context and kind != "file")
+    step("Looking up UniProt and ChEMBL", 0.70)
+    lookups = iter(range(1, 100))  # Each lookup nudges the bar; the count varies per target.
+
+    def lookup(stage: str) -> None:
+        step(stage, 0.70 + 0.09 * (1 - 0.8 ** next(lookups)))
+
+    result.context = enrich(result, cache_dir, online=context and kind != "file", progress=lookup)
     return result

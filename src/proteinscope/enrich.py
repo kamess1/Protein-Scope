@@ -7,7 +7,7 @@ the report leaves the section out, so the analysis never depends on these servic
 from __future__ import annotations
 
 from pathlib import Path
-from typing import TYPE_CHECKING, Any
+from typing import TYPE_CHECKING, Any, Callable
 
 import numpy as np
 
@@ -160,7 +160,14 @@ def functional_context(
     return {"proteins": proteins, "pockets": pockets}
 
 
-def enrich(result: AnalysisResult, cache_dir: Path | None = None, online: bool = True) -> dict[str, Any]:
+def enrich(
+    result: AnalysisResult,
+    cache_dir: Path | None = None,
+    online: bool = True,
+    progress: Callable[[str], None] | None = None,
+) -> dict[str, Any]:
+    """Collect the optional context. `progress` is told which lookup starts."""
+    say = progress or (lambda stage: None)
     context: dict[str, Any] = {"notes": []}
     note = context["notes"].append
     source = result.metadata.get("source")
@@ -171,6 +178,7 @@ def enrich(result: AnalysisResult, cache_dir: Path | None = None, online: bool =
         return context
 
     if result.structure.ligands:
+        say("Looking up ligand chemistry")
         if not chemistry.available():
             note('RDKit is not installed, so ligand descriptors are missing: pip install "proteinscope[chem]".')
         try:
@@ -179,6 +187,7 @@ def enrich(result: AnalysisResult, cache_dir: Path | None = None, online: bool =
             note(f"Ligand chemistry unavailable: {exc}")
 
     accessions: list[dict[str, Any]] = []
+    say("Finding the UniProt entry")
     try:
         if source == "alphafold":
             accessions = [{
@@ -193,9 +202,10 @@ def enrich(result: AnalysisResult, cache_dir: Path | None = None, online: bool =
 
     if accessions:
         try:
-            context["targets"] = targets.target_context(accessions, cache_dir)
+            context["targets"] = targets.target_context(accessions, cache_dir, progress=say)
         except (DataSourceError, ValueError) as exc:
             note(f"Target context unavailable: {exc}")
+        say("Mapping UniProt annotation onto the pockets")
         try:
             context["annotations"] = functional_context(result, accessions, cache_dir)
         except (DataSourceError, ValueError, KeyError) as exc:
