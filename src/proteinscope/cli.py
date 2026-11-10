@@ -110,7 +110,7 @@ def command_mcp(args: argparse.Namespace) -> int:
 def command_serve(args: argparse.Namespace) -> int:
     from .web import serve
 
-    serve(Path(args.out), args.port, open_browser=not args.no_open)
+    serve(Path(args.out), args.port, open_browser=not args.no_open, read_only=args.read_only)
     return 0
 
 
@@ -220,11 +220,13 @@ def build_parser() -> argparse.ArgumentParser:
     mcp.set_defaults(func=command_mcp)
 
     serve = subparsers.add_parser(
-        "serve", help="Browse the written reports in a browser instead of the terminal",
+        "serve", help="Pick proteins and browse reports in a browser instead of the terminal",
     )
     serve.add_argument("-o", "--out", default="output", help="Report directory (default ./output)")
     serve.add_argument("-p", "--port", type=int, default=8765, help="Port (default 8765; 0 picks a free one)")
     serve.add_argument("--no-open", action="store_true", help="Do not open a browser window")
+    serve.add_argument("--read-only", action="store_true",
+                       help="Only browse existing reports; do not start analyses from the page")
     serve.set_defaults(func=command_serve)
 
     agent = subparsers.add_parser("agent", help="Run the agent crew on one structure (needs an API key)")
