@@ -68,3 +68,19 @@ def test_uniprot_annotation_finds_the_atp_site_of_egfr() -> None:
     assert top["categories"]["catalytic"] >= 1 and top["variants"] >= 5
     # PDB residue 694 is UniProt 718: the signal peptide offset must be corrected.
     assert {r["residue"]: r["uniprot_position"] for r in top["residues"]}["LEU694:A"] == 718
+
+
+def _catalog_ids() -> list[str]:
+    from proteinscope.catalog import load_catalog
+
+    return [entry.id for entry in load_catalog()[1]]
+
+
+@pytest.mark.parametrize("identifier", _catalog_ids())
+def test_every_catalogue_entry_can_be_analysed(identifier: str) -> None:
+    """A card in the browser must never lead to an analysis that cannot run."""
+    result = run_analysis(identifier, probe_pockets=0, context=False, allow_files=False)
+    assert result.identifier == identifier
+    assert result.pockets, f"{identifier} yields no pocket"
+    if not identifier.startswith("AF-"):
+        assert result.structure.ligands, f"{identifier} has no ligand to look at"
