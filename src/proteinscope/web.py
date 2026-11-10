@@ -322,8 +322,8 @@ def render_index(
   <button class="go" type="submit">Analyse</button>
 </form>
 <p class="error" id="lookup-error" role="alert"></p>
-<p class="hint">Downloads the public structure, analyses it here and writes the report. The first run of a
-structure takes about half a minute; one analysis runs at a time.</p>
+<p class="hint">Downloads the public structure, analyses it on this machine and writes the report. A new
+target takes up to a minute or two, mostly spent asking ChEMBL and UniProt; one analysis runs at a time.</p>
 <div class="jobs" id="jobs" aria-live="polite"></div>
 <div class="notice" id="fresh" hidden><span>New reports are ready.</span>
   <button class="small" type="button" id="reload">Show them</button></div>
@@ -360,7 +360,7 @@ structure takes about half a minute; one analysis runs at a time.</p>
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="ps-token" content="{_e(token)}">
+{"" if read_only else f'<meta name="ps-token" content="{_e(token)}">'}
 <title>ProteinScope Reports</title>
 <style>{CSS}{_INDEX_CSS}</style>
 </head>
@@ -376,23 +376,27 @@ structure takes about half a minute; one analysis runs at a time.</p>
 <footer class="wrap">Served from your own machine to your own browser. Every number in these reports is computed
 from the coordinates by ProteinScope.</footer>
 <script>{THEME_JS}</script>
-<script>{_INDEX_JS}</script>
+<script>{_FILTER_JS}</script>{"" if read_only else f"<script>{_ANALYSE_JS}</script>"}
 </body>
 </html>
 """
 
 
-# All server data reaches the page through textContent, never innerHTML.
-_INDEX_JS = """
+_FILTER_JS = """
 (function(){
-  const token=document.querySelector('meta[name="ps-token"]').content;
   const filters=[...document.querySelectorAll('.filters button')];
   filters.forEach(b=>b.addEventListener('click',()=>{
     filters.forEach(o=>o.setAttribute('aria-pressed',o===b));
     document.querySelectorAll('.target').forEach(c=>{c.hidden=!!b.dataset.area&&c.dataset.area!==b.dataset.area;});
   }));
-  if(!token)return;
+})();
+"""
 
+# Shipped only when analyses are enabled. All server data reaches the page through
+# textContent, never innerHTML.
+_ANALYSE_JS = """
+(function(){
+  const token=document.querySelector('meta[name="ps-token"]').content;
   const form=document.getElementById('lookup'),input=document.getElementById('identifier');
   const error=document.getElementById('lookup-error'),list=document.getElementById('jobs');
   const fresh=document.getElementById('fresh');
