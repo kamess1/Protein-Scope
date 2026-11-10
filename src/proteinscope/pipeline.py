@@ -4,7 +4,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Any
+from typing import Any, Callable
 
 import numpy as np
 from scipy.spatial import cKDTree
@@ -18,6 +18,9 @@ from .interactions import LigandProfile, ProbeResult, profile_ligand, simulate_p
 from .pockets import Grid, Pocket, PocketParams, detect_pockets, ligand_pocket_overlap
 from .structure import LigandInstance, LoadedStructure, ResidueKey, load_structure
 from .surface import SurfaceResult, analyze_surface
+
+# Called as progress(stage, fraction) at each step; fraction runs from 0 to 1.
+Progress = Callable[[str, float], None]
 
 _LIGAND_POCKET_MIN_OVERLAP = 0.5
 _SURFACE_OFFSET = 3.0
@@ -66,14 +69,19 @@ class AnalysisResult:
         raise KeyError(f"Ligand {label!r} not found; available: {known}")
 
 
-def resolve_source(source: str, cache_dir: Path | None = None) -> tuple[Path, str, str]:
+def resolve_source(
+    source: str, cache_dir: Path | None = None, allow_files: bool = True
+) -> tuple[Path, str, str]:
     """Turn a file path, PDB ID or AlphaFold ID into (path, identifier, kind).
 
-    kind is "file", "pdb" or "alphafold".
+    kind is "file", "pdb" or "alphafold". With `allow_files=False` the source is only ever
+    treated as a database identifier, even if a file of that name exists; the web server
+    uses this so a request from the browser can never read a local file.
     """
-    path = Path(source).expanduser()
-    if path.is_file():
-        return path, path.stem.upper(), "file"
+    if allow_files:
+        path = Path(source).expanduser()
+        if path.is_file():
+            return path, path.stem.upper(), "file"
     accession = alphafold.parse_alphafold_id(source)
     if accession:
         model_path, _ = alphafold.download_model(accession, cache_dir)
@@ -104,9 +112,17 @@ def run_analysis(
     probe_pockets: int = 3,
     cache_dir: Path | None = None,
     context: bool = True,
+    progress: Progress | None = None,
+    allow_files: bool = True,
 ) -> AnalysisResult:
-    """Analyse a structure. `context=False` skips the online lookups (chemistry, ChEMBL)."""
-    path, identifier, kind = resolve_source(source, cache_dir)
+    """Analyse a structure. `context=False` skips the online lookups (chemistry, ChEMBL).
+
+    `progress`, if given, is told which stage starts and how far along the run is.
+    """
+    step = progress or (lambda stage, fraction: None)
+    step("Downloading structure", 0.02)
+    path, identifier, kind = resolve_source(source, cache_dir, allow_files=allow_files)
+    step("Reading structure", 0.12)
     structure = load_structure(path, identifier)
 
     metadata: dict[str, Any] = {}
@@ -118,8 +134,11 @@ def run_analysis(
     elif kind == "alphafold":
         _, metadata = alphafold.download_model(identifier.removeprefix("AF-"), cache_dir)
 
+    step("Checking structure quality", 0.18)
     audit = audit_structure(structure, metadata)
+    step("Computing surface", 0.24)
     surface = analyze_surface(structure)
+    step("Estimating electrostatics", 0.36)
     charge_model = build_charge_model(structure)
     atom_potential = potential_at(_surface_points(structure.protein.coords), charge_model)
 
@@ -131,9 +150,11 @@ def run_analysis(
         values, areas = zip(*pairs)
         residue_potential[key] = float(np.average(values, weights=areas)) if sum(areas) else float(np.mean(values))
 
+    step("Searching pockets", 0.44)
     pockets, grid = detect_pockets(structure.protein, charge_model, params)
     pockets = rank_pockets(pockets)
 
+    step("Profiling ligands", 0.58)
     profiles = {
         ligand.label: profile_ligand(structure, ligand, charge_model) for ligand in structure.ligands
     }
@@ -162,8 +183,10 @@ def run_analysis(
         ligand_profiles=profiles,
         ligand_pockets=mapping,
     )
+    step("Simulating probes", 0.64)
     for pocket in pockets[:probe_pockets]:
         result.probes_for(pocket.pocket_id)
     # Local files have no database identity, so only the offline part of the context applies.
+    step("Looking up UniProt and ChEMBL", 0.74)
     result.context = enrich(result, cache_dir, online=context and kind != "file")
     return result
