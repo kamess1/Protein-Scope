@@ -5,6 +5,7 @@ from __future__ import annotations
 import html
 import io
 import json
+import re
 from pathlib import Path
 from typing import Any
 
@@ -16,6 +17,13 @@ from ..pipeline import AnalysisResult
 from ..structure import residue_key
 
 VIEWER_SCRIPT = "https://cdnjs.cloudflare.com/ajax/libs/3Dmol/2.4.2/3Dmol-min.js"
+# Subresource integrity: the browser refuses the script if its bytes differ from this hash.
+# The page is served from the same origin as the `proteinscope serve` controls, so a tampered
+# library would otherwise run with their rights. Verified against cdnjs's published value;
+# change it together with the version above.
+VIEWER_SCRIPT_INTEGRITY = (
+    "sha512-hMLvWa58N20AYqzvAVgf4Utdz0jGshnzaknHRzQSm3I7TUeN6ehikRsICUbDB8JIt625tPV3a3s6I9BMrxT0Gg=="
+)
 _POCKET_COLORS = ["#e34948", "#2a78d6", "#1baf7a", "#eda100", "#e87ba4", "#6250d6", "#008300", "#eb6834"]
 
 
@@ -110,7 +118,7 @@ button[aria-pressed="true"] { background:var(--accent); border-color:var(--accen
   <p>__LIGANDS__</p>
 </aside>
 <main id="stage"><div id="viewer"></div><div id="error">The 3D library could not be loaded. This page needs internet access for 3Dmol.js.</div></main>
-<script src="__SCRIPT__"></script>
+<script src="__SCRIPT__" integrity="__INTEGRITY__" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script>
 const PDB = __PDB__;
 const POCKETS = __POCKETS__;
@@ -170,7 +178,6 @@ if (typeof $3Dmol === 'undefined') { document.getElementById('error').style.disp
 
 def write_html_viewer(result: AnalysisResult, path: Path, pocket_limit: int = 8) -> Path:
     title = result.audit.title or ""
-    page = _PAGE
     ligand_text = ", ".join(html.escape(item.label) for item in result.structure.ligands) or "None bound"
     replacements = {
         "__TITLE__": f"{html.escape(result.identifier)} Pocket Viewer",
@@ -178,13 +185,16 @@ def write_html_viewer(result: AnalysisResult, path: Path, pocket_limit: int = 8)
         "__SUBTITLE__": html.escape(title[:180]),
         "__LIGANDS__": ligand_text,
         "__SCRIPT__": VIEWER_SCRIPT,
+        "__INTEGRITY__": VIEWER_SCRIPT_INTEGRITY,
         # "</" must not appear in inline JSON, or a value could close the script element.
         "__PDB__": json.dumps(structure_pdb_text(result)).replace("</", "<\\/"),
         "__POCKETS__": json.dumps(_pocket_payload(result, pocket_limit)).replace("</", "<\\/"),
         "__MODIFIED__": json.dumps(sorted(MODIFIED_RESIDUES)),
     }
-    for marker, value in replacements.items():
-        page = page.replace(marker, value)
+    # One pass over the template: text inserted for one marker (a title, say) is never
+    # scanned again, so it cannot smuggle in another marker.
+    markers = re.compile("|".join(re.escape(marker) for marker in replacements))
+    page = markers.sub(lambda match: replacements[match.group(0)], _PAGE)
     path = Path(path)
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(page, encoding="utf-8")

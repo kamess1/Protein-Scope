@@ -1,13 +1,17 @@
-"""Shared HTTP helper for the public data services (AlphaFold DB, RCSB CCD, ChEMBL).
+"""Shared HTTP helper for the public data services (AlphaFold DB, RCSB CCD, ChEMBL, UniProt).
 
-Responses are cached as JSON below the structure cache, so a report can be rebuilt offline
-once its context has been fetched.
+Responses are cached as JSON below the structure cache. A cached answer is reused for
+`PROTEINSCOPE_CACHE_DAYS` days (30 by default), because ChEMBL gains potencies and drugs
+and UniProt gains annotation; after that it is fetched again. If the service cannot be
+reached, the expired copy is used rather than failing, so a report can still be rebuilt
+offline once its context has been fetched.
 """
 
 from __future__ import annotations
 
 import hashlib
 import json
+import os
 import time
 from pathlib import Path
 from urllib.parse import urlsplit
@@ -18,6 +22,7 @@ import requests
 from .rcsb import default_cache_dir
 
 _TIMEOUT = 30    # Seconds without any data before a request is abandoned.
+_DAY = 86400.0
 _DEADLINE = 90   # Seconds for a whole JSON response, however slowly it trickles in.
 _HEADERS = {"User-Agent": "ProteinScope/0.2", "Accept": "application/json"}
 
@@ -53,13 +58,41 @@ def _fetch(url: str, deadline: float) -> requests.Response:
     return response
 
 
+def cache_max_age() -> float:
+    """Seconds a cached answer stays fresh; PROTEINSCOPE_CACHE_DAYS overrides the 30 days."""
+    try:
+        days = float(os.environ.get("PROTEINSCOPE_CACHE_DAYS", "30"))
+    except ValueError:
+        days = 30.0
+    return max(days, 0.0) * _DAY
+
+
+def _read_cache(path: Path) -> Any | None:
+    try:
+        return json.loads(path.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError):
+        path.unlink(missing_ok=True)
+        return None
+
+
 def get_json(url: str, cache_dir: Path | None = None, use_cache: bool = True) -> Any:
     path = _cache_path(url, cache_dir)
+    stale = None
     if use_cache and path.is_file():
-        try:
-            return json.loads(path.read_text(encoding="utf-8"))
-        except json.JSONDecodeError:
-            path.unlink(missing_ok=True)
+        fresh = time.time() - path.stat().st_mtime < cache_max_age()
+        cached = _read_cache(path)
+        if cached is not None and fresh:
+            return cached
+        stale = cached  # Expired: fetch again, but keep it in case the service is down.
+    try:
+        return _fetch_json(url, path if use_cache else None)
+    except DataSourceError:
+        if stale is not None:
+            return stale
+        raise
+
+
+def _fetch_json(url: str, cache_path: Path | None) -> Any:
     response = _fetch(url, _DEADLINE)
     if response.status_code == 404:
         raise DataSourceError(f"Not found: {url}")
@@ -69,9 +102,9 @@ def get_json(url: str, cache_dir: Path | None = None, use_cache: bool = True) ->
         data = response.json()
     except ValueError as exc:
         raise DataSourceError(f"{url} did not return JSON") from exc
-    if use_cache:
-        path.parent.mkdir(parents=True, exist_ok=True)
-        path.write_text(json.dumps(data), encoding="utf-8")
+    if cache_path is not None:
+        cache_path.parent.mkdir(parents=True, exist_ok=True)
+        cache_path.write_text(json.dumps(data), encoding="utf-8")
     return data
 
 

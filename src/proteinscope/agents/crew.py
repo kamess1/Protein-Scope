@@ -9,16 +9,17 @@ from typing import Any
 
 import anthropic
 
+from ..druggability import SCORE_WEAKNESS, score_description
 from .runner import Agent, AgentError, Event, Listener, Turn, subset
 from .tools import Tool, Workspace, build_tools
 
-SHARED_RULES = """
-You work on experimentally determined protein structures. Rules that override any instinct
+SHARED_RULES = f"""
+You work on protein structures, experimental or predicted. Rules that override any instinct
 to be helpful:
 - Every number you state must come from a tool result in this conversation. Never estimate,
   recall or interpolate a value, and never name a residue you have not seen in a tool result.
-- The druggability score is a hand-weighted heuristic that ranks pockets within one structure.
-  It is not a probability and not comparable across proteins. Say so whenever you use it.
+- {score_description()} Say so whenever you use it, and do not compare scores across proteins.
+- {SCORE_WEAKNESS}
 - Electrostatic potentials are screened-Coulomb estimates, hydrogen bonds and salt bridges are
   geometric candidates without hydrogens, and probe energies are rigid-grid estimates, not
   binding free energies. Carry these limits into what you write.

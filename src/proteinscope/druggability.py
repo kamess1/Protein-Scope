@@ -159,3 +159,42 @@ def rank_pockets(pockets: list[Pocket]) -> list[Pocket]:
     for rank, pocket in enumerate(ranked, start=1):
         pocket.pocket_id = rank
     return ranked
+
+
+def score_description(model: dict[str, Any] | None = None) -> str:
+    """One paragraph on what the pocket score is, read from the model actually shipped.
+
+    The reports, the MCP instructions and the agent prompts all use this, so retraining the
+    model updates every statement about it instead of leaving stale numbers behind.
+    """
+    model = model if model is not None else load_model()
+    if model is None:
+        return (
+            "Pocket score: hand-weighted heuristic of size, enclosure, apolarity, depth and buried "
+            "charge. It ranks the pockets of one structure; it is not a probability and not "
+            "comparable across proteins."
+        )
+    training, performance = model["training"], model["performance"]
+    baseline = performance.get("baseline_heuristic") or {}
+    comparison = (
+        f", against {baseline['roc_auc']:.2f} and {baseline['top1_accuracy']:.0%} for the "
+        "hand-weighted heuristic it replaces"
+        if baseline else ""
+    )
+    return (
+        f"Pocket score: logistic regression over {len(model['features'])} descriptors, fitted on "
+        f"{training['entries']} PDB entries ({training['pockets']} pockets) where the label says "
+        f"whether the entry's ligand sits in the pocket. Cross-validated "
+        f"{performance['cv_folds']}-fold grouped by entry: ROC-AUC {performance['roc_auc']:.2f} "
+        f"and the top-ranked pocket correct in {performance['top1_accuracy']:.0%} of entries"
+        f"{comparison}. It is a probability for the cavities of this structure, not a measure of "
+        "how tractable the target is."
+    )
+
+
+SCORE_WEAKNESS = (
+    "Where the pocket score fails: the training set has no entry that is mostly polar, so the "
+    "model treats a high density of polar atoms as evidence against a binding site and can rank "
+    "a nucleotide or cofactor site below a smaller apolar one. Check the functional annotation "
+    "before trusting the ranking alone."
+)

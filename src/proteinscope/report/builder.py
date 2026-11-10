@@ -31,6 +31,7 @@ from reportlab.platypus import (
 )
 
 from .. import __version__, chemistry
+from ..druggability import SCORE_WEAKNESS, score_description
 from ..enrich import CATEGORY_LABELS, annotation_summary
 from ..pipeline import AnalysisResult
 from ..viz.figures import generate_figures
@@ -40,8 +41,8 @@ from .narrative import Narrative, rule_based_narrative
 
 METHOD_NOTES = [
     "Pockets: LIGSITE-style grid scan (1 A grid, 7 scan lines, 14 A range) on the protein only, so bound ligands do not influence detection.",
-    "Pocket score: logistic regression over eight descriptors, fitted on 72 PDB entries (469 pockets) where the label says whether the entry's ligand sits in the pocket. Cross-validated 5-fold grouped by entry: ROC-AUC 0.93 and the top-ranked pocket correct in 90 % of entries, against 0.91 and 83 % for the hand-weighted heuristic it replaces. It is a probability for the cavities of this structure, not a measure of how tractable the target is.",
-    "Where the pocket score fails: the training set has no entry that is mostly polar, so the model treats a high density of polar atoms as evidence against a binding site and can rank a nucleotide or cofactor site below a smaller apolar one. Check the functional annotation before trusting the ranking alone.",
+    score_description(),
+    SCORE_WEAKNESS,
     "Electrostatics: screened Coulomb sum with formal pH 7 charges and a distance-dependent dielectric. It indicates sign and rough size only; use APBS for quantitative potentials.",
     "Ligand contacts: heavy-atom geometry without hydrogens or ligand protonation states, so hydrogen bonds and salt bridges are candidates.",
     "Probe simulation: rigid protein, Lennard-Jones plus Coulomb plus an H-bond well, without desolvation or entropy. Values compare probes and pockets and are not binding free energies.",
