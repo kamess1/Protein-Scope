@@ -526,6 +526,8 @@ position:sticky;left:10px;max-width:min(1120px,calc(100vw - 54px))}
 .tone-good{background:var(--good-bg);color:var(--good)}.tone-warn{background:var(--warn-bg);color:var(--warn)}
 .tone-bad{background:var(--bad-bg);color:var(--bad)}.tone-muted{background:var(--chip);color:var(--muted)}
 #pocket-table td.fn{min-width:168px}#pocket-table td.tags{min-width:132px}
+.provenance th{width:150px;white-space:nowrap;text-transform:none;letter-spacing:0;font-size:13px}
+.provenance td{overflow-wrap:anywhere}
 .chip{display:inline-block;font-size:12px;background:var(--chip);border-radius:6px;padding:1px 7px;margin:1px 3px 1px 0}
 a.chip{text-decoration:none}a.chip:hover{text-decoration:underline}
 .chip.tone-good{background:var(--good-bg);color:var(--good)}
@@ -622,6 +624,31 @@ JS = THEME_JS + """
 """
 
 
+def _provenance(result: AnalysisResult) -> str:
+    from .builder import _attribution_lines, _provenance_rows, _source_rows
+
+    rows = _provenance_rows(result)
+    if not rows:
+        return ""
+    facts = "".join(f"<tr><th>{_e(k)}</th><td>{_e(v)}</td></tr>" for k, v in rows)
+    sources = _source_rows(result)
+    source_html = ""
+    if sources:
+        head = "".join(f"<th>{_e(c)}</th>" for c in sources[0])
+        body = "".join("<tr>" + "".join(f"<td>{_e(c)}</td>" for c in row) + "</tr>" for row in sources[1:])
+        source_html = (f"<h4>Data sources</h4><div class='table-wrap'><table class='mini'><thead><tr>{head}"
+                       f"</tr></thead><tbody>{body}</tbody></table></div>")
+    credits = "".join(f"<li>{_e(line)}</li>" for line in _attribution_lines(result))
+    return (
+        "<p class='muted'>Everything needed to trace this report: the software and model that computed it, "
+        "a checksum of the input, and when each piece of external data was retrieved. Full detail is in "
+        "analysis.json.</p>"
+        f"<div class='table-wrap'><table class='mini provenance'><tbody>{facts}</tbody></table></div>"
+        + source_html
+        + (f"<h4>Licences and attribution</h4><ul class='methods'>{credits}</ul>" if credits else "")
+    )
+
+
 def write_html_report(
     result: AnalysisResult,
     narrative: Narrative,
@@ -663,6 +690,9 @@ def write_html_report(
     sections.append(("audit", "Structure audit", _audit(result)))
     sections.append(("figures", "Figures", _gallery(figures, base)))
     notes = result.context.get("notes") or []
+    provenance_html = _provenance(result)
+    if provenance_html:
+        sections.append(("provenance", "Provenance", provenance_html))
     sections.append(("methods", "Methods and limits", (
         "<ul class='methods'>" + "".join(f"<li>{_e(n)}</li>" for n in METHOD_NOTES) + "</ul>"
         + ("<h4>Context notes</h4><ul>" + "".join(f"<li>{_e(n)}</li>" for n in notes) + "</ul>" if notes else "")

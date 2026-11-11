@@ -169,6 +169,29 @@ figures/           Overview, surfaces, residue profile, pocket cut-aways, probe 
 pymol/session.pml  Loads the structure and pocket point clouds into PyMOL
 ```
 
+## Provenance and licences
+
+Every report says where it comes from. `analysis.json` has a `provenance` block, and the HTML,
+Markdown and PDF reports a Provenance section, with the ProteinScope and library versions, the
+pocket model version and its checksum, all parameters, a SHA-256 checksum of the input structure
+(never its path), and for each external service how many reads were made, how many came from
+the cache and when that data was retrieved. Data used from an expired cache because a service was
+down is flagged.
+
+ProteinScope's code is under the [MIT License](LICENSE). The data in a report keep their own
+licences, which the report lists for the services it actually used, with the credit line and
+reference each provider asks for:
+
+| Service | Licence | Note |
+|---|---|---|
+| [RCSB PDB](https://www.rcsb.org/pages/usage-policy) | CC0 1.0 | Credit the authors of each structure |
+| [AlphaFold DB](https://alphafold.ebi.ac.uk/assets/License-Disclaimer.pdf) | CC BY 4.0 | "AlphaFold Data Copyright (2021) DeepMind Technologies Limited." |
+| [UniProt](https://ftp.uniprot.org/pub/databases/uniprot/LICENSE) | CC BY 4.0 | |
+| [ChEMBL](https://chembl.gitbook.io/chembl-interface-documentation/about) | CC BY-SA 3.0 | Share-alike for anything built on the ChEMBL part |
+
+Terms were checked at the providers' pages on 2026-11-11; confirm them before redistributing
+reports widely.
+
 ## Development
 
 ```bash
