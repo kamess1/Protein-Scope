@@ -19,10 +19,15 @@ from typing import Any
 
 import requests
 
+from . import provenance
 from .rcsb import default_cache_dir
 
 _TIMEOUT = 30    # Seconds without any data before a request is abandoned.
 _DAY = 86400.0
+# A public API that answers 5xx or 429 is usually back a moment later; retry before giving
+# up, so one hiccup does not drop a whole section from a report.
+_RETRY_DELAYS = (1.0, 3.0, 8.0)
+_RETRY_STATUS = frozenset({429, 500, 502, 503, 504})
 _DEADLINE = 90   # Seconds for a whole JSON response, however slowly it trickles in.
 _HEADERS = {"User-Agent": "ProteinScope/0.2", "Accept": "application/json"}
 
@@ -78,22 +83,43 @@ def _read_cache(path: Path) -> Any | None:
 def get_json(url: str, cache_dir: Path | None = None, use_cache: bool = True) -> Any:
     path = _cache_path(url, cache_dir)
     stale = None
+    stamp = 0.0
     if use_cache and path.is_file():
-        fresh = time.time() - path.stat().st_mtime < cache_max_age()
+        stamp = path.stat().st_mtime
+        fresh = time.time() - stamp < cache_max_age()
         cached = _read_cache(path)
         if cached is not None and fresh:
+            provenance.record(url, provenance.FROM_CACHE, stamp)
             return cached
         stale = cached  # Expired: fetch again, but keep it in case the service is down.
     try:
-        return _fetch_json(url, path if use_cache else None)
+        data = _fetch_json(url, path if use_cache else None)
     except DataSourceError:
         if stale is not None:
+            provenance.record(url, provenance.STALE_CACHE, stamp)
             return stale
         raise
+    provenance.record(url, provenance.FROM_NETWORK)
+    return data
+
+
+def _fetch_retrying(url: str, deadline: float) -> requests.Response:
+    """_fetch, retried after a short pause on connection errors and transient statuses."""
+    for delay in (*_RETRY_DELAYS, None):
+        try:
+            response = _fetch(url, deadline)
+        except DataSourceError:
+            if delay is None:
+                raise
+        else:
+            if response.status_code not in _RETRY_STATUS or delay is None:
+                return response
+        time.sleep(delay)
+    raise AssertionError("unreachable")  # The loop always returns or raises.
 
 
 def _fetch_json(url: str, cache_path: Path | None) -> Any:
-    response = _fetch(url, _DEADLINE)
+    response = _fetch_retrying(url, _DEADLINE)
     if response.status_code == 404:
         raise DataSourceError(f"Not found: {url}")
     if not response.ok:
@@ -110,6 +136,7 @@ def _fetch_json(url: str, cache_path: Path | None) -> Any:
 
 def download(url: str, target: Path) -> Path:
     if target.is_file() and target.stat().st_size > 0:
+        provenance.record(url, provenance.FROM_CACHE, target.stat().st_mtime)
         return target
     response = _fetch(url, _DEADLINE * 4)  # Structures can be tens of megabytes.
     if not response.ok:
@@ -118,4 +145,5 @@ def download(url: str, target: Path) -> Path:
     temporary = target.with_suffix(target.suffix + ".part")
     temporary.write_bytes(response.content)
     temporary.replace(target)
+    provenance.record(url, provenance.FROM_NETWORK)
     return target

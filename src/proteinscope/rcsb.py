@@ -35,15 +35,25 @@ def default_cache_dir() -> Path:
     return Path(os.environ.get("PROTEINSCOPE_CACHE", Path.home() / ".cache" / "proteinscope"))
 
 
-def _get_json(url: str) -> dict[str, Any]:
+def _get(url: str, deadline: float) -> requests.Response:
+    """GET through the shared, deadline-bounded fetch; errors become RCSBError."""
+    from .webdata import DataSourceError, _fetch  # webdata imports this module.
+
     try:
-        response = requests.get(url, headers=_HEADERS, timeout=_TIMEOUT)
-    except requests.RequestException as exc:
-        raise RCSBError(f"Could not reach {url}: {exc}") from exc
+        return _fetch(url, deadline)
+    except DataSourceError as exc:
+        raise RCSBError(str(exc)) from exc
+
+
+def _get_json(url: str) -> dict[str, Any]:
+    from . import provenance
+
+    response = _get(url, 90)
     if response.status_code == 404:
         raise RCSBError(f"Not found: {url}")
     if not response.ok:
         raise RCSBError(f"{url} returned HTTP {response.status_code}")
+    provenance.record(url, provenance.FROM_NETWORK)
     return response.json()
 
 
@@ -52,13 +62,16 @@ def download_structure(pdb_id: str, cache_dir: Path | None = None) -> Path:
     pdb_id = normalize_pdb_id(pdb_id)
     directory = cache_dir or default_cache_dir()
     directory.mkdir(parents=True, exist_ok=True)
+    from . import provenance
+
     target = directory / f"{pdb_id}.cif"
-    if target.exists() and target.stat().st_size > 0:
-        return target
     url = FILE_URL.format(pdb_id=pdb_id)
+    if target.exists() and target.stat().st_size > 0:
+        provenance.record(url, provenance.FROM_CACHE, target.stat().st_mtime)
+        return target
     try:
-        response = requests.get(url, headers=_HEADERS, timeout=_TIMEOUT * 4)
-    except requests.RequestException as exc:
+        response = _get(url, 360)  # Large assemblies run to tens of megabytes.
+    except RCSBError as exc:
         raise RCSBError(f"Download of {pdb_id} failed: {exc}") from exc
     if response.status_code == 404:
         raise RCSBError(f"PDB entry {pdb_id} does not exist")
@@ -67,6 +80,7 @@ def download_structure(pdb_id: str, cache_dir: Path | None = None) -> Path:
     temporary = target.with_suffix(".cif.part")
     temporary.write_bytes(response.content)
     temporary.replace(target)
+    provenance.record(url, provenance.FROM_NETWORK)
     return target
 
 

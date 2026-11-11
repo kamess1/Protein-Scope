@@ -32,6 +32,7 @@ from reportlab.platypus import (
 
 from .. import __version__, chemistry
 from ..druggability import SCORE_WEAKNESS, score_description
+from ..sources import BY_NAME as SOURCE_BY_NAME
 from ..enrich import CATEGORY_LABELS, annotation_summary
 from ..pipeline import AnalysisResult
 from ..viz.figures import generate_figures
@@ -83,6 +84,7 @@ def analysis_digest(result: AnalysisResult) -> dict[str, Any]:
             for pocket_id, probes in sorted(result.probes.items())
         },
         "context": _json_context(result.context),
+        "provenance": result.provenance,
     }
 
 
@@ -258,6 +260,74 @@ def _probe_rows(result: AnalysisResult, pocket_id: int) -> list[list[str]]:
     return rows
 
 
+def _provenance_rows(result: AnalysisResult) -> list[list[str]]:
+    """Who computed this, with what, from which input. Values only, never local paths."""
+    prov = result.provenance
+    if not prov:
+        return []
+    model = prov.get("pocket_model") or {}
+    structure = prov.get("structure") or {}
+    libraries = ", ".join(f"{name} {version}" for name, version in (prov.get("libraries") or {}).items() if version)
+    params = prov.get("parameters") or {}
+    rows = [
+        ["Generated (UTC)", prov.get("generated_utc") or "n/a"],
+        ["Software", f"ProteinScope {prov.get('proteinscope')} (MIT License), Python {prov.get('python')}"],
+        ["Libraries", libraries or "n/a"],
+        ["Pocket model", (
+            f"{model.get('kind')} {model.get('version', '')}, {model.get('training_entries', '?')} training "
+            f"entries, sha256 {str(model.get('sha256', ''))[:16]}" if model.get("version") else str(model.get("kind"))
+        )],
+        ["Input structure", (
+            f"{structure.get('source', 'local file')} {structure.get('identifier')}, "
+            f"{structure.get('bytes', 0):,} bytes, sha256 {str(structure.get('sha256', ''))[:16]}"
+            + (f", retrieved {structure['retrieved_utc']}" if structure.get("retrieved_utc") else "")
+        )],
+        ["Parameters", (
+            f"grid {params.get('grid_spacing')} A, buried lines >= {params.get('psp_threshold')}, "
+            f"min volume {params.get('min_volume')} A3, probes on {params.get('probe_pockets')} pockets, "
+            f"online context {'on' if params.get('online_context') else 'off'} (all values in analysis.json)"
+        )],
+    ]
+    return rows
+
+
+def _source_rows(result: AnalysisResult) -> list[list[str]]:
+    services = (result.provenance or {}).get("data_sources") or []
+    rows = [["Service", "Licence", "Reads (cached)", "Data retrieved (UTC)"]]
+    for service in services:
+        span = service.get("oldest_data_utc") or "n/a"
+        if service.get("newest_data_utc") and service["newest_data_utc"] != span:
+            span = f"{span} to {service['newest_data_utc']}"
+        if service.get("expired_cache_used"):
+            span += f" ({service['expired_cache_used']} from an expired cache)"
+        rows.append([service["service"], service["licence"],
+                     f"{service['requests']} ({service['from_cache']})", span])
+    return rows if len(rows) > 1 else []
+
+
+def _attribution_lines(result: AnalysisResult) -> list[str]:
+    """Credits and references the data providers ask for, for the services this report used."""
+    used = [s["service"] for s in (result.provenance or {}).get("data_sources") or []]
+    lines = []
+    for name in used:
+        source = SOURCE_BY_NAME[name]
+        lines.append(f"{source.name} ({source.licence}, {source.licence_url}): {source.credit} "
+                     f"Cite: {source.citation} Terms: {source.terms_url}")
+    meta = result.metadata or {}
+    if meta.get("citation_title"):
+        doi = f", doi:{meta['citation_doi']}" if meta.get("citation_doi") else ""
+        title = " ".join(str(meta["citation_title"]).split())  # RCSB titles carry line breaks.
+        lines.append(f"Primary citation of {result.identifier}: {title} "
+                     f"({meta.get('citation_year') or 'n.d.'}{doi}).")
+    if "ChEMBL" in used:
+        lines.append("The target context taken from ChEMBL (potencies, compounds, drugs) is shared under "
+                     "CC BY-SA 3.0; anything built on that part must carry the same licence.")
+    if any(s.get("expired_cache_used") for s in (result.provenance or {}).get("data_sources") or []):
+        lines.append("Some external data came from an expired local cache because the service could not "
+                     "be reached; it may be out of date.")
+    return lines
+
+
 def _md_table(rows: list[list[str]], header: bool = True) -> str:
     def line(cells: list[str]) -> str:
         return "| " + " | ".join(str(cell).replace("|", "\\|") for cell in cells) + " |"
@@ -357,6 +427,15 @@ def write_markdown(
         links.append(f"- PyMOL session script: [{pymol.name}]({os.path.relpath(pymol, path.parent)})")
     if links:
         parts.append("## 3D files\n\n" + "\n".join(links) + "\n")
+    provenance_rows = _provenance_rows(result)
+    if provenance_rows:
+        parts.append("## Provenance\n\n" + _md_table(provenance_rows, header=False) + "\n")
+        source_rows = _source_rows(result)
+        if source_rows:
+            parts.append("### Data sources\n\n" + _md_table(source_rows) + "\n")
+        attribution = _attribution_lines(result)
+        if attribution:
+            parts.append("### Licences and attribution\n\n" + "\n".join(f"- {line}" for line in attribution) + "\n")
     parts.append("## Methods and limits\n\n" + "\n".join(f"- {note}" for note in METHOD_NOTES) + "\n")
     path.write_text("\n".join(part for part in parts if part), encoding="utf-8")
     return path
@@ -527,6 +606,20 @@ def write_pdf(result: AnalysisResult, narrative: Narrative, figures: dict[str, P
         if compounds:
             pdf.heading("Most potent measured compounds", pdf.h3)
             pdf.table(compounds)
+
+    provenance_rows = _provenance_rows(result)
+    if provenance_rows:
+        pdf.story.append(CondPageBreak(7 * cm))
+        pdf.heading("Provenance", pdf.h2)
+        pdf.table(provenance_rows, widths=[3.6 * cm, pdf.width - 3.6 * cm], header=False)
+        source_rows = _source_rows(result)
+        if source_rows:
+            pdf.heading("Data sources", pdf.h3)
+            pdf.table(source_rows)
+        attribution = _attribution_lines(result)
+        if attribution:
+            pdf.heading("Licences and attribution", pdf.h3)
+            pdf.bullets(attribution)
 
     pdf.story.append(CondPageBreak(7 * cm))
     pdf.heading("Methods and limits", pdf.h2)

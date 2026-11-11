@@ -12,6 +12,7 @@ from urllib.parse import urlencode
 
 import requests
 
+from . import provenance
 from .rcsb import GRAPHQL_URL, normalize_pdb_id
 from .webdata import DataSourceError, get_json
 
@@ -38,6 +39,7 @@ def uniprot_for_entry(pdb_id: str) -> list[dict[str, Any]]:
         response.raise_for_status()
     except requests.RequestException as exc:
         raise DataSourceError(f"RCSB entity query failed: {exc}") from exc
+    provenance.record(GRAPHQL_URL, provenance.FROM_NETWORK)
     entry = (response.json().get("data") or {}).get("entry") or {}
     seen: dict[str, dict[str, Any]] = {}
     for entity in entry.get("polymer_entities") or []:

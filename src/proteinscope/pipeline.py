@@ -3,13 +3,14 @@
 from __future__ import annotations
 
 from dataclasses import dataclass, field
+from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Callable
 
 import numpy as np
 from scipy.spatial import cKDTree
 
-from . import alphafold, rcsb
+from . import alphafold, provenance, rcsb
 from .audit import AuditReport, audit_structure
 from .druggability import rank_pockets
 from .electrostatics import ChargeModel, build_charge_model, potential_at
@@ -42,6 +43,7 @@ class AnalysisResult:
     ligand_pockets: dict[str, list[dict[str, float]]]
     probes: dict[int, list[ProbeResult]] = field(default_factory=dict)
     context: dict[str, Any] = field(default_factory=dict)
+    provenance: dict[str, Any] = field(default_factory=dict)
 
     @property
     def is_model(self) -> bool:
@@ -117,8 +119,37 @@ def run_analysis(
 ) -> AnalysisResult:
     """Analyse a structure. `context=False` skips the online lookups (chemistry, ChEMBL).
 
-    `progress`, if given, is told which stage starts and how far along the run is.
+    `progress`, if given, is told which stage starts and how far along the run is. The
+    result carries a provenance block: versions, model, parameters, input checksum and
+    when each piece of external data was retrieved.
     """
+    started = datetime.now(timezone.utc)
+    with provenance.collecting() as recorder:
+        result, path, kind = _analyse(
+            source, params, probe_pockets, cache_dir, context, progress, allow_files
+        )
+    result.provenance = provenance.build(
+        recorder,
+        identifier=result.identifier,
+        kind=kind,
+        structure_path=path,
+        parameters=provenance.parameters_of(
+            params or PocketParams(), probe_pockets, online=context and kind != "file"
+        ),
+        started=started,
+    )
+    return result
+
+
+def _analyse(
+    source: str,
+    params: PocketParams | None,
+    probe_pockets: int,
+    cache_dir: Path | None,
+    context: bool,
+    progress: Progress | None,
+    allow_files: bool,
+) -> tuple[AnalysisResult, Path, str]:
     step = progress or (lambda stage, fraction: None)
     step("Downloading structure", 0.02)
     path, identifier, kind = resolve_source(source, cache_dir, allow_files=allow_files)
@@ -194,4 +225,4 @@ def run_analysis(
         step(stage, 0.70 + 0.09 * (1 - 0.8 ** next(lookups)))
 
     result.context = enrich(result, cache_dir, online=context and kind != "file", progress=lookup)
-    return result
+    return result, path, kind
