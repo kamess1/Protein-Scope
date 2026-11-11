@@ -154,6 +154,22 @@ generalisation.
 - A structure is **one conformation**: missing loops and assembly partners can create or hide
   pockets, which is why the audit runs first and its warnings reach the report.
 
+## External validation
+
+On COACH420, a standard benchmark the score was not built on, ProteinScope finds fewer ligand
+sites than fpocket and P2Rank, scored by the same code on the same ligands (DCA 4 Å, without the
+five proteins that are also in its training set):
+
+| Method | Top-n | Top-(n+2) | Any pocket |
+|---|---|---|---|
+| P2Rank | 69.7 % | 75.5 % | 77.4 % |
+| fpocket | 57.6 % | 70.8 % | 78.4 % |
+| ProteinScope | 55.0 % | 62.6 % | 64.7 % |
+
+Most of the gap is pocket detection, not ranking: with every pocket counted, ProteinScope still
+reaches only 64.7 % of the ligands. Setup, caveats and the published reference numbers are in
+[docs/validation.md](docs/validation.md); `python scripts/benchmark_coach420.py` reproduces it.
+
 ## Output
 
 `proteinscope report 1HSG` writes `output/1HSG/`:

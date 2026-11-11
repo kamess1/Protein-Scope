@@ -1,0 +1,11566 @@
+{
+ "date": "2026-11-11",
+ "dataset": {
+  "repository": "rdk/p2rank-datasets",
+  "commit": "0236ecb38cbb60b89849a1ea36fbd9ee93f3e906",
+  "list": "coach420(mlig).ds",
+  "fpocket_list": "coach420-fpocket.ds",
+  "p2rank_list": "coach420-p2rank.ds"
+ },
+ "criterion": "DCA <= 4.0 A, ligand-centric, Top-n and Top-(n+2)",
+ "proteinscope": "0.2.0",
+ "pocket_model": "logistic-2026-11-07",
+ "excluded_overlap": [
+  "1EVE",
+  "1H1S",
+  "1HPV",
+  "1O86",
+  "1YDT"
+ ],
+ "ligand_rules": {
+  "bond_distance_A": 2.0,
+  "contact_distance_A": 4.0,
+  "residues_named": 494,
+  "ligands_counted": 386
+ },
+ "summary_disjoint": {
+  "P2Rank": {
+   "proteins": 294,
+   "ligands": 380,
+   "top_n": 69.7,
+   "top_n2": 75.5,
+   "any_pocket": 77.4,
+   "mean_pockets": 6.1
+  },
+  "ProteinScope": {
+   "proteins": 294,
+   "ligands": 380,
+   "top_n": 55.0,
+   "top_n2": 62.6,
+   "any_pocket": 64.7,
+   "mean_pockets": 3.4
+  },
+  "ProteinScope (heuristic ranking)": {
+   "proteins": 294,
+   "ligands": 380,
+   "top_n": 52.6,
+   "top_n2": 63.2,
+   "any_pocket": 64.7,
+   "mean_pockets": 3.4
+  },
+  "fpocket": {
+   "proteins": 294,
+   "ligands": 380,
+   "top_n": 57.6,
+   "top_n2": 70.8,
+   "any_pocket": 78.4,
+   "mean_pockets": 13.8
+  }
+ },
+ "summary_all": {
+  "P2Rank": {
+   "proteins": 299,
+   "ligands": 386,
+   "top_n": 69.9,
+   "top_n2": 75.6,
+   "any_pocket": 77.5,
+   "mean_pockets": 6.1
+  },
+  "ProteinScope": {
+   "proteins": 299,
+   "ligands": 386,
+   "top_n": 55.2,
+   "top_n2": 62.7,
+   "any_pocket": 64.8,
+   "mean_pockets": 3.4
+  },
+  "ProteinScope (heuristic ranking)": {
+   "proteins": 299,
+   "ligands": 386,
+   "top_n": 52.8,
+   "top_n2": 63.2,
+   "any_pocket": 64.8,
+   "mean_pockets": 3.4
+  },
+  "fpocket": {
+   "proteins": 299,
+   "ligands": 386,
+   "top_n": 57.5,
+   "top_n2": 71.0,
+   "any_pocket": 78.5,
+   "mean_pockets": 13.9
+  }
+ },
+ "published_table3": {
+  "fpocket": {
+   "top_n": 56.4,
+   "top_n2": 68.9
+  },
+  "P2Rank": {
+   "top_n": 72.0,
+   "top_n2": 78.3
+  }
+ },
+ "skipped": [
+  {
+   "protein": "coach420/1goqA.pdb",
+   "skipped": "no atoms of the named ligands in the file"
+  }
+ ],
+ "cases": [
+  {
+   "protein": "coach420/1a26A.pdb",
+   "pdb_id": "1A26",
+   "ligand_codes": [
+    "CNA"
+   ],
+   "ligand_residues": 1,
+   "ligands": 1,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 4,
+    "ProteinScope (heuristic ranking)": 4,
+    "fpocket": 18,
+    "P2Rank": 9
+   },
+   "found": {
+    "ProteinScope": [
+     0,
+     0,
+     0
+    ],
+    "ProteinScope (heuristic ranking)": [
+     0,
+     0,
+     0
+    ],
+    "fpocket": [
+     0,
+     0,
+     1
+    ],
+    "P2Rank": [
+     0,
+     0,
+     0
+    ]
+   }
+  },
+  {
+   "protein": "coach420/1a2kC.pdb",
+   "pdb_id": "1A2K",
+   "ligand_codes": [
+    "GDP"
+   ],
+   "ligand_residues": 1,
+   "ligands": 1,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 1,
+    "ProteinScope (heuristic ranking)": 1,
+    "fpocket": 11,
+    "P2Rank": 6
+   },
+   "found": {
+    "ProteinScope": [
+     0,
+     0,
+     0
+    ],
+    "ProteinScope (heuristic ranking)": [
+     0,
+     0,
+     0
+    ],
+    "fpocket": [
+     1,
+     1,
+     1
+    ],
+    "P2Rank": [
+     1,
+     1,
+     1
+    ]
+   }
+  },
+  {
+   "protein": "coach420/1a4kH.pdb",
+   "pdb_id": "1A4K",
+   "ligand_codes": [
+    "FRA"
+   ],
+   "ligand_residues": 1,
+   "ligands": 1,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 3,
+    "ProteinScope (heuristic ranking)": 3,
+    "fpocket": 5,
+    "P2Rank": 4
+   },
+   "found": {
+    "ProteinScope": [
+     0,
+     1,
+     1
+    ],
+    "ProteinScope (heuristic ranking)": [
+     0,
+     1,
+     1
+    ],
+    "fpocket": [
+     1,
+     1,
+     1
+    ],
+    "P2Rank": [
+     1,
+     1,
+     1
+    ]
+   }
+  },
+  {
+   "protein": "coach420/1a7xA.pdb",
+   "pdb_id": "1A7X",
+   "ligand_codes": [
+    "FKA"
+   ],
+   "ligand_residues": 1,
+   "ligands": 1,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 0,
+    "ProteinScope (heuristic ranking)": 0,
+    "fpocket": 3,
+    "P2Rank": 2
+   },
+   "found": {
+    "ProteinScope": [
+     0,
+     0,
+     0
+    ],
+    "ProteinScope (heuristic ranking)": [
+     0,
+     0,
+     0
+    ],
+    "fpocket": [
+     0,
+     0,
+     0
+    ],
+    "P2Rank": [
+     0,
+     0,
+     0
+    ]
+   }
+  },
+  {
+   "protein": "coach420/1afkA.pdb",
+   "pdb_id": "1AFK",
+   "ligand_codes": [
+    "PAP"
+   ],
+   "ligand_residues": 1,
+   "ligands": 1,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 0,
+    "ProteinScope (heuristic ranking)": 0,
+    "fpocket": 5,
+    "P2Rank": 2
+   },
+   "found": {
+    "ProteinScope": [
+     0,
+     0,
+     0
+    ],
+    "ProteinScope (heuristic ranking)": [
+     0,
+     0,
+     0
+    ],
+    "fpocket": [
+     0,
+     1,
+     1
+    ],
+    "P2Rank": [
+     1,
+     1,
+     1
+    ]
+   }
+  },
+  {
+   "protein": "coach420/1atlA.pdb",
+   "pdb_id": "1ATL",
+   "ligand_codes": [
+    "0QI"
+   ],
+   "ligand_residues": 1,
+   "ligands": 1,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 1,
+    "ProteinScope (heuristic ranking)": 1,
+    "fpocket": 9,
+    "P2Rank": 3
+   },
+   "found": {
+    "ProteinScope": [
+     1,
+     1,
+     1
+    ],
+    "ProteinScope (heuristic ranking)": [
+     1,
+     1,
+     1
+    ],
+    "fpocket": [
+     1,
+     1,
+     1
+    ],
+    "P2Rank": [
+     1,
+     1,
+     1
+    ]
+   }
+  },
+  {
+   "protein": "coach420/1b8uA.pdb",
+   "pdb_id": "1B8U",
+   "ligand_codes": [
+    "NAD",
+    "OAA"
+   ],
+   "ligand_residues": 2,
+   "ligands": 2,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 2,
+    "ProteinScope (heuristic ranking)": 2,
+    "fpocket": 13,
+    "P2Rank": 10
+   },
+   "found": {
+    "ProteinScope": [
+     1,
+     1,
+     1
+    ],
+    "ProteinScope (heuristic ranking)": [
+     1,
+     1,
+     1
+    ],
+    "fpocket": [
+     1,
+     1,
+     1
+    ],
+    "P2Rank": [
+     1,
+     1,
+     1
+    ]
+   }
+  },
+  {
+   "protein": "coach420/1bnwA.pdb",
+   "pdb_id": "1BNW",
+   "ligand_codes": [
+    "TPD"
+   ],
+   "ligand_residues": 1,
+   "ligands": 1,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 2,
+    "ProteinScope (heuristic ranking)": 2,
+    "fpocket": 8,
+    "P2Rank": 4
+   },
+   "found": {
+    "ProteinScope": [
+     1,
+     1,
+     1
+    ],
+    "ProteinScope (heuristic ranking)": [
+     1,
+     1,
+     1
+    ],
+    "fpocket": [
+     1,
+     1,
+     1
+    ],
+    "P2Rank": [
+     1,
+     1,
+     1
+    ]
+   }
+  },
+  {
+   "protein": "coach420/1bqoB.pdb",
+   "pdb_id": "1BQO",
+   "ligand_codes": [
+    "N25"
+   ],
+   "ligand_residues": 1,
+   "ligands": 1,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 3,
+    "ProteinScope (heuristic ranking)": 3,
+    "fpocket": 7,
+    "P2Rank": 5
+   },
+   "found": {
+    "ProteinScope": [
+     0,
+     1,
+     1
+    ],
+    "ProteinScope (heuristic ranking)": [
+     0,
+     1,
+     1
+    ],
+    "fpocket": [
+     0,
+     1,
+     1
+    ],
+    "P2Rank": [
+     1,
+     1,
+     1
+    ]
+   }
+  },
+  {
+   "protein": "coach420/1br6A.pdb",
+   "pdb_id": "1BR6",
+   "ligand_codes": [
+    "PT1"
+   ],
+   "ligand_residues": 1,
+   "ligands": 1,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 5,
+    "ProteinScope (heuristic ranking)": 5,
+    "fpocket": 16,
+    "P2Rank": 7
+   },
+   "found": {
+    "ProteinScope": [
+     0,
+     1,
+     1
+    ],
+    "ProteinScope (heuristic ranking)": [
+     0,
+     1,
+     1
+    ],
+    "fpocket": [
+     1,
+     1,
+     1
+    ],
+    "P2Rank": [
+     0,
+     1,
+     1
+    ]
+   }
+  },
+  {
+   "protein": "coach420/1bs1A.pdb",
+   "pdb_id": "1BS1",
+   "ligand_codes": [
+    "DAA",
+    "ADP"
+   ],
+   "ligand_residues": 2,
+   "ligands": 2,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 2,
+    "ProteinScope (heuristic ranking)": 2,
+    "fpocket": 11,
+    "P2Rank": 1
+   },
+   "found": {
+    "ProteinScope": [
+     1,
+     1,
+     1
+    ],
+    "ProteinScope (heuristic ranking)": [
+     1,
+     1,
+     1
+    ],
+    "fpocket": [
+     1,
+     2,
+     2
+    ],
+    "P2Rank": [
+     2,
+     2,
+     2
+    ]
+   }
+  },
+  {
+   "protein": "coach420/1bsvA.pdb",
+   "pdb_id": "1BSV",
+   "ligand_codes": [
+    "NDP"
+   ],
+   "ligand_residues": 1,
+   "ligands": 1,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 2,
+    "ProteinScope (heuristic ranking)": 2,
+    "fpocket": 15,
+    "P2Rank": 4
+   },
+   "found": {
+    "ProteinScope": [
+     1,
+     1,
+     1
+    ],
+    "ProteinScope (heuristic ranking)": [
+     1,
+     1,
+     1
+    ],
+    "fpocket": [
+     1,
+     1,
+     1
+    ],
+    "P2Rank": [
+     1,
+     1,
+     1
+    ]
+   }
+  },
+  {
+   "protein": "coach420/1bxqA.pdb",
+   "pdb_id": "1BXQ",
+   "ligand_codes": [
+    "PP8"
+   ],
+   "ligand_residues": 1,
+   "ligands": 1,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 1,
+    "ProteinScope (heuristic ranking)": 1,
+    "fpocket": 8,
+    "P2Rank": 7
+   },
+   "found": {
+    "ProteinScope": [
+     1,
+     1,
+     1
+    ],
+    "ProteinScope (heuristic ranking)": [
+     1,
+     1,
+     1
+    ],
+    "fpocket": [
+     1,
+     1,
+     1
+    ],
+    "P2Rank": [
+     1,
+     1,
+     1
+    ]
+   }
+  },
+  {
+   "protein": "coach420/1bzyA.pdb",
+   "pdb_id": "1BZY",
+   "ligand_codes": [
+    "IMU"
+   ],
+   "ligand_residues": 1,
+   "ligands": 1,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 2,
+    "ProteinScope (heuristic ranking)": 2,
+    "fpocket": 13,
+    "P2Rank": 4
+   },
+   "found": {
+    "ProteinScope": [
+     1,
+     1,
+     1
+    ],
+    "ProteinScope (heuristic ranking)": [
+     1,
+     1,
+     1
+    ],
+    "fpocket": [
+     1,
+     1,
+     1
+    ],
+    "P2Rank": [
+     1,
+     1,
+     1
+    ]
+   }
+  },
+  {
+   "protein": "coach420/1c3jA.pdb",
+   "pdb_id": "1C3J",
+   "ligand_codes": [
+    "UDP"
+   ],
+   "ligand_residues": 1,
+   "ligands": 1,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 3,
+    "ProteinScope (heuristic ranking)": 3,
+    "fpocket": 19,
+    "P2Rank": 5
+   },
+   "found": {
+    "ProteinScope": [
+     1,
+     1,
+     1
+    ],
+    "ProteinScope (heuristic ranking)": [
+     1,
+     1,
+     1
+    ],
+    "fpocket": [
+     0,
+     0,
+     1
+    ],
+    "P2Rank": [
+     1,
+     1,
+     1
+    ]
+   }
+  },
+  {
+   "protein": "coach420/1cenA.pdb",
+   "pdb_id": "1CEN",
+   "ligand_codes": [
+    "BGC"
+   ],
+   "ligand_residues": 2,
+   "ligands": 1,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 2,
+    "ProteinScope (heuristic ranking)": 2,
+    "fpocket": 17,
+    "P2Rank": 3
+   },
+   "found": {
+    "ProteinScope": [
+     0,
+     0,
+     0
+    ],
+    "ProteinScope (heuristic ranking)": [
+     0,
+     0,
+     0
+    ],
+    "fpocket": [
+     0,
+     1,
+     1
+    ],
+    "P2Rank": [
+     1,
+     1,
+     1
+    ]
+   }
+  },
+  {
+   "protein": "coach420/1cetA.pdb",
+   "pdb_id": "1CET",
+   "ligand_codes": [
+    "CLQ"
+   ],
+   "ligand_residues": 1,
+   "ligands": 1,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 4,
+    "ProteinScope (heuristic ranking)": 4,
+    "fpocket": 11,
+    "P2Rank": 7
+   },
+   "found": {
+    "ProteinScope": [
+     0,
+     1,
+     1
+    ],
+    "ProteinScope (heuristic ranking)": [
+     0,
+     1,
+     1
+    ],
+    "fpocket": [
+     0,
+     1,
+     1
+    ],
+    "P2Rank": [
+     0,
+     0,
+     0
+    ]
+   }
+  },
+  {
+   "protein": "coach420/1ch8A.pdb",
+   "pdb_id": "1CH8",
+   "ligand_codes": [
+    "HDA",
+    "IMP",
+    "GPX"
+   ],
+   "ligand_residues": 3,
+   "ligands": 3,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 4,
+    "ProteinScope (heuristic ranking)": 4,
+    "fpocket": 20,
+    "P2Rank": 10
+   },
+   "found": {
+    "ProteinScope": [
+     2,
+     2,
+     2
+    ],
+    "ProteinScope (heuristic ranking)": [
+     2,
+     2,
+     2
+    ],
+    "fpocket": [
+     2,
+     2,
+     2
+    ],
+    "P2Rank": [
+     2,
+     2,
+     2
+    ]
+   }
+  },
+  {
+   "protein": "coach420/1cimA.pdb",
+   "pdb_id": "1CIM",
+   "ligand_codes": [
+    "PTS"
+   ],
+   "ligand_residues": 1,
+   "ligands": 1,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 4,
+    "ProteinScope (heuristic ranking)": 4,
+    "fpocket": 11,
+    "P2Rank": 6
+   },
+   "found": {
+    "ProteinScope": [
+     1,
+     1,
+     1
+    ],
+    "ProteinScope (heuristic ranking)": [
+     1,
+     1,
+     1
+    ],
+    "fpocket": [
+     1,
+     1,
+     1
+    ],
+    "P2Rank": [
+     1,
+     1,
+     1
+    ]
+   }
+  },
+  {
+   "protein": "coach420/1cqfB.pdb",
+   "pdb_id": "1CQF",
+   "ligand_codes": [
+    "GAL",
+    "GLA",
+    "BGC"
+   ],
+   "ligand_residues": 9,
+   "ligands": 5,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 0,
+    "ProteinScope (heuristic ranking)": 0,
+    "fpocket": 3,
+    "P2Rank": 1
+   },
+   "found": {
+    "ProteinScope": [
+     0,
+     0,
+     0
+    ],
+    "ProteinScope (heuristic ranking)": [
+     0,
+     0,
+     0
+    ],
+    "fpocket": [
+     2,
+     2,
+     2
+    ],
+    "P2Rank": [
+     2,
+     2,
+     2
+    ]
+   }
+  },
+  {
+   "protein": "coach420/1d3pB.pdb",
+   "pdb_id": "1D3P",
+   "ligand_codes": [
+    "BT3"
+   ],
+   "ligand_residues": 1,
+   "ligands": 1,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 4,
+    "ProteinScope (heuristic ranking)": 4,
+    "fpocket": 14,
+    "P2Rank": 6
+   },
+   "found": {
+    "ProteinScope": [
+     1,
+     1,
+     1
+    ],
+    "ProteinScope (heuristic ranking)": [
+     1,
+     1,
+     1
+    ],
+    "fpocket": [
+     1,
+     1,
+     1
+    ],
+    "P2Rank": [
+     1,
+     1,
+     1
+    ]
+   }
+  },
+  {
+   "protein": "coach420/1d4pB.pdb",
+   "pdb_id": "1D4P",
+   "ligand_codes": [
+    "BPP"
+   ],
+   "ligand_residues": 1,
+   "ligands": 1,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 4,
+    "ProteinScope (heuristic ranking)": 4,
+    "fpocket": 11,
+    "P2Rank": 8
+   },
+   "found": {
+    "ProteinScope": [
+     1,
+     1,
+     1
+    ],
+    "ProteinScope (heuristic ranking)": [
+     1,
+     1,
+     1
+    ],
+    "fpocket": [
+     1,
+     1,
+     1
+    ],
+    "P2Rank": [
+     1,
+     1,
+     1
+    ]
+   }
+  },
+  {
+   "protein": "coach420/1dcpA.pdb",
+   "pdb_id": "1DCP",
+   "ligand_codes": [
+    "HBI"
+   ],
+   "ligand_residues": 1,
+   "ligands": 1,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 0,
+    "ProteinScope (heuristic ranking)": 0,
+    "fpocket": 2,
+    "P2Rank": 1
+   },
+   "found": {
+    "ProteinScope": [
+     0,
+     0,
+     0
+    ],
+    "ProteinScope (heuristic ranking)": [
+     0,
+     0,
+     0
+    ],
+    "fpocket": [
+     0,
+     1,
+     1
+    ],
+    "P2Rank": [
+     0,
+     0,
+     0
+    ]
+   }
+  },
+  {
+   "protein": "coach420/1ddtA.pdb",
+   "pdb_id": "1DDT",
+   "ligand_codes": [
+    "APU"
+   ],
+   "ligand_residues": 1,
+   "ligands": 1,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 7,
+    "ProteinScope (heuristic ranking)": 7,
+    "fpocket": 24,
+    "P2Rank": 14
+   },
+   "found": {
+    "ProteinScope": [
+     1,
+     1,
+     1
+    ],
+    "ProteinScope (heuristic ranking)": [
+     1,
+     1,
+     1
+    ],
+    "fpocket": [
+     1,
+     1,
+     1
+    ],
+    "P2Rank": [
+     1,
+     1,
+     1
+    ]
+   }
+  },
+  {
+   "protein": "coach420/1e3vA.pdb",
+   "pdb_id": "1E3V",
+   "ligand_codes": [
+    "DXC"
+   ],
+   "ligand_residues": 1,
+   "ligands": 1,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 1,
+    "ProteinScope (heuristic ranking)": 1,
+    "fpocket": 6,
+    "P2Rank": 1
+   },
+   "found": {
+    "ProteinScope": [
+     1,
+     1,
+     1
+    ],
+    "ProteinScope (heuristic ranking)": [
+     1,
+     1,
+     1
+    ],
+    "fpocket": [
+     1,
+     1,
+     1
+    ],
+    "P2Rank": [
+     1,
+     1,
+     1
+    ]
+   }
+  },
+  {
+   "protein": "coach420/1e5qA.pdb",
+   "pdb_id": "1E5Q",
+   "ligand_codes": [
+    "NDP",
+    "SHR"
+   ],
+   "ligand_residues": 2,
+   "ligands": 2,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 4,
+    "ProteinScope (heuristic ranking)": 4,
+    "fpocket": 19,
+    "P2Rank": 10
+   },
+   "found": {
+    "ProteinScope": [
+     1,
+     1,
+     1
+    ],
+    "ProteinScope (heuristic ranking)": [
+     1,
+     1,
+     1
+    ],
+    "fpocket": [
+     2,
+     2,
+     2
+    ],
+    "P2Rank": [
+     1,
+     1,
+     1
+    ]
+   }
+  },
+  {
+   "protein": "coach420/1efyA.pdb",
+   "pdb_id": "1EFY",
+   "ligand_codes": [
+    "BZC"
+   ],
+   "ligand_residues": 1,
+   "ligands": 1,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 3,
+    "ProteinScope (heuristic ranking)": 3,
+    "fpocket": 14,
+    "P2Rank": 7
+   },
+   "found": {
+    "ProteinScope": [
+     1,
+     1,
+     1
+    ],
+    "ProteinScope (heuristic ranking)": [
+     1,
+     1,
+     1
+    ],
+    "fpocket": [
+     1,
+     1,
+     1
+    ],
+    "P2Rank": [
+     1,
+     1,
+     1
+    ]
+   }
+  },
+  {
+   "protein": "coach420/1eswA.pdb",
+   "pdb_id": "1ESW",
+   "ligand_codes": [
+    "ACR"
+   ],
+   "ligand_residues": 2,
+   "ligands": 2,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 7,
+    "ProteinScope (heuristic ranking)": 7,
+    "fpocket": 30,
+    "P2Rank": 17
+   },
+   "found": {
+    "ProteinScope": [
+     1,
+     1,
+     1
+    ],
+    "ProteinScope (heuristic ranking)": [
+     1,
+     1,
+     1
+    ],
+    "fpocket": [
+     1,
+     1,
+     1
+    ],
+    "P2Rank": [
+     1,
+     1,
+     1
+    ]
+   }
+  },
+  {
+   "protein": "coach420/1etrH.pdb",
+   "pdb_id": "1ETR",
+   "ligand_codes": [
+    "MIT"
+   ],
+   "ligand_residues": 1,
+   "ligands": 1,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 4,
+    "ProteinScope (heuristic ranking)": 4,
+    "fpocket": 14,
+    "P2Rank": 5
+   },
+   "found": {
+    "ProteinScope": [
+     1,
+     1,
+     1
+    ],
+    "ProteinScope (heuristic ranking)": [
+     1,
+     1,
+     1
+    ],
+    "fpocket": [
+     1,
+     1,
+     1
+    ],
+    "P2Rank": [
+     1,
+     1,
+     1
+    ]
+   }
+  },
+  {
+   "protein": "coach420/1ettH.pdb",
+   "pdb_id": "1ETT",
+   "ligand_codes": [
+    "0ZG"
+   ],
+   "ligand_residues": 1,
+   "ligands": 1,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 3,
+    "ProteinScope (heuristic ranking)": 3,
+    "fpocket": 10,
+    "P2Rank": 6
+   },
+   "found": {
+    "ProteinScope": [
+     1,
+     1,
+     1
+    ],
+    "ProteinScope (heuristic ranking)": [
+     1,
+     1,
+     1
+    ],
+    "fpocket": [
+     1,
+     1,
+     1
+    ],
+    "P2Rank": [
+     1,
+     1,
+     1
+    ]
+   }
+  },
+  {
+   "protein": "coach420/1eveA.pdb",
+   "pdb_id": "1EVE",
+   "ligand_codes": [
+    "E20"
+   ],
+   "ligand_residues": 1,
+   "ligands": 1,
+   "in_training_set": true,
+   "pockets": {
+    "ProteinScope": 8,
+    "ProteinScope (heuristic ranking)": 8,
+    "fpocket": 27,
+    "P2Rank": 12
+   },
+   "found": {
+    "ProteinScope": [
+     1,
+     1,
+     1
+    ],
+    "ProteinScope (heuristic ranking)": [
+     1,
+     1,
+     1
+    ],
+    "fpocket": [
+     1,
+     1,
+     1
+    ],
+    "P2Rank": [
+     1,
+     1,
+     1
+    ]
+   }
+  },
+  {
+   "protein": "coach420/1ex8A.pdb",
+   "pdb_id": "1EX8",
+   "ligand_codes": [
+    "A4P"
+   ],
+   "ligand_residues": 1,
+   "ligands": 1,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 3,
+    "ProteinScope (heuristic ranking)": 3,
+    "fpocket": 6,
+    "P2Rank": 4
+   },
+   "found": {
+    "ProteinScope": [
+     1,
+     1,
+     1
+    ],
+    "ProteinScope (heuristic ranking)": [
+     1,
+     1,
+     1
+    ],
+    "fpocket": [
+     1,
+     1,
+     1
+    ],
+    "P2Rank": [
+     1,
+     1,
+     1
+    ]
+   }
+  },
+  {
+   "protein": "coach420/1exaA.pdb",
+   "pdb_id": "1EXA",
+   "ligand_codes": [
+    "394"
+   ],
+   "ligand_residues": 1,
+   "ligands": 1,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 3,
+    "ProteinScope (heuristic ranking)": 3,
+    "fpocket": 16,
+    "P2Rank": 4
+   },
+   "found": {
+    "ProteinScope": [
+     1,
+     1,
+     1
+    ],
+    "ProteinScope (heuristic ranking)": [
+     1,
+     1,
+     1
+    ],
+    "fpocket": [
+     1,
+     1,
+     1
+    ],
+    "P2Rank": [
+     1,
+     1,
+     1
+    ]
+   }
+  },
+  {
+   "protein": "coach420/1eyrA.pdb",
+   "pdb_id": "1EYR",
+   "ligand_codes": [
+    "CDP"
+   ],
+   "ligand_residues": 1,
+   "ligands": 1,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 2,
+    "ProteinScope (heuristic ranking)": 2,
+    "fpocket": 8,
+    "P2Rank": 5
+   },
+   "found": {
+    "ProteinScope": [
+     1,
+     1,
+     1
+    ],
+    "ProteinScope (heuristic ranking)": [
+     1,
+     1,
+     1
+    ],
+    "fpocket": [
+     1,
+     1,
+     1
+    ],
+    "P2Rank": [
+     1,
+     1,
+     1
+    ]
+   }
+  },
+  {
+   "protein": "coach420/1ezqA.pdb",
+   "pdb_id": "1EZQ",
+   "ligand_codes": [
+    "RPR"
+   ],
+   "ligand_residues": 1,
+   "ligands": 1,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 6,
+    "ProteinScope (heuristic ranking)": 6,
+    "fpocket": 16,
+    "P2Rank": 5
+   },
+   "found": {
+    "ProteinScope": [
+     1,
+     1,
+     1
+    ],
+    "ProteinScope (heuristic ranking)": [
+     0,
+     1,
+     1
+    ],
+    "fpocket": [
+     1,
+     1,
+     1
+    ],
+    "P2Rank": [
+     1,
+     1,
+     1
+    ]
+   }
+  },
+  {
+   "protein": "coach420/1f0tA.pdb",
+   "pdb_id": "1F0T",
+   "ligand_codes": [
+    "PR1"
+   ],
+   "ligand_residues": 1,
+   "ligands": 1,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 2,
+    "ProteinScope (heuristic ranking)": 2,
+    "fpocket": 8,
+    "P2Rank": 7
+   },
+   "found": {
+    "ProteinScope": [
+     0,
+     1,
+     1
+    ],
+    "ProteinScope (heuristic ranking)": [
+     0,
+     1,
+     1
+    ],
+    "fpocket": [
+     1,
+     1,
+     1
+    ],
+    "P2Rank": [
+     1,
+     1,
+     1
+    ]
+   }
+  },
+  {
+   "protein": "coach420/1f4eA.pdb",
+   "pdb_id": "1F4E",
+   "ligand_codes": [
+    "TPR"
+   ],
+   "ligand_residues": 2,
+   "ligands": 2,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 3,
+    "ProteinScope (heuristic ranking)": 3,
+    "fpocket": 12,
+    "P2Rank": 7
+   },
+   "found": {
+    "ProteinScope": [
+     1,
+     1,
+     1
+    ],
+    "ProteinScope (heuristic ranking)": [
+     1,
+     1,
+     1
+    ],
+    "fpocket": [
+     0,
+     0,
+     0
+    ],
+    "P2Rank": [
+     1,
+     1,
+     1
+    ]
+   }
+  },
+  {
+   "protein": "coach420/1f4fA.pdb",
+   "pdb_id": "1F4F",
+   "ligand_codes": [
+    "TP3"
+   ],
+   "ligand_residues": 1,
+   "ligands": 1,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 2,
+    "ProteinScope (heuristic ranking)": 2,
+    "fpocket": 13,
+    "P2Rank": 5
+   },
+   "found": {
+    "ProteinScope": [
+     1,
+     1,
+     1
+    ],
+    "ProteinScope (heuristic ranking)": [
+     1,
+     1,
+     1
+    ],
+    "fpocket": [
+     1,
+     1,
+     1
+    ],
+    "P2Rank": [
+     1,
+     1,
+     1
+    ]
+   }
+  },
+  {
+   "protein": "coach420/1f4gA.pdb",
+   "pdb_id": "1F4G",
+   "ligand_codes": [
+    "TP4"
+   ],
+   "ligand_residues": 1,
+   "ligands": 1,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 2,
+    "ProteinScope (heuristic ranking)": 2,
+    "fpocket": 12,
+    "P2Rank": 5
+   },
+   "found": {
+    "ProteinScope": [
+     1,
+     1,
+     1
+    ],
+    "ProteinScope (heuristic ranking)": [
+     1,
+     1,
+     1
+    ],
+    "fpocket": [
+     1,
+     1,
+     1
+    ],
+    "P2Rank": [
+     1,
+     1,
+     1
+    ]
+   }
+  },
+  {
+   "protein": "coach420/1f8gA.pdb",
+   "pdb_id": "1F8G",
+   "ligand_codes": [
+    "NAD"
+   ],
+   "ligand_residues": 1,
+   "ligands": 1,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 5,
+    "ProteinScope (heuristic ranking)": 5,
+    "fpocket": 15,
+    "P2Rank": 3
+   },
+   "found": {
+    "ProteinScope": [
+     1,
+     1,
+     1
+    ],
+    "ProteinScope (heuristic ranking)": [
+     1,
+     1,
+     1
+    ],
+    "fpocket": [
+     1,
+     1,
+     1
+    ],
+    "P2Rank": [
+     1,
+     1,
+     1
+    ]
+   }
+  },
+  {
+   "protein": "coach420/1ffqA.pdb",
+   "pdb_id": "1FFQ",
+   "ligand_codes": [
+    "AMI",
+    "NAA"
+   ],
+   "ligand_residues": 3,
+   "ligands": 1,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 10,
+    "ProteinScope (heuristic ranking)": 10,
+    "fpocket": 28,
+    "P2Rank": 8
+   },
+   "found": {
+    "ProteinScope": [
+     1,
+     1,
+     1
+    ],
+    "ProteinScope (heuristic ranking)": [
+     1,
+     1,
+     1
+    ],
+    "fpocket": [
+     1,
+     1,
+     1
+    ],
+    "P2Rank": [
+     1,
+     1,
+     1
+    ]
+   }
+  },
+  {
+   "protein": "coach420/1fjsA.pdb",
+   "pdb_id": "1FJS",
+   "ligand_codes": [
+    "Z34"
+   ],
+   "ligand_residues": 1,
+   "ligands": 1,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 3,
+    "ProteinScope (heuristic ranking)": 3,
+    "fpocket": 12,
+    "P2Rank": 6
+   },
+   "found": {
+    "ProteinScope": [
+     1,
+     1,
+     1
+    ],
+    "ProteinScope (heuristic ranking)": [
+     0,
+     1,
+     1
+    ],
+    "fpocket": [
+     1,
+     1,
+     1
+    ],
+    "P2Rank": [
+     1,
+     1,
+     1
+    ]
+   }
+  },
+  {
+   "protein": "coach420/1fk6A.pdb",
+   "pdb_id": "1FK6",
+   "ligand_codes": [
+    "LNL"
+   ],
+   "ligand_residues": 1,
+   "ligands": 1,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 1,
+    "ProteinScope (heuristic ranking)": 1,
+    "fpocket": 3,
+    "P2Rank": 1
+   },
+   "found": {
+    "ProteinScope": [
+     1,
+     1,
+     1
+    ],
+    "ProteinScope (heuristic ranking)": [
+     1,
+     1,
+     1
+    ],
+    "fpocket": [
+     1,
+     1,
+     1
+    ],
+    "P2Rank": [
+     1,
+     1,
+     1
+    ]
+   }
+  },
+  {
+   "protein": "coach420/1fkgA.pdb",
+   "pdb_id": "1FKG",
+   "ligand_codes": [
+    "SB3"
+   ],
+   "ligand_residues": 1,
+   "ligands": 1,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 1,
+    "ProteinScope (heuristic ranking)": 1,
+    "fpocket": 3,
+    "P2Rank": 3
+   },
+   "found": {
+    "ProteinScope": [
+     1,
+     1,
+     1
+    ],
+    "ProteinScope (heuristic ranking)": [
+     1,
+     1,
+     1
+    ],
+    "fpocket": [
+     1,
+     1,
+     1
+    ],
+    "P2Rank": [
+     1,
+     1,
+     1
+    ]
+   }
+  },
+  {
+   "protein": "coach420/1foaA.pdb",
+   "pdb_id": "1FOA",
+   "ligand_codes": [
+    "UD1"
+   ],
+   "ligand_residues": 1,
+   "ligands": 1,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 5,
+    "ProteinScope (heuristic ranking)": 5,
+    "fpocket": 17,
+    "P2Rank": 9
+   },
+   "found": {
+    "ProteinScope": [
+     1,
+     1,
+     1
+    ],
+    "ProteinScope (heuristic ranking)": [
+     1,
+     1,
+     1
+    ],
+    "fpocket": [
+     1,
+     1,
+     1
+    ],
+    "P2Rank": [
+     1,
+     1,
+     1
+    ]
+   }
+  },
+  {
+   "protein": "coach420/1fqoA.pdb",
+   "pdb_id": "1FQO",
+   "ligand_codes": [
+    "F6R"
+   ],
+   "ligand_residues": 2,
+   "ligands": 2,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 3,
+    "ProteinScope (heuristic ranking)": 3,
+    "fpocket": 15,
+    "P2Rank": 5
+   },
+   "found": {
+    "ProteinScope": [
+     1,
+     1,
+     1
+    ],
+    "ProteinScope (heuristic ranking)": [
+     1,
+     1,
+     1
+    ],
+    "fpocket": [
+     1,
+     1,
+     1
+    ],
+    "P2Rank": [
+     2,
+     2,
+     2
+    ]
+   }
+  },
+  {
+   "protein": "coach420/1fthA.pdb",
+   "pdb_id": "1FTH",
+   "ligand_codes": [
+    "A3P"
+   ],
+   "ligand_residues": 1,
+   "ligands": 1,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 1,
+    "ProteinScope (heuristic ranking)": 1,
+    "fpocket": 9,
+    "P2Rank": 1
+   },
+   "found": {
+    "ProteinScope": [
+     0,
+     0,
+     0
+    ],
+    "ProteinScope (heuristic ranking)": [
+     0,
+     0,
+     0
+    ],
+    "fpocket": [
+     0,
+     0,
+     0
+    ],
+    "P2Rank": [
+     0,
+     0,
+     0
+    ]
+   }
+  },
+  {
+   "protein": "coach420/1g4oA.pdb",
+   "pdb_id": "1G4O",
+   "ligand_codes": [
+    "BSB"
+   ],
+   "ligand_residues": 1,
+   "ligands": 1,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 3,
+    "ProteinScope (heuristic ranking)": 3,
+    "fpocket": 12,
+    "P2Rank": 3
+   },
+   "found": {
+    "ProteinScope": [
+     1,
+     1,
+     1
+    ],
+    "ProteinScope (heuristic ranking)": [
+     1,
+     1,
+     1
+    ],
+    "fpocket": [
+     0,
+     0,
+     1
+    ],
+    "P2Rank": [
+     1,
+     1,
+     1
+    ]
+   }
+  },
+  {
+   "protein": "coach420/1g6cA.pdb",
+   "pdb_id": "1G6C",
+   "ligand_codes": [
+    "IFP",
+    "TZP"
+   ],
+   "ligand_residues": 2,
+   "ligands": 2,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 4,
+    "ProteinScope (heuristic ranking)": 4,
+    "fpocket": 12,
+    "P2Rank": 4
+   },
+   "found": {
+    "ProteinScope": [
+     2,
+     2,
+     2
+    ],
+    "ProteinScope (heuristic ranking)": [
+     2,
+     2,
+     2
+    ],
+    "fpocket": [
+     2,
+     2,
+     2
+    ],
+    "P2Rank": [
+     2,
+     2,
+     2
+    ]
+   }
+  },
+  {
+   "protein": "coach420/1g97A.pdb",
+   "pdb_id": "1G97",
+   "ligand_codes": [
+    "UD1"
+   ],
+   "ligand_residues": 1,
+   "ligands": 1,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 4,
+    "ProteinScope (heuristic ranking)": 4,
+    "fpocket": 17,
+    "P2Rank": 14
+   },
+   "found": {
+    "ProteinScope": [
+     1,
+     1,
+     1
+    ],
+    "ProteinScope (heuristic ranking)": [
+     1,
+     1,
+     1
+    ],
+    "fpocket": [
+     1,
+     1,
+     1
+    ],
+    "P2Rank": [
+     1,
+     1,
+     1
+    ]
+   }
+  },
+  {
+   "protein": "coach420/1goyA.pdb",
+   "pdb_id": "1GOY",
+   "ligand_codes": [
+    "3GP"
+   ],
+   "ligand_residues": 1,
+   "ligands": 1,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 0,
+    "ProteinScope (heuristic ranking)": 0,
+    "fpocket": 5,
+    "P2Rank": 2
+   },
+   "found": {
+    "ProteinScope": [
+     0,
+     0,
+     0
+    ],
+    "ProteinScope (heuristic ranking)": [
+     0,
+     0,
+     0
+    ],
+    "fpocket": [
+     1,
+     1,
+     1
+    ],
+    "P2Rank": [
+     1,
+     1,
+     1
+    ]
+   }
+  },
+  {
+   "protein": "coach420/1gsaA.pdb",
+   "pdb_id": "1GSA",
+   "ligand_codes": [
+    "ADP",
+    "GSH"
+   ],
+   "ligand_residues": 2,
+   "ligands": 2,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 1,
+    "ProteinScope (heuristic ranking)": 1,
+    "fpocket": 14,
+    "P2Rank": 6
+   },
+   "found": {
+    "ProteinScope": [
+     2,
+     2,
+     2
+    ],
+    "ProteinScope (heuristic ranking)": [
+     2,
+     2,
+     2
+    ],
+    "fpocket": [
+     2,
+     2,
+     2
+    ],
+    "P2Rank": [
+     2,
+     2,
+     2
+    ]
+   }
+  },
+  {
+   "protein": "coach420/1gwmA.pdb",
+   "pdb_id": "1GWM",
+   "ligand_codes": [
+    "BGC",
+    "GLC"
+   ],
+   "ligand_residues": 6,
+   "ligands": 1,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 0,
+    "ProteinScope (heuristic ranking)": 0,
+    "fpocket": 3,
+    "P2Rank": 4
+   },
+   "found": {
+    "ProteinScope": [
+     0,
+     0,
+     0
+    ],
+    "ProteinScope (heuristic ranking)": [
+     0,
+     0,
+     0
+    ],
+    "fpocket": [
+     0,
+     0,
+     0
+    ],
+    "P2Rank": [
+     1,
+     1,
+     1
+    ]
+   }
+  },
+  {
+   "protein": "coach420/1gwxA.pdb",
+   "pdb_id": "1GWX",
+   "ligand_codes": [
+    "433"
+   ],
+   "ligand_residues": 1,
+   "ligands": 1,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 7,
+    "ProteinScope (heuristic ranking)": 7,
+    "fpocket": 20,
+    "P2Rank": 7
+   },
+   "found": {
+    "ProteinScope": [
+     1,
+     1,
+     1
+    ],
+    "ProteinScope (heuristic ranking)": [
+     1,
+     1,
+     1
+    ],
+    "fpocket": [
+     1,
+     1,
+     1
+    ],
+    "P2Rank": [
+     1,
+     1,
+     1
+    ]
+   }
+  },
+  {
+   "protein": "coach420/1h0sA.pdb",
+   "pdb_id": "1H0S",
+   "ligand_codes": [
+    "FA6"
+   ],
+   "ligand_residues": 1,
+   "ligands": 1,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 2,
+    "ProteinScope (heuristic ranking)": 2,
+    "fpocket": 7,
+    "P2Rank": 2
+   },
+   "found": {
+    "ProteinScope": [
+     0,
+     1,
+     1
+    ],
+    "ProteinScope (heuristic ranking)": [
+     1,
+     1,
+     1
+    ],
+    "fpocket": [
+     0,
+     1,
+     1
+    ],
+    "P2Rank": [
+     1,
+     1,
+     1
+    ]
+   }
+  },
+  {
+   "protein": "coach420/1h1pA.pdb",
+   "pdb_id": "1H1P",
+   "ligand_codes": [
+    "CMG"
+   ],
+   "ligand_residues": 1,
+   "ligands": 1,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 4,
+    "ProteinScope (heuristic ranking)": 4,
+    "fpocket": 17,
+    "P2Rank": 10
+   },
+   "found": {
+    "ProteinScope": [
+     1,
+     1,
+     1
+    ],
+    "ProteinScope (heuristic ranking)": [
+     1,
+     1,
+     1
+    ],
+    "fpocket": [
+     1,
+     1,
+     1
+    ],
+    "P2Rank": [
+     1,
+     1,
+     1
+    ]
+   }
+  },
+  {
+   "protein": "coach420/1h1sA.pdb",
+   "pdb_id": "1H1S",
+   "ligand_codes": [
+    "4SP"
+   ],
+   "ligand_residues": 1,
+   "ligands": 1,
+   "in_training_set": true,
+   "pockets": {
+    "ProteinScope": 5,
+    "ProteinScope (heuristic ranking)": 5,
+    "fpocket": 19,
+    "P2Rank": 6
+   },
+   "found": {
+    "ProteinScope": [
+     1,
+     1,
+     1
+    ],
+    "ProteinScope (heuristic ranking)": [
+     1,
+     1,
+     1
+    ],
+    "fpocket": [
+     1,
+     1,
+     1
+    ],
+    "P2Rank": [
+     1,
+     1,
+     1
+    ]
+   }
+  },
+  {
+   "protein": "coach420/1hdqA.pdb",
+   "pdb_id": "1HDQ",
+   "ligand_codes": [
+    "INF"
+   ],
+   "ligand_residues": 1,
+   "ligands": 1,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 2,
+    "ProteinScope (heuristic ranking)": 2,
+    "fpocket": 14,
+    "P2Rank": 5
+   },
+   "found": {
+    "ProteinScope": [
+     1,
+     1,
+     1
+    ],
+    "ProteinScope (heuristic ranking)": [
+     0,
+     1,
+     1
+    ],
+    "fpocket": [
+     0,
+     1,
+     1
+    ],
+    "P2Rank": [
+     1,
+     1,
+     1
+    ]
+   }
+  },
+  {
+   "protein": "coach420/1hnjA.pdb",
+   "pdb_id": "1HNJ",
+   "ligand_codes": [
+    "MLC"
+   ],
+   "ligand_residues": 1,
+   "ligands": 1,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 2,
+    "ProteinScope (heuristic ranking)": 2,
+    "fpocket": 12,
+    "P2Rank": 5
+   },
+   "found": {
+    "ProteinScope": [
+     1,
+     1,
+     1
+    ],
+    "ProteinScope (heuristic ranking)": [
+     1,
+     1,
+     1
+    ],
+    "fpocket": [
+     1,
+     1,
+     1
+    ],
+    "P2Rank": [
+     1,
+     1,
+     1
+    ]
+   }
+  },
+  {
+   "protein": "coach420/1hpvA.pdb",
+   "pdb_id": "1HPV",
+   "ligand_codes": [
+    "478"
+   ],
+   "ligand_residues": 1,
+   "ligands": 1,
+   "in_training_set": true,
+   "pockets": {
+    "ProteinScope": 2,
+    "ProteinScope (heuristic ranking)": 2,
+    "fpocket": 5,
+    "P2Rank": 2
+   },
+   "found": {
+    "ProteinScope": [
+     0,
+     0,
+     0
+    ],
+    "ProteinScope (heuristic ranking)": [
+     0,
+     0,
+     0
+    ],
+    "fpocket": [
+     0,
+     1,
+     1
+    ],
+    "P2Rank": [
+     1,
+     1,
+     1
+    ]
+   }
+  },
+  {
+   "protein": "coach420/1htfA.pdb",
+   "pdb_id": "1HTF",
+   "ligand_codes": [
+    "G26"
+   ],
+   "ligand_residues": 2,
+   "ligands": 1,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 2,
+    "ProteinScope (heuristic ranking)": 2,
+    "fpocket": 4,
+    "P2Rank": 3
+   },
+   "found": {
+    "ProteinScope": [
+     0,
+     1,
+     1
+    ],
+    "ProteinScope (heuristic ranking)": [
+     0,
+     1,
+     1
+    ],
+    "fpocket": [
+     1,
+     1,
+     1
+    ],
+    "P2Rank": [
+     1,
+     1,
+     1
+    ]
+   }
+  },
+  {
+   "protein": "coach420/1i7lA.pdb",
+   "pdb_id": "1I7L",
+   "ligand_codes": [
+    "ATP"
+   ],
+   "ligand_residues": 1,
+   "ligands": 1,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 3,
+    "ProteinScope (heuristic ranking)": 3,
+    "fpocket": 20,
+    "P2Rank": 6
+   },
+   "found": {
+    "ProteinScope": [
+     1,
+     1,
+     1
+    ],
+    "ProteinScope (heuristic ranking)": [
+     1,
+     1,
+     1
+    ],
+    "fpocket": [
+     1,
+     1,
+     1
+    ],
+    "P2Rank": [
+     1,
+     1,
+     1
+    ]
+   }
+  },
+  {
+   "protein": "coach420/1i7zA.pdb",
+   "pdb_id": "1I7Z",
+   "ligand_codes": [
+    "COC"
+   ],
+   "ligand_residues": 1,
+   "ligands": 1,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 1,
+    "ProteinScope (heuristic ranking)": 1,
+    "fpocket": 11,
+    "P2Rank": 3
+   },
+   "found": {
+    "ProteinScope": [
+     0,
+     0,
+     0
+    ],
+    "ProteinScope (heuristic ranking)": [
+     0,
+     0,
+     0
+    ],
+    "fpocket": [
+     0,
+     0,
+     1
+    ],
+    "P2Rank": [
+     1,
+     1,
+     1
+    ]
+   }
+  },
+  {
+   "protein": "coach420/1i8zA.pdb",
+   "pdb_id": "1I8Z",
+   "ligand_codes": [
+    "INL"
+   ],
+   "ligand_residues": 1,
+   "ligands": 1,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 4,
+    "ProteinScope (heuristic ranking)": 4,
+    "fpocket": 8,
+    "P2Rank": 3
+   },
+   "found": {
+    "ProteinScope": [
+     1,
+     1,
+     1
+    ],
+    "ProteinScope (heuristic ranking)": [
+     1,
+     1,
+     1
+    ],
+    "fpocket": [
+     0,
+     1,
+     1
+    ],
+    "P2Rank": [
+     1,
+     1,
+     1
+    ]
+   }
+  },
+  {
+   "protein": "coach420/1if7A.pdb",
+   "pdb_id": "1IF7",
+   "ligand_codes": [
+    "SBR"
+   ],
+   "ligand_residues": 1,
+   "ligands": 1,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 3,
+    "ProteinScope (heuristic ranking)": 3,
+    "fpocket": 11,
+    "P2Rank": 1
+   },
+   "found": {
+    "ProteinScope": [
+     1,
+     1,
+     1
+    ],
+    "ProteinScope (heuristic ranking)": [
+     1,
+     1,
+     1
+    ],
+    "fpocket": [
+     0,
+     0,
+     0
+    ],
+    "P2Rank": [
+     0,
+     0,
+     0
+    ]
+   }
+  },
+  {
+   "protein": "coach420/1ixnA.pdb",
+   "pdb_id": "1IXN",
+   "ligand_codes": [
+    "G3P",
+    "DXP"
+   ],
+   "ligand_residues": 2,
+   "ligands": 2,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 1,
+    "ProteinScope (heuristic ranking)": 1,
+    "fpocket": 12,
+    "P2Rank": 3
+   },
+   "found": {
+    "ProteinScope": [
+     2,
+     2,
+     2
+    ],
+    "ProteinScope (heuristic ranking)": [
+     2,
+     2,
+     2
+    ],
+    "fpocket": [
+     2,
+     2,
+     2
+    ],
+    "P2Rank": [
+     2,
+     2,
+     2
+    ]
+   }
+  },
+  {
+   "protein": "coach420/1j8rA.pdb",
+   "pdb_id": "1J8R",
+   "ligand_codes": [
+    "GAL",
+    "NGA",
+    "GLA",
+    "BGC"
+   ],
+   "ligand_residues": 4,
+   "ligands": 1,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 1,
+    "ProteinScope (heuristic ranking)": 1,
+    "fpocket": 7,
+    "P2Rank": 1
+   },
+   "found": {
+    "ProteinScope": [
+     0,
+     0,
+     0
+    ],
+    "ProteinScope (heuristic ranking)": [
+     0,
+     0,
+     0
+    ],
+    "fpocket": [
+     0,
+     1,
+     1
+    ],
+    "P2Rank": [
+     0,
+     0,
+     0
+    ]
+   }
+  },
+  {
+   "protein": "coach420/1jieA.pdb",
+   "pdb_id": "1JIE",
+   "ligand_codes": [
+    "BLM"
+   ],
+   "ligand_residues": 2,
+   "ligands": 2,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 1,
+    "ProteinScope (heuristic ranking)": 1,
+    "fpocket": 4,
+    "P2Rank": 4
+   },
+   "found": {
+    "ProteinScope": [
+     0,
+     0,
+     0
+    ],
+    "ProteinScope (heuristic ranking)": [
+     0,
+     0,
+     0
+    ],
+    "fpocket": [
+     0,
+     0,
+     0
+    ],
+    "P2Rank": [
+     1,
+     1,
+     1
+    ]
+   }
+  },
+  {
+   "protein": "coach420/1jkkA.pdb",
+   "pdb_id": "1JKK",
+   "ligand_codes": [
+    "ANP"
+   ],
+   "ligand_residues": 1,
+   "ligands": 1,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 3,
+    "ProteinScope (heuristic ranking)": 3,
+    "fpocket": 18,
+    "P2Rank": 5
+   },
+   "found": {
+    "ProteinScope": [
+     1,
+     1,
+     1
+    ],
+    "ProteinScope (heuristic ranking)": [
+     1,
+     1,
+     1
+    ],
+    "fpocket": [
+     1,
+     1,
+     1
+    ],
+    "P2Rank": [
+     1,
+     1,
+     1
+    ]
+   }
+  },
+  {
+   "protein": "coach420/1jq3A.pdb",
+   "pdb_id": "1JQ3",
+   "ligand_codes": [
+    "AAT"
+   ],
+   "ligand_residues": 1,
+   "ligands": 1,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 3,
+    "ProteinScope (heuristic ranking)": 3,
+    "fpocket": 19,
+    "P2Rank": 6
+   },
+   "found": {
+    "ProteinScope": [
+     1,
+     1,
+     1
+    ],
+    "ProteinScope (heuristic ranking)": [
+     1,
+     1,
+     1
+    ],
+    "fpocket": [
+     1,
+     1,
+     1
+    ],
+    "P2Rank": [
+     1,
+     1,
+     1
+    ]
+   }
+  },
+  {
+   "protein": "coach420/1jsvA.pdb",
+   "pdb_id": "1JSV",
+   "ligand_codes": [
+    "U55"
+   ],
+   "ligand_residues": 1,
+   "ligands": 1,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 8,
+    "ProteinScope (heuristic ranking)": 8,
+    "fpocket": 22,
+    "P2Rank": 13
+   },
+   "found": {
+    "ProteinScope": [
+     0,
+     0,
+     0
+    ],
+    "ProteinScope (heuristic ranking)": [
+     0,
+     0,
+     0
+    ],
+    "fpocket": [
+     0,
+     0,
+     1
+    ],
+    "P2Rank": [
+     0,
+     0,
+     0
+    ]
+   }
+  },
+  {
+   "protein": "coach420/1jylA.pdb",
+   "pdb_id": "1JYL",
+   "ligand_codes": [
+    "CDC"
+   ],
+   "ligand_residues": 2,
+   "ligands": 2,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 1,
+    "ProteinScope (heuristic ranking)": 1,
+    "fpocket": 8,
+    "P2Rank": 4
+   },
+   "found": {
+    "ProteinScope": [
+     1,
+     1,
+     1
+    ],
+    "ProteinScope (heuristic ranking)": [
+     1,
+     1,
+     1
+    ],
+    "fpocket": [
+     1,
+     1,
+     1
+    ],
+    "P2Rank": [
+     1,
+     1,
+     1
+    ]
+   }
+  },
+  {
+   "protein": "coach420/1k1jA.pdb",
+   "pdb_id": "1K1J",
+   "ligand_codes": [
+    "FD2"
+   ],
+   "ligand_residues": 1,
+   "ligands": 1,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 1,
+    "ProteinScope (heuristic ranking)": 1,
+    "fpocket": 8,
+    "P2Rank": 8
+   },
+   "found": {
+    "ProteinScope": [
+     0,
+     0,
+     0
+    ],
+    "ProteinScope (heuristic ranking)": [
+     0,
+     0,
+     0
+    ],
+    "fpocket": [
+     1,
+     1,
+     1
+    ],
+    "P2Rank": [
+     1,
+     1,
+     1
+    ]
+   }
+  },
+  {
+   "protein": "coach420/1k22H.pdb",
+   "pdb_id": "1K22",
+   "ligand_codes": [
+    "MEL"
+   ],
+   "ligand_residues": 1,
+   "ligands": 1,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 4,
+    "ProteinScope (heuristic ranking)": 4,
+    "fpocket": 15,
+    "P2Rank": 9
+   },
+   "found": {
+    "ProteinScope": [
+     1,
+     1,
+     1
+    ],
+    "ProteinScope (heuristic ranking)": [
+     1,
+     1,
+     1
+    ],
+    "fpocket": [
+     1,
+     1,
+     1
+    ],
+    "P2Rank": [
+     1,
+     1,
+     1
+    ]
+   }
+  },
+  {
+   "protein": "coach420/1k3yA.pdb",
+   "pdb_id": "1K3Y",
+   "ligand_codes": [
+    "GTX"
+   ],
+   "ligand_residues": 2,
+   "ligands": 2,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 3,
+    "ProteinScope (heuristic ranking)": 3,
+    "fpocket": 16,
+    "P2Rank": 7
+   },
+   "found": {
+    "ProteinScope": [
+     0,
+     0,
+     0
+    ],
+    "ProteinScope (heuristic ranking)": [
+     0,
+     0,
+     0
+    ],
+    "fpocket": [
+     0,
+     1,
+     1
+    ],
+    "P2Rank": [
+     1,
+     1,
+     1
+    ]
+   }
+  },
+  {
+   "protein": "coach420/1k7eA.pdb",
+   "pdb_id": "1K7E",
+   "ligand_codes": [
+    "IAG"
+   ],
+   "ligand_residues": 1,
+   "ligands": 1,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 4,
+    "ProteinScope (heuristic ranking)": 4,
+    "fpocket": 12,
+    "P2Rank": 4
+   },
+   "found": {
+    "ProteinScope": [
+     1,
+     1,
+     1
+    ],
+    "ProteinScope (heuristic ranking)": [
+     1,
+     1,
+     1
+    ],
+    "fpocket": [
+     1,
+     1,
+     1
+    ],
+    "P2Rank": [
+     1,
+     1,
+     1
+    ]
+   }
+  },
+  {
+   "protein": "coach420/1k7fA.pdb",
+   "pdb_id": "1K7F",
+   "ligand_codes": [
+    "IAV"
+   ],
+   "ligand_residues": 1,
+   "ligands": 1,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 7,
+    "ProteinScope (heuristic ranking)": 7,
+    "fpocket": 9,
+    "P2Rank": 3
+   },
+   "found": {
+    "ProteinScope": [
+     1,
+     1,
+     1
+    ],
+    "ProteinScope (heuristic ranking)": [
+     1,
+     1,
+     1
+    ],
+    "fpocket": [
+     1,
+     1,
+     1
+    ],
+    "P2Rank": [
+     1,
+     1,
+     1
+    ]
+   }
+  },
+  {
+   "protein": "coach420/1kgzB.pdb",
+   "pdb_id": "1KGZ",
+   "ligand_codes": [
+    "PRP"
+   ],
+   "ligand_residues": 1,
+   "ligands": 1,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 3,
+    "ProteinScope (heuristic ranking)": 3,
+    "fpocket": 15,
+    "P2Rank": 7
+   },
+   "found": {
+    "ProteinScope": [
+     1,
+     1,
+     1
+    ],
+    "ProteinScope (heuristic ranking)": [
+     1,
+     1,
+     1
+    ],
+    "fpocket": [
+     1,
+     1,
+     1
+    ],
+    "P2Rank": [
+     1,
+     1,
+     1
+    ]
+   }
+  },
+  {
+   "protein": "coach420/1kv1A.pdb",
+   "pdb_id": "1KV1",
+   "ligand_codes": [
+    "BMU"
+   ],
+   "ligand_residues": 1,
+   "ligands": 1,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 7,
+    "ProteinScope (heuristic ranking)": 7,
+    "fpocket": 24,
+    "P2Rank": 10
+   },
+   "found": {
+    "ProteinScope": [
+     1,
+     1,
+     1
+    ],
+    "ProteinScope (heuristic ranking)": [
+     1,
+     1,
+     1
+    ],
+    "fpocket": [
+     1,
+     1,
+     1
+    ],
+    "P2Rank": [
+     1,
+     1,
+     1
+    ]
+   }
+  },
+  {
+   "protein": "coach420/1kwcB.pdb",
+   "pdb_id": "1KWC",
+   "ligand_codes": [
+    "BPY"
+   ],
+   "ligand_residues": 1,
+   "ligands": 1,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 1,
+    "ProteinScope (heuristic ranking)": 1,
+    "fpocket": 11,
+    "P2Rank": 10
+   },
+   "found": {
+    "ProteinScope": [
+     1,
+     1,
+     1
+    ],
+    "ProteinScope (heuristic ranking)": [
+     1,
+     1,
+     1
+    ],
+    "fpocket": [
+     1,
+     1,
+     1
+    ],
+    "P2Rank": [
+     1,
+     1,
+     1
+    ]
+   }
+  },
+  {
+   "protein": "coach420/1l8gA.pdb",
+   "pdb_id": "1L8G",
+   "ligand_codes": [
+    "DBD"
+   ],
+   "ligand_residues": 1,
+   "ligands": 1,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 6,
+    "ProteinScope (heuristic ranking)": 6,
+    "fpocket": 21,
+    "P2Rank": 9
+   },
+   "found": {
+    "ProteinScope": [
+     1,
+     1,
+     1
+    ],
+    "ProteinScope (heuristic ranking)": [
+     0,
+     1,
+     1
+    ],
+    "fpocket": [
+     1,
+     1,
+     1
+    ],
+    "P2Rank": [
+     1,
+     1,
+     1
+    ]
+   }
+  },
+  {
+   "protein": "coach420/1lbyA.pdb",
+   "pdb_id": "1LBY",
+   "ligand_codes": [
+    "F6P"
+   ],
+   "ligand_residues": 2,
+   "ligands": 2,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 2,
+    "ProteinScope (heuristic ranking)": 2,
+    "fpocket": 7,
+    "P2Rank": 4
+   },
+   "found": {
+    "ProteinScope": [
+     1,
+     1,
+     1
+    ],
+    "ProteinScope (heuristic ranking)": [
+     1,
+     1,
+     1
+    ],
+    "fpocket": [
+     1,
+     1,
+     1
+    ],
+    "P2Rank": [
+     1,
+     1,
+     1
+    ]
+   }
+  },
+  {
+   "protein": "coach420/1lloA.pdb",
+   "pdb_id": "1LLO",
+   "ligand_codes": [
+    "AMI",
+    "NAA"
+   ],
+   "ligand_residues": 3,
+   "ligands": 1,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 1,
+    "ProteinScope (heuristic ranking)": 1,
+    "fpocket": 14,
+    "P2Rank": 9
+   },
+   "found": {
+    "ProteinScope": [
+     1,
+     1,
+     1
+    ],
+    "ProteinScope (heuristic ranking)": [
+     1,
+     1,
+     1
+    ],
+    "fpocket": [
+     1,
+     1,
+     1
+    ],
+    "P2Rank": [
+     1,
+     1,
+     1
+    ]
+   }
+  },
+  {
+   "protein": "coach420/1llrD.pdb",
+   "pdb_id": "1LLR",
+   "ligand_codes": [
+    "FNG",
+    "LNQ"
+   ],
+   "ligand_residues": 4,
+   "ligands": 2,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 1,
+    "ProteinScope (heuristic ranking)": 1,
+    "fpocket": 7,
+    "P2Rank": 4
+   },
+   "found": {
+    "ProteinScope": [
+     0,
+     0,
+     0
+    ],
+    "ProteinScope (heuristic ranking)": [
+     0,
+     0,
+     0
+    ],
+    "fpocket": [
+     1,
+     1,
+     1
+    ],
+    "P2Rank": [
+     1,
+     1,
+     1
+    ]
+   }
+  },
+  {
+   "protein": "coach420/1lspA.pdb",
+   "pdb_id": "1LSP",
+   "ligand_codes": [
+    "BUL"
+   ],
+   "ligand_residues": 1,
+   "ligands": 1,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 1,
+    "ProteinScope (heuristic ranking)": 1,
+    "fpocket": 4,
+    "P2Rank": 4
+   },
+   "found": {
+    "ProteinScope": [
+     1,
+     1,
+     1
+    ],
+    "ProteinScope (heuristic ranking)": [
+     1,
+     1,
+     1
+    ],
+    "fpocket": [
+     1,
+     1,
+     1
+    ],
+    "P2Rank": [
+     0,
+     0,
+     1
+    ]
+   }
+  },
+  {
+   "protein": "coach420/1ltzA.pdb",
+   "pdb_id": "1LTZ",
+   "ligand_codes": [
+    "HBI"
+   ],
+   "ligand_residues": 1,
+   "ligands": 1,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 4,
+    "ProteinScope (heuristic ranking)": 4,
+    "fpocket": 17,
+    "P2Rank": 8
+   },
+   "found": {
+    "ProteinScope": [
+     0,
+     0,
+     0
+    ],
+    "ProteinScope (heuristic ranking)": [
+     0,
+     0,
+     0
+    ],
+    "fpocket": [
+     0,
+     0,
+     0
+    ],
+    "P2Rank": [
+     1,
+     1,
+     1
+    ]
+   }
+  },
+  {
+   "protein": "coach420/1lxmA.pdb",
+   "pdb_id": "1LXM",
+   "ligand_codes": [
+    "NAG",
+    "BDP"
+   ],
+   "ligand_residues": 6,
+   "ligands": 1,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 12,
+    "ProteinScope (heuristic ranking)": 12,
+    "fpocket": 44,
+    "P2Rank": 26
+   },
+   "found": {
+    "ProteinScope": [
+     1,
+     1,
+     1
+    ],
+    "ProteinScope (heuristic ranking)": [
+     0,
+     1,
+     1
+    ],
+    "fpocket": [
+     0,
+     1,
+     1
+    ],
+    "P2Rank": [
+     0,
+     0,
+     1
+    ]
+   }
+  },
+  {
+   "protein": "coach420/1lzsA.pdb",
+   "pdb_id": "1LZS",
+   "ligand_codes": [
+    "NAG"
+   ],
+   "ligand_residues": 6,
+   "ligands": 2,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 1,
+    "ProteinScope (heuristic ranking)": 1,
+    "fpocket": 4,
+    "P2Rank": 3
+   },
+   "found": {
+    "ProteinScope": [
+     1,
+     1,
+     1
+    ],
+    "ProteinScope (heuristic ranking)": [
+     1,
+     1,
+     1
+    ],
+    "fpocket": [
+     1,
+     1,
+     1
+    ],
+    "P2Rank": [
+     1,
+     1,
+     1
+    ]
+   }
+  },
+  {
+   "protein": "coach420/1m48A.pdb",
+   "pdb_id": "1M48",
+   "ligand_codes": [
+    "FRG"
+   ],
+   "ligand_residues": 1,
+   "ligands": 1,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 1,
+    "ProteinScope (heuristic ranking)": 1,
+    "fpocket": 6,
+    "P2Rank": 1
+   },
+   "found": {
+    "ProteinScope": [
+     0,
+     0,
+     0
+    ],
+    "ProteinScope (heuristic ranking)": [
+     0,
+     0,
+     0
+    ],
+    "fpocket": [
+     1,
+     1,
+     1
+    ],
+    "P2Rank": [
+     0,
+     0,
+     0
+    ]
+   }
+  },
+  {
+   "protein": "coach420/1mbzA.pdb",
+   "pdb_id": "1MBZ",
+   "ligand_codes": [
+    "IOT"
+   ],
+   "ligand_residues": 1,
+   "ligands": 1,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 10,
+    "ProteinScope (heuristic ranking)": 10,
+    "fpocket": 36,
+    "P2Rank": 11
+   },
+   "found": {
+    "ProteinScope": [
+     1,
+     1,
+     1
+    ],
+    "ProteinScope (heuristic ranking)": [
+     1,
+     1,
+     1
+    ],
+    "fpocket": [
+     1,
+     1,
+     1
+    ],
+    "P2Rank": [
+     1,
+     1,
+     1
+    ]
+   }
+  },
+  {
+   "protein": "coach420/1mmbA.pdb",
+   "pdb_id": "1MMB",
+   "ligand_codes": [
+    "BAT"
+   ],
+   "ligand_residues": 1,
+   "ligands": 1,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 2,
+    "ProteinScope (heuristic ranking)": 2,
+    "fpocket": 6,
+    "P2Rank": 3
+   },
+   "found": {
+    "ProteinScope": [
+     1,
+     1,
+     1
+    ],
+    "ProteinScope (heuristic ranking)": [
+     1,
+     1,
+     1
+    ],
+    "fpocket": [
+     1,
+     1,
+     1
+    ],
+    "P2Rank": [
+     1,
+     1,
+     1
+    ]
+   }
+  },
+  {
+   "protein": "coach420/1mncA.pdb",
+   "pdb_id": "1MNC",
+   "ligand_codes": [
+    "PLH"
+   ],
+   "ligand_residues": 1,
+   "ligands": 1,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 2,
+    "ProteinScope (heuristic ranking)": 2,
+    "fpocket": 5,
+    "P2Rank": 3
+   },
+   "found": {
+    "ProteinScope": [
+     1,
+     1,
+     1
+    ],
+    "ProteinScope (heuristic ranking)": [
+     1,
+     1,
+     1
+    ],
+    "fpocket": [
+     1,
+     1,
+     1
+    ],
+    "P2Rank": [
+     1,
+     1,
+     1
+    ]
+   }
+  },
+  {
+   "protein": "coach420/1mq5A.pdb",
+   "pdb_id": "1MQ5",
+   "ligand_codes": [
+    "XLC"
+   ],
+   "ligand_residues": 1,
+   "ligands": 1,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 4,
+    "ProteinScope (heuristic ranking)": 4,
+    "fpocket": 12,
+    "P2Rank": 5
+   },
+   "found": {
+    "ProteinScope": [
+     1,
+     1,
+     1
+    ],
+    "ProteinScope (heuristic ranking)": [
+     0,
+     1,
+     1
+    ],
+    "fpocket": [
+     1,
+     1,
+     1
+    ],
+    "P2Rank": [
+     0,
+     1,
+     1
+    ]
+   }
+  },
+  {
+   "protein": "coach420/1mq6A.pdb",
+   "pdb_id": "1MQ6",
+   "ligand_codes": [
+    "XLD"
+   ],
+   "ligand_residues": 1,
+   "ligands": 1,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 2,
+    "ProteinScope (heuristic ranking)": 2,
+    "fpocket": 10,
+    "P2Rank": 5
+   },
+   "found": {
+    "ProteinScope": [
+     1,
+     1,
+     1
+    ],
+    "ProteinScope (heuristic ranking)": [
+     1,
+     1,
+     1
+    ],
+    "fpocket": [
+     0,
+     1,
+     1
+    ],
+    "P2Rank": [
+     0,
+     1,
+     1
+    ]
+   }
+  },
+  {
+   "protein": "coach420/1mxiA.pdb",
+   "pdb_id": "1MXI",
+   "ligand_codes": [
+    "SAH"
+   ],
+   "ligand_residues": 1,
+   "ligands": 1,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 2,
+    "ProteinScope (heuristic ranking)": 2,
+    "fpocket": 10,
+    "P2Rank": 4
+   },
+   "found": {
+    "ProteinScope": [
+     1,
+     1,
+     1
+    ],
+    "ProteinScope (heuristic ranking)": [
+     1,
+     1,
+     1
+    ],
+    "fpocket": [
+     1,
+     1,
+     1
+    ],
+    "P2Rank": [
+     1,
+     1,
+     1
+    ]
+   }
+  },
+  {
+   "protein": "coach420/1n07A.pdb",
+   "pdb_id": "1N07",
+   "ligand_codes": [
+    "FMN",
+    "ADP"
+   ],
+   "ligand_residues": 2,
+   "ligands": 2,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 2,
+    "ProteinScope (heuristic ranking)": 2,
+    "fpocket": 5,
+    "P2Rank": 6
+   },
+   "found": {
+    "ProteinScope": [
+     1,
+     1,
+     1
+    ],
+    "ProteinScope (heuristic ranking)": [
+     1,
+     1,
+     1
+    ],
+    "fpocket": [
+     2,
+     2,
+     2
+    ],
+    "P2Rank": [
+     2,
+     2,
+     2
+    ]
+   }
+  },
+  {
+   "protein": "coach420/1ndiA.pdb",
+   "pdb_id": "1NDI",
+   "ligand_codes": [
+    "COA"
+   ],
+   "ligand_residues": 1,
+   "ligands": 1,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 10,
+    "ProteinScope (heuristic ranking)": 10,
+    "fpocket": 51,
+    "P2Rank": 13
+   },
+   "found": {
+    "ProteinScope": [
+     1,
+     1,
+     1
+    ],
+    "ProteinScope (heuristic ranking)": [
+     1,
+     1,
+     1
+    ],
+    "fpocket": [
+     0,
+     1,
+     1
+    ],
+    "P2Rank": [
+     0,
+     1,
+     1
+    ]
+   }
+  },
+  {
+   "protein": "coach420/1nhuA.pdb",
+   "pdb_id": "1NHU",
+   "ligand_codes": [
+    "153"
+   ],
+   "ligand_residues": 1,
+   "ligands": 1,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 8,
+    "ProteinScope (heuristic ranking)": 8,
+    "fpocket": 39,
+    "P2Rank": 13
+   },
+   "found": {
+    "ProteinScope": [
+     0,
+     0,
+     1
+    ],
+    "ProteinScope (heuristic ranking)": [
+     0,
+     0,
+     1
+    ],
+    "fpocket": [
+     0,
+     0,
+     0
+    ],
+    "P2Rank": [
+     0,
+     1,
+     1
+    ]
+   }
+  },
+  {
+   "protein": "coach420/1nmkA.pdb",
+   "pdb_id": "1NMK",
+   "ligand_codes": [
+    "SFM"
+   ],
+   "ligand_residues": 1,
+   "ligands": 1,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 1,
+    "ProteinScope (heuristic ranking)": 1,
+    "fpocket": 6,
+    "P2Rank": 2
+   },
+   "found": {
+    "ProteinScope": [
+     1,
+     1,
+     1
+    ],
+    "ProteinScope (heuristic ranking)": [
+     1,
+     1,
+     1
+    ],
+    "fpocket": [
+     1,
+     1,
+     1
+    ],
+    "P2Rank": [
+     1,
+     1,
+     1
+    ]
+   }
+  },
+  {
+   "protein": "coach420/1nz7A.pdb",
+   "pdb_id": "1NZ7",
+   "ligand_codes": [
+    "901"
+   ],
+   "ligand_residues": 1,
+   "ligands": 1,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 5,
+    "ProteinScope (heuristic ranking)": 5,
+    "fpocket": 15,
+    "P2Rank": 8
+   },
+   "found": {
+    "ProteinScope": [
+     1,
+     1,
+     1
+    ],
+    "ProteinScope (heuristic ranking)": [
+     1,
+     1,
+     1
+    ],
+    "fpocket": [
+     0,
+     1,
+     1
+    ],
+    "P2Rank": [
+     1,
+     1,
+     1
+    ]
+   }
+  },
+  {
+   "protein": "coach420/1o86A.pdb",
+   "pdb_id": "1O86",
+   "ligand_codes": [
+    "GLY",
+    "LPR"
+   ],
+   "ligand_residues": 2,
+   "ligands": 2,
+   "in_training_set": true,
+   "pockets": {
+    "ProteinScope": 4,
+    "ProteinScope (heuristic ranking)": 4,
+    "fpocket": 26,
+    "P2Rank": 14
+   },
+   "found": {
+    "ProteinScope": [
+     1,
+     1,
+     1
+    ],
+    "ProteinScope (heuristic ranking)": [
+     1,
+     1,
+     1
+    ],
+    "fpocket": [
+     0,
+     1,
+     1
+    ],
+    "P2Rank": [
+     1,
+     1,
+     1
+    ]
+   }
+  },
+  {
+   "protein": "coach420/1of8B.pdb",
+   "pdb_id": "1OF8",
+   "ligand_codes": [
+    "G3P",
+    "PEP"
+   ],
+   "ligand_residues": 2,
+   "ligands": 2,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 8,
+    "ProteinScope (heuristic ranking)": 8,
+    "fpocket": 17,
+    "P2Rank": 8
+   },
+   "found": {
+    "ProteinScope": [
+     0,
+     0,
+     2
+    ],
+    "ProteinScope (heuristic ranking)": [
+     0,
+     2,
+     2
+    ],
+    "fpocket": [
+     0,
+     0,
+     2
+    ],
+    "P2Rank": [
+     2,
+     2,
+     2
+    ]
+   }
+  },
+  {
+   "protein": "coach420/1og1A.pdb",
+   "pdb_id": "1OG1",
+   "ligand_codes": [
+    "TAD"
+   ],
+   "ligand_residues": 1,
+   "ligands": 1,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 4,
+    "ProteinScope (heuristic ranking)": 4,
+    "fpocket": 14,
+    "P2Rank": 6
+   },
+   "found": {
+    "ProteinScope": [
+     1,
+     1,
+     1
+    ],
+    "ProteinScope (heuristic ranking)": [
+     1,
+     1,
+     1
+    ],
+    "fpocket": [
+     1,
+     1,
+     1
+    ],
+    "P2Rank": [
+     1,
+     1,
+     1
+    ]
+   }
+  },
+  {
+   "protein": "coach420/1ogoX.pdb",
+   "pdb_id": "1OGO",
+   "ligand_codes": [
+    "BGC",
+    "GLC"
+   ],
+   "ligand_residues": 2,
+   "ligands": 1,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 7,
+    "ProteinScope (heuristic ranking)": 7,
+    "fpocket": 25,
+    "P2Rank": 17
+   },
+   "found": {
+    "ProteinScope": [
+     0,
+     0,
+     1
+    ],
+    "ProteinScope (heuristic ranking)": [
+     0,
+     1,
+     1
+    ],
+    "fpocket": [
+     0,
+     0,
+     0
+    ],
+    "P2Rank": [
+     1,
+     1,
+     1
+    ]
+   }
+  },
+  {
+   "protein": "coach420/1ohrA.pdb",
+   "pdb_id": "1OHR",
+   "ligand_codes": [
+    "1UN"
+   ],
+   "ligand_residues": 1,
+   "ligands": 1,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 2,
+    "ProteinScope (heuristic ranking)": 2,
+    "fpocket": 5,
+    "P2Rank": 3
+   },
+   "found": {
+    "ProteinScope": [
+     0,
+     1,
+     1
+    ],
+    "ProteinScope (heuristic ranking)": [
+     0,
+     1,
+     1
+    ],
+    "fpocket": [
+     0,
+     1,
+     1
+    ],
+    "P2Rank": [
+     1,
+     1,
+     1
+    ]
+   }
+  },
+  {
+   "protein": "coach420/1ojzA.pdb",
+   "pdb_id": "1OJZ",
+   "ligand_codes": [
+    "NAD"
+   ],
+   "ligand_residues": 1,
+   "ligands": 1,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 3,
+    "ProteinScope (heuristic ranking)": 3,
+    "fpocket": 8,
+    "P2Rank": 2
+   },
+   "found": {
+    "ProteinScope": [
+     1,
+     1,
+     1
+    ],
+    "ProteinScope (heuristic ranking)": [
+     1,
+     1,
+     1
+    ],
+    "fpocket": [
+     1,
+     1,
+     1
+    ],
+    "P2Rank": [
+     1,
+     1,
+     1
+    ]
+   }
+  },
+  {
+   "protein": "coach420/1ow3B.pdb",
+   "pdb_id": "1OW3",
+   "ligand_codes": [
+    "GDP",
+    "MGF"
+   ],
+   "ligand_residues": 2,
+   "ligands": 2,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 1,
+    "ProteinScope (heuristic ranking)": 1,
+    "fpocket": 11,
+    "P2Rank": 3
+   },
+   "found": {
+    "ProteinScope": [
+     1,
+     1,
+     1
+    ],
+    "ProteinScope (heuristic ranking)": [
+     1,
+     1,
+     1
+    ],
+    "fpocket": [
+     1,
+     1,
+     1
+    ],
+    "P2Rank": [
+     1,
+     1,
+     1
+    ]
+   }
+  },
+  {
+   "protein": "coach420/1oxvA.pdb",
+   "pdb_id": "1OXV",
+   "ligand_codes": [
+    "ANP"
+   ],
+   "ligand_residues": 1,
+   "ligands": 1,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 5,
+    "ProteinScope (heuristic ranking)": 5,
+    "fpocket": 19,
+    "P2Rank": 6
+   },
+   "found": {
+    "ProteinScope": [
+     0,
+     0,
+     0
+    ],
+    "ProteinScope (heuristic ranking)": [
+     0,
+     0,
+     0
+    ],
+    "fpocket": [
+     0,
+     0,
+     1
+    ],
+    "P2Rank": [
+     1,
+     1,
+     1
+    ]
+   }
+  },
+  {
+   "protein": "coach420/1p4nA.pdb",
+   "pdb_id": "1P4N",
+   "ligand_codes": [
+    "FGA",
+    "LYS",
+    "UMA",
+    "DAL"
+   ],
+   "ligand_residues": 4,
+   "ligands": 1,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 4,
+    "ProteinScope (heuristic ranking)": 4,
+    "fpocket": 16,
+    "P2Rank": 11
+   },
+   "found": {
+    "ProteinScope": [
+     1,
+     1,
+     1
+    ],
+    "ProteinScope (heuristic ranking)": [
+     1,
+     1,
+     1
+    ],
+    "fpocket": [
+     0,
+     0,
+     0
+    ],
+    "P2Rank": [
+     0,
+     0,
+     0
+    ]
+   }
+  },
+  {
+   "protein": "coach420/1p5rA.pdb",
+   "pdb_id": "1P5R",
+   "ligand_codes": [
+    "COA"
+   ],
+   "ligand_residues": 1,
+   "ligands": 1,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 10,
+    "ProteinScope (heuristic ranking)": 10,
+    "fpocket": 27,
+    "P2Rank": 13
+   },
+   "found": {
+    "ProteinScope": [
+     0,
+     1,
+     1
+    ],
+    "ProteinScope (heuristic ranking)": [
+     1,
+     1,
+     1
+    ],
+    "fpocket": [
+     1,
+     1,
+     1
+    ],
+    "P2Rank": [
+     0,
+     0,
+     1
+    ]
+   }
+  },
+  {
+   "protein": "coach420/1p77A.pdb",
+   "pdb_id": "1P77",
+   "ligand_codes": [
+    "ATR"
+   ],
+   "ligand_residues": 1,
+   "ligands": 1,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 2,
+    "ProteinScope (heuristic ranking)": 2,
+    "fpocket": 11,
+    "P2Rank": 5
+   },
+   "found": {
+    "ProteinScope": [
+     0,
+     0,
+     0
+    ],
+    "ProteinScope (heuristic ranking)": [
+     0,
+     0,
+     0
+    ],
+    "fpocket": [
+     1,
+     1,
+     1
+    ],
+    "P2Rank": [
+     1,
+     1,
+     1
+    ]
+   }
+  },
+  {
+   "protein": "coach420/1pfkA.pdb",
+   "pdb_id": "1PFK",
+   "ligand_codes": [
+    "FBP",
+    "ADP"
+   ],
+   "ligand_residues": 4,
+   "ligands": 4,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 5,
+    "ProteinScope (heuristic ranking)": 5,
+    "fpocket": 15,
+    "P2Rank": 4
+   },
+   "found": {
+    "ProteinScope": [
+     1,
+     1,
+     1
+    ],
+    "ProteinScope (heuristic ranking)": [
+     1,
+     1,
+     1
+    ],
+    "fpocket": [
+     1,
+     1,
+     2
+    ],
+    "P2Rank": [
+     2,
+     2,
+     2
+    ]
+   }
+  },
+  {
+   "protein": "coach420/1pkkB.pdb",
+   "pdb_id": "1PKK",
+   "ligand_codes": [
+    "DCP"
+   ],
+   "ligand_residues": 1,
+   "ligands": 1,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 2,
+    "ProteinScope (heuristic ranking)": 2,
+    "fpocket": 9,
+    "P2Rank": 4
+   },
+   "found": {
+    "ProteinScope": [
+     0,
+     0,
+     0
+    ],
+    "ProteinScope (heuristic ranking)": [
+     0,
+     0,
+     0
+    ],
+    "fpocket": [
+     1,
+     1,
+     1
+    ],
+    "P2Rank": [
+     0,
+     1,
+     1
+    ]
+   }
+  },
+  {
+   "protein": "coach420/1pnfA.pdb",
+   "pdb_id": "1PNF",
+   "ligand_codes": [
+    "NDG",
+    "NAG"
+   ],
+   "ligand_residues": 2,
+   "ligands": 1,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 3,
+    "ProteinScope (heuristic ranking)": 3,
+    "fpocket": 14,
+    "P2Rank": 7
+   },
+   "found": {
+    "ProteinScope": [
+     1,
+     1,
+     1
+    ],
+    "ProteinScope (heuristic ranking)": [
+     1,
+     1,
+     1
+    ],
+    "fpocket": [
+     1,
+     1,
+     1
+    ],
+    "P2Rank": [
+     1,
+     1,
+     1
+    ]
+   }
+  },
+  {
+   "protein": "coach420/1ppcE.pdb",
+   "pdb_id": "1PPC",
+   "ligand_codes": [
+    "MID"
+   ],
+   "ligand_residues": 1,
+   "ligands": 1,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 2,
+    "ProteinScope (heuristic ranking)": 2,
+    "fpocket": 9,
+    "P2Rank": 7
+   },
+   "found": {
+    "ProteinScope": [
+     0,
+     1,
+     1
+    ],
+    "ProteinScope (heuristic ranking)": [
+     0,
+     1,
+     1
+    ],
+    "fpocket": [
+     1,
+     1,
+     1
+    ],
+    "P2Rank": [
+     1,
+     1,
+     1
+    ]
+   }
+  },
+  {
+   "protein": "coach420/1pphE.pdb",
+   "pdb_id": "1PPH",
+   "ligand_codes": [
+    "0ZG"
+   ],
+   "ligand_residues": 1,
+   "ligands": 1,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 2,
+    "ProteinScope (heuristic ranking)": 2,
+    "fpocket": 7,
+    "P2Rank": 7
+   },
+   "found": {
+    "ProteinScope": [
+     0,
+     1,
+     1
+    ],
+    "ProteinScope (heuristic ranking)": [
+     0,
+     1,
+     1
+    ],
+    "fpocket": [
+     1,
+     1,
+     1
+    ],
+    "P2Rank": [
+     1,
+     1,
+     1
+    ]
+   }
+  },
+  {
+   "protein": "coach420/1pw1A.pdb",
+   "pdb_id": "1PW1",
+   "ligand_codes": [
+    "HEL"
+   ],
+   "ligand_residues": 1,
+   "ligands": 1,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 1,
+    "ProteinScope (heuristic ranking)": 1,
+    "fpocket": 10,
+    "P2Rank": 9
+   },
+   "found": {
+    "ProteinScope": [
+     1,
+     1,
+     1
+    ],
+    "ProteinScope (heuristic ranking)": [
+     1,
+     1,
+     1
+    ],
+    "fpocket": [
+     1,
+     1,
+     1
+    ],
+    "P2Rank": [
+     1,
+     1,
+     1
+    ]
+   }
+  },
+  {
+   "protein": "coach420/1q51A.pdb",
+   "pdb_id": "1Q51",
+   "ligand_codes": [
+    "CAA"
+   ],
+   "ligand_residues": 1,
+   "ligands": 1,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 4,
+    "ProteinScope (heuristic ranking)": 4,
+    "fpocket": 14,
+    "P2Rank": 7
+   },
+   "found": {
+    "ProteinScope": [
+     1,
+     1,
+     1
+    ],
+    "ProteinScope (heuristic ranking)": [
+     0,
+     1,
+     1
+    ],
+    "fpocket": [
+     0,
+     0,
+     1
+    ],
+    "P2Rank": [
+     1,
+     1,
+     1
+    ]
+   }
+  },
+  {
+   "protein": "coach420/1q8jA.pdb",
+   "pdb_id": "1Q8J",
+   "ligand_codes": [
+    "C2F",
+    "HCS"
+   ],
+   "ligand_residues": 1,
+   "ligands": 1,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 9,
+    "ProteinScope (heuristic ranking)": 9,
+    "fpocket": 25,
+    "P2Rank": 11
+   },
+   "found": {
+    "ProteinScope": [
+     1,
+     1,
+     1
+    ],
+    "ProteinScope (heuristic ranking)": [
+     1,
+     1,
+     1
+    ],
+    "fpocket": [
+     0,
+     0,
+     1
+    ],
+    "P2Rank": [
+     0,
+     1,
+     1
+    ]
+   }
+  },
+  {
+   "protein": "coach420/1qbuA.pdb",
+   "pdb_id": "1QBU",
+   "ligand_codes": [
+    "846"
+   ],
+   "ligand_residues": 1,
+   "ligands": 1,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 1,
+    "ProteinScope (heuristic ranking)": 1,
+    "fpocket": 8,
+    "P2Rank": 2
+   },
+   "found": {
+    "ProteinScope": [
+     0,
+     0,
+     0
+    ],
+    "ProteinScope (heuristic ranking)": [
+     0,
+     0,
+     0
+    ],
+    "fpocket": [
+     1,
+     1,
+     1
+    ],
+    "P2Rank": [
+     1,
+     1,
+     1
+    ]
+   }
+  },
+  {
+   "protein": "coach420/1qhiA.pdb",
+   "pdb_id": "1QHI",
+   "ligand_codes": [
+    "BPG"
+   ],
+   "ligand_residues": 1,
+   "ligands": 1,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 4,
+    "ProteinScope (heuristic ranking)": 4,
+    "fpocket": 13,
+    "P2Rank": 11
+   },
+   "found": {
+    "ProteinScope": [
+     0,
+     1,
+     1
+    ],
+    "ProteinScope (heuristic ranking)": [
+     1,
+     1,
+     1
+    ],
+    "fpocket": [
+     1,
+     1,
+     1
+    ],
+    "P2Rank": [
+     1,
+     1,
+     1
+    ]
+   }
+  },
+  {
+   "protein": "coach420/1qjiA.pdb",
+   "pdb_id": "1QJI",
+   "ligand_codes": [
+    "PKF"
+   ],
+   "ligand_residues": 1,
+   "ligands": 1,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 1,
+    "ProteinScope (heuristic ranking)": 1,
+    "fpocket": 6,
+    "P2Rank": 5
+   },
+   "found": {
+    "ProteinScope": [
+     1,
+     1,
+     1
+    ],
+    "ProteinScope (heuristic ranking)": [
+     1,
+     1,
+     1
+    ],
+    "fpocket": [
+     1,
+     1,
+     1
+    ],
+    "P2Rank": [
+     1,
+     1,
+     1
+    ]
+   }
+  },
+  {
+   "protein": "coach420/1ql9A.pdb",
+   "pdb_id": "1QL9",
+   "ligand_codes": [
+    "ZEN"
+   ],
+   "ligand_residues": 1,
+   "ligands": 1,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 2,
+    "ProteinScope (heuristic ranking)": 2,
+    "fpocket": 5,
+    "P2Rank": 3
+   },
+   "found": {
+    "ProteinScope": [
+     0,
+     1,
+     1
+    ],
+    "ProteinScope (heuristic ranking)": [
+     0,
+     1,
+     1
+    ],
+    "fpocket": [
+     1,
+     1,
+     1
+    ],
+    "P2Rank": [
+     1,
+     1,
+     1
+    ]
+   }
+  },
+  {
+   "protein": "coach420/1qtiA.pdb",
+   "pdb_id": "1QTI",
+   "ligand_codes": [
+    "GNT"
+   ],
+   "ligand_residues": 1,
+   "ligands": 1,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 8,
+    "ProteinScope (heuristic ranking)": 8,
+    "fpocket": 29,
+    "P2Rank": 13
+   },
+   "found": {
+    "ProteinScope": [
+     1,
+     1,
+     1
+    ],
+    "ProteinScope (heuristic ranking)": [
+     1,
+     1,
+     1
+    ],
+    "fpocket": [
+     1,
+     1,
+     1
+    ],
+    "P2Rank": [
+     1,
+     1,
+     1
+    ]
+   }
+  },
+  {
+   "protein": "coach420/1r15A.pdb",
+   "pdb_id": "1R15",
+   "ligand_codes": [
+    "NCA"
+   ],
+   "ligand_residues": 2,
+   "ligands": 2,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 3,
+    "ProteinScope (heuristic ranking)": 3,
+    "fpocket": 13,
+    "P2Rank": 6
+   },
+   "found": {
+    "ProteinScope": [
+     1,
+     1,
+     1
+    ],
+    "ProteinScope (heuristic ranking)": [
+     1,
+     1,
+     1
+    ],
+    "fpocket": [
+     1,
+     2,
+     2
+    ],
+    "P2Rank": [
+     1,
+     1,
+     1
+    ]
+   }
+  },
+  {
+   "protein": "coach420/1ri1A.pdb",
+   "pdb_id": "1RI1",
+   "ligand_codes": [
+    "GTG",
+    "SAH"
+   ],
+   "ligand_residues": 2,
+   "ligands": 2,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 5,
+    "ProteinScope (heuristic ranking)": 5,
+    "fpocket": 15,
+    "P2Rank": 3
+   },
+   "found": {
+    "ProteinScope": [
+     2,
+     2,
+     2
+    ],
+    "ProteinScope (heuristic ranking)": [
+     2,
+     2,
+     2
+    ],
+    "fpocket": [
+     2,
+     2,
+     2
+    ],
+    "P2Rank": [
+     2,
+     2,
+     2
+    ]
+   }
+  },
+  {
+   "protein": "coach420/1rn8A.pdb",
+   "pdb_id": "1RN8",
+   "ligand_codes": [
+    "DUP"
+   ],
+   "ligand_residues": 1,
+   "ligands": 1,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 1,
+    "ProteinScope (heuristic ranking)": 1,
+    "fpocket": 4,
+    "P2Rank": 3
+   },
+   "found": {
+    "ProteinScope": [
+     0,
+     0,
+     0
+    ],
+    "ProteinScope (heuristic ranking)": [
+     0,
+     0,
+     0
+    ],
+    "fpocket": [
+     0,
+     0,
+     1
+    ],
+    "P2Rank": [
+     0,
+     1,
+     1
+    ]
+   }
+  },
+  {
+   "protein": "coach420/1rsdA.pdb",
+   "pdb_id": "1RSD",
+   "ligand_codes": [
+    "PSB"
+   ],
+   "ligand_residues": 1,
+   "ligands": 1,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 0,
+    "ProteinScope (heuristic ranking)": 0,
+    "fpocket": 7,
+    "P2Rank": 1
+   },
+   "found": {
+    "ProteinScope": [
+     0,
+     0,
+     0
+    ],
+    "ProteinScope (heuristic ranking)": [
+     0,
+     0,
+     0
+    ],
+    "fpocket": [
+     0,
+     1,
+     1
+    ],
+    "P2Rank": [
+     1,
+     1,
+     1
+    ]
+   }
+  },
+  {
+   "protein": "coach420/1rzuA.pdb",
+   "pdb_id": "1RZU",
+   "ligand_codes": [
+    "ADP"
+   ],
+   "ligand_residues": 1,
+   "ligands": 1,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 4,
+    "ProteinScope (heuristic ranking)": 4,
+    "fpocket": 19,
+    "P2Rank": 10
+   },
+   "found": {
+    "ProteinScope": [
+     1,
+     1,
+     1
+    ],
+    "ProteinScope (heuristic ranking)": [
+     1,
+     1,
+     1
+    ],
+    "fpocket": [
+     1,
+     1,
+     1
+    ],
+    "P2Rank": [
+     0,
+     1,
+     1
+    ]
+   }
+  },
+  {
+   "protein": "coach420/1s3fA.pdb",
+   "pdb_id": "1S3F",
+   "ligand_codes": [
+    "SNI"
+   ],
+   "ligand_residues": 1,
+   "ligands": 1,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 2,
+    "ProteinScope (heuristic ranking)": 2,
+    "fpocket": 11,
+    "P2Rank": 5
+   },
+   "found": {
+    "ProteinScope": [
+     1,
+     1,
+     1
+    ],
+    "ProteinScope (heuristic ranking)": [
+     1,
+     1,
+     1
+    ],
+    "fpocket": [
+     1,
+     1,
+     1
+    ],
+    "P2Rank": [
+     1,
+     1,
+     1
+    ]
+   }
+  },
+  {
+   "protein": "coach420/1sbyA.pdb",
+   "pdb_id": "1SBY",
+   "ligand_codes": [
+    "NAD",
+    "ETF"
+   ],
+   "ligand_residues": 2,
+   "ligands": 2,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 3,
+    "ProteinScope (heuristic ranking)": 3,
+    "fpocket": 11,
+    "P2Rank": 4
+   },
+   "found": {
+    "ProteinScope": [
+     1,
+     1,
+     1
+    ],
+    "ProteinScope (heuristic ranking)": [
+     1,
+     1,
+     1
+    ],
+    "fpocket": [
+     1,
+     1,
+     1
+    ],
+    "P2Rank": [
+     1,
+     1,
+     1
+    ]
+   }
+  },
+  {
+   "protein": "coach420/1sqfA.pdb",
+   "pdb_id": "1SQF",
+   "ligand_codes": [
+    "SAM"
+   ],
+   "ligand_residues": 1,
+   "ligands": 1,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 3,
+    "ProteinScope (heuristic ranking)": 3,
+    "fpocket": 21,
+    "P2Rank": 12
+   },
+   "found": {
+    "ProteinScope": [
+     0,
+     0,
+     0
+    ],
+    "ProteinScope (heuristic ranking)": [
+     0,
+     0,
+     0
+    ],
+    "fpocket": [
+     0,
+     1,
+     1
+    ],
+    "P2Rank": [
+     0,
+     1,
+     1
+    ]
+   }
+  },
+  {
+   "protein": "coach420/1sthA.pdb",
+   "pdb_id": "1STH",
+   "ligand_codes": [
+    "THP"
+   ],
+   "ligand_residues": 1,
+   "ligands": 1,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 1,
+    "ProteinScope (heuristic ranking)": 1,
+    "fpocket": 7,
+    "P2Rank": 2
+   },
+   "found": {
+    "ProteinScope": [
+     1,
+     1,
+     1
+    ],
+    "ProteinScope (heuristic ranking)": [
+     1,
+     1,
+     1
+    ],
+    "fpocket": [
+     1,
+     1,
+     1
+    ],
+    "P2Rank": [
+     1,
+     1,
+     1
+    ]
+   }
+  },
+  {
+   "protein": "coach420/1swkA.pdb",
+   "pdb_id": "1SWK",
+   "ligand_codes": [
+    "BTN",
+    "BTQ"
+   ],
+   "ligand_residues": 1,
+   "ligands": 1,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 1,
+    "ProteinScope (heuristic ranking)": 1,
+    "fpocket": 6,
+    "P2Rank": 2
+   },
+   "found": {
+    "ProteinScope": [
+     1,
+     1,
+     1
+    ],
+    "ProteinScope (heuristic ranking)": [
+     1,
+     1,
+     1
+    ],
+    "fpocket": [
+     1,
+     1,
+     1
+    ],
+    "P2Rank": [
+     1,
+     1,
+     1
+    ]
+   }
+  },
+  {
+   "protein": "coach420/1sz3A.pdb",
+   "pdb_id": "1SZ3",
+   "ligand_codes": [
+    "GNP"
+   ],
+   "ligand_residues": 2,
+   "ligands": 2,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 1,
+    "ProteinScope (heuristic ranking)": 1,
+    "fpocket": 7,
+    "P2Rank": 4
+   },
+   "found": {
+    "ProteinScope": [
+     1,
+     1,
+     1
+    ],
+    "ProteinScope (heuristic ranking)": [
+     1,
+     1,
+     1
+    ],
+    "fpocket": [
+     1,
+     1,
+     1
+    ],
+    "P2Rank": [
+     1,
+     1,
+     1
+    ]
+   }
+  },
+  {
+   "protein": "coach420/1szjG.pdb",
+   "pdb_id": "1SZJ",
+   "ligand_codes": [
+    "NAD"
+   ],
+   "ligand_residues": 1,
+   "ligands": 1,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 1,
+    "ProteinScope (heuristic ranking)": 1,
+    "fpocket": 18,
+    "P2Rank": 6
+   },
+   "found": {
+    "ProteinScope": [
+     1,
+     1,
+     1
+    ],
+    "ProteinScope (heuristic ranking)": [
+     1,
+     1,
+     1
+    ],
+    "fpocket": [
+     1,
+     1,
+     1
+    ],
+    "P2Rank": [
+     1,
+     1,
+     1
+    ]
+   }
+  },
+  {
+   "protein": "coach420/1tjwA.pdb",
+   "pdb_id": "1TJW",
+   "ligand_codes": [
+    "AS1"
+   ],
+   "ligand_residues": 1,
+   "ligands": 1,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 8,
+    "ProteinScope (heuristic ranking)": 8,
+    "fpocket": 26,
+    "P2Rank": 10
+   },
+   "found": {
+    "ProteinScope": [
+     0,
+     0,
+     1
+    ],
+    "ProteinScope (heuristic ranking)": [
+     0,
+     1,
+     1
+    ],
+    "fpocket": [
+     0,
+     0,
+     1
+    ],
+    "P2Rank": [
+     0,
+     1,
+     1
+    ]
+   }
+  },
+  {
+   "protein": "coach420/1tkyA.pdb",
+   "pdb_id": "1TKY",
+   "ligand_codes": [
+    "A3S"
+   ],
+   "ligand_residues": 1,
+   "ligands": 1,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 4,
+    "ProteinScope (heuristic ranking)": 4,
+    "fpocket": 10,
+    "P2Rank": 6
+   },
+   "found": {
+    "ProteinScope": [
+     1,
+     1,
+     1
+    ],
+    "ProteinScope (heuristic ranking)": [
+     1,
+     1,
+     1
+    ],
+    "fpocket": [
+     1,
+     1,
+     1
+    ],
+    "P2Rank": [
+     1,
+     1,
+     1
+    ]
+   }
+  },
+  {
+   "protein": "coach420/1tvpB.pdb",
+   "pdb_id": "1TVP",
+   "ligand_codes": [
+    "CBI"
+   ],
+   "ligand_residues": 1,
+   "ligands": 1,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 2,
+    "ProteinScope (heuristic ranking)": 2,
+    "fpocket": 10,
+    "P2Rank": 4
+   },
+   "found": {
+    "ProteinScope": [
+     1,
+     1,
+     1
+    ],
+    "ProteinScope (heuristic ranking)": [
+     1,
+     1,
+     1
+    ],
+    "fpocket": [
+     0,
+     0,
+     0
+    ],
+    "P2Rank": [
+     1,
+     1,
+     1
+    ]
+   }
+  },
+  {
+   "protein": "coach420/1tywA.pdb",
+   "pdb_id": "1TYW",
+   "ligand_codes": [
+    "TYV",
+    "MAN",
+    "GLA",
+    "RAM",
+    "GLC"
+   ],
+   "ligand_residues": 9,
+   "ligands": 1,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 9,
+    "ProteinScope (heuristic ranking)": 9,
+    "fpocket": 26,
+    "P2Rank": 12
+   },
+   "found": {
+    "ProteinScope": [
+     0,
+     1,
+     1
+    ],
+    "ProteinScope (heuristic ranking)": [
+     0,
+     1,
+     1
+    ],
+    "fpocket": [
+     1,
+     1,
+     1
+    ],
+    "P2Rank": [
+     1,
+     1,
+     1
+    ]
+   }
+  },
+  {
+   "protein": "coach420/1u72A.pdb",
+   "pdb_id": "1U72",
+   "ligand_codes": [
+    "MTX",
+    "NDP"
+   ],
+   "ligand_residues": 2,
+   "ligands": 2,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 1,
+    "ProteinScope (heuristic ranking)": 1,
+    "fpocket": 12,
+    "P2Rank": 3
+   },
+   "found": {
+    "ProteinScope": [
+     2,
+     2,
+     2
+    ],
+    "ProteinScope (heuristic ranking)": [
+     2,
+     2,
+     2
+    ],
+    "fpocket": [
+     2,
+     2,
+     2
+    ],
+    "P2Rank": [
+     2,
+     2,
+     2
+    ]
+   }
+  },
+  {
+   "protein": "coach420/1u7zA.pdb",
+   "pdb_id": "1U7Z",
+   "ligand_codes": [
+    "PMT"
+   ],
+   "ligand_residues": 1,
+   "ligands": 1,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 3,
+    "ProteinScope (heuristic ranking)": 3,
+    "fpocket": 9,
+    "P2Rank": 1
+   },
+   "found": {
+    "ProteinScope": [
+     1,
+     1,
+     1
+    ],
+    "ProteinScope (heuristic ranking)": [
+     1,
+     1,
+     1
+    ],
+    "fpocket": [
+     1,
+     1,
+     1
+    ],
+    "P2Rank": [
+     1,
+     1,
+     1
+    ]
+   }
+  },
+  {
+   "protein": "coach420/1uamA.pdb",
+   "pdb_id": "1UAM",
+   "ligand_codes": [
+    "SAH"
+   ],
+   "ligand_residues": 1,
+   "ligands": 1,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 3,
+    "ProteinScope (heuristic ranking)": 3,
+    "fpocket": 13,
+    "P2Rank": 2
+   },
+   "found": {
+    "ProteinScope": [
+     1,
+     1,
+     1
+    ],
+    "ProteinScope (heuristic ranking)": [
+     1,
+     1,
+     1
+    ],
+    "fpocket": [
+     1,
+     1,
+     1
+    ],
+    "P2Rank": [
+     1,
+     1,
+     1
+    ]
+   }
+  },
+  {
+   "protein": "coach420/1ucdA.pdb",
+   "pdb_id": "1UCD",
+   "ligand_codes": [
+    "U5P",
+    "URA"
+   ],
+   "ligand_residues": 2,
+   "ligands": 2,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 2,
+    "ProteinScope (heuristic ranking)": 2,
+    "fpocket": 11,
+    "P2Rank": 4
+   },
+   "found": {
+    "ProteinScope": [
+     1,
+     1,
+     1
+    ],
+    "ProteinScope (heuristic ranking)": [
+     1,
+     1,
+     1
+    ],
+    "fpocket": [
+     1,
+     2,
+     2
+    ],
+    "P2Rank": [
+     1,
+     1,
+     1
+    ]
+   }
+  },
+  {
+   "protein": "coach420/1uf8A.pdb",
+   "pdb_id": "1UF8",
+   "ligand_codes": [
+    "ING"
+   ],
+   "ligand_residues": 1,
+   "ligands": 1,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 4,
+    "ProteinScope (heuristic ranking)": 4,
+    "fpocket": 14,
+    "P2Rank": 6
+   },
+   "found": {
+    "ProteinScope": [
+     1,
+     1,
+     1
+    ],
+    "ProteinScope (heuristic ranking)": [
+     1,
+     1,
+     1
+    ],
+    "fpocket": [
+     1,
+     1,
+     1
+    ],
+    "P2Rank": [
+     1,
+     1,
+     1
+    ]
+   }
+  },
+  {
+   "protein": "coach420/1um0A.pdb",
+   "pdb_id": "1UM0",
+   "ligand_codes": [
+    "FMN"
+   ],
+   "ligand_residues": 2,
+   "ligands": 2,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 9,
+    "ProteinScope (heuristic ranking)": 9,
+    "fpocket": 25,
+    "P2Rank": 10
+   },
+   "found": {
+    "ProteinScope": [
+     0,
+     0,
+     1
+    ],
+    "ProteinScope (heuristic ranking)": [
+     0,
+     0,
+     1
+    ],
+    "fpocket": [
+     1,
+     1,
+     1
+    ],
+    "P2Rank": [
+     1,
+     1,
+     1
+    ]
+   }
+  },
+  {
+   "protein": "coach420/1uvtH.pdb",
+   "pdb_id": "1UVT",
+   "ligand_codes": [
+    "I48"
+   ],
+   "ligand_residues": 1,
+   "ligands": 1,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 3,
+    "ProteinScope (heuristic ranking)": 3,
+    "fpocket": 13,
+    "P2Rank": 4
+   },
+   "found": {
+    "ProteinScope": [
+     1,
+     1,
+     1
+    ],
+    "ProteinScope (heuristic ranking)": [
+     1,
+     1,
+     1
+    ],
+    "fpocket": [
+     1,
+     1,
+     1
+    ],
+    "P2Rank": [
+     1,
+     1,
+     1
+    ]
+   }
+  },
+  {
+   "protein": "coach420/1v3sA.pdb",
+   "pdb_id": "1V3S",
+   "ligand_codes": [
+    "ATP"
+   ],
+   "ligand_residues": 2,
+   "ligands": 2,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 2,
+    "ProteinScope (heuristic ranking)": 2,
+    "fpocket": 6,
+    "P2Rank": 3
+   },
+   "found": {
+    "ProteinScope": [
+     2,
+     2,
+     2
+    ],
+    "ProteinScope (heuristic ranking)": [
+     2,
+     2,
+     2
+    ],
+    "fpocket": [
+     1,
+     2,
+     2
+    ],
+    "P2Rank": [
+     1,
+     1,
+     1
+    ]
+   }
+  },
+  {
+   "protein": "coach420/1vpsB.pdb",
+   "pdb_id": "1VPS",
+   "ligand_codes": [
+    "GAL",
+    "NAG",
+    "SIA"
+   ],
+   "ligand_residues": 4,
+   "ligands": 1,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 7,
+    "ProteinScope (heuristic ranking)": 7,
+    "fpocket": 17,
+    "P2Rank": 6
+   },
+   "found": {
+    "ProteinScope": [
+     0,
+     0,
+     0
+    ],
+    "ProteinScope (heuristic ranking)": [
+     0,
+     0,
+     0
+    ],
+    "fpocket": [
+     0,
+     0,
+     0
+    ],
+    "P2Rank": [
+     0,
+     0,
+     1
+    ]
+   }
+  },
+  {
+   "protein": "coach420/1wnzA.pdb",
+   "pdb_id": "1WNZ",
+   "ligand_codes": [
+    "2VA"
+   ],
+   "ligand_residues": 1,
+   "ligands": 1,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 1,
+    "ProteinScope (heuristic ranking)": 1,
+    "fpocket": 7,
+    "P2Rank": 3
+   },
+   "found": {
+    "ProteinScope": [
+     1,
+     1,
+     1
+    ],
+    "ProteinScope (heuristic ranking)": [
+     1,
+     1,
+     1
+    ],
+    "fpocket": [
+     1,
+     1,
+     1
+    ],
+    "P2Rank": [
+     1,
+     1,
+     1
+    ]
+   }
+  },
+  {
+   "protein": "coach420/1wopA.pdb",
+   "pdb_id": "1WOP",
+   "ligand_codes": [
+    "FFO"
+   ],
+   "ligand_residues": 2,
+   "ligands": 2,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 4,
+    "ProteinScope (heuristic ranking)": 4,
+    "fpocket": 18,
+    "P2Rank": 10
+   },
+   "found": {
+    "ProteinScope": [
+     2,
+     2,
+     2
+    ],
+    "ProteinScope (heuristic ranking)": [
+     2,
+     2,
+     2
+    ],
+    "fpocket": [
+     2,
+     2,
+     2
+    ],
+    "P2Rank": [
+     2,
+     2,
+     2
+    ]
+   }
+  },
+  {
+   "protein": "coach420/1wq1G.pdb",
+   "pdb_id": "1WQ1",
+   "ligand_codes": [
+    "GDP",
+    "AF3"
+   ],
+   "ligand_residues": 2,
+   "ligands": 2,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 3,
+    "ProteinScope (heuristic ranking)": 3,
+    "fpocket": 21,
+    "P2Rank": 4
+   },
+   "found": {
+    "ProteinScope": [
+     0,
+     0,
+     0
+    ],
+    "ProteinScope (heuristic ranking)": [
+     0,
+     0,
+     0
+    ],
+    "fpocket": [
+     0,
+     0,
+     0
+    ],
+    "P2Rank": [
+     0,
+     0,
+     0
+    ]
+   }
+  },
+  {
+   "protein": "coach420/1x2bA.pdb",
+   "pdb_id": "1X2B",
+   "ligand_codes": [
+    "STX"
+   ],
+   "ligand_residues": 1,
+   "ligands": 1,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 4,
+    "ProteinScope (heuristic ranking)": 4,
+    "fpocket": 15,
+    "P2Rank": 3
+   },
+   "found": {
+    "ProteinScope": [
+     1,
+     1,
+     1
+    ],
+    "ProteinScope (heuristic ranking)": [
+     1,
+     1,
+     1
+    ],
+    "fpocket": [
+     0,
+     1,
+     1
+    ],
+    "P2Rank": [
+     1,
+     1,
+     1
+    ]
+   }
+  },
+  {
+   "protein": "coach420/1x55A.pdb",
+   "pdb_id": "1X55",
+   "ligand_codes": [
+    "NSS"
+   ],
+   "ligand_residues": 1,
+   "ligands": 1,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 6,
+    "ProteinScope (heuristic ranking)": 6,
+    "fpocket": 28,
+    "P2Rank": 14
+   },
+   "found": {
+    "ProteinScope": [
+     1,
+     1,
+     1
+    ],
+    "ProteinScope (heuristic ranking)": [
+     0,
+     1,
+     1
+    ],
+    "fpocket": [
+     0,
+     1,
+     1
+    ],
+    "P2Rank": [
+     1,
+     1,
+     1
+    ]
+   }
+  },
+  {
+   "protein": "coach420/1xdhA.pdb",
+   "pdb_id": "1XDH",
+   "ligand_codes": [
+    "VAL",
+    "STA",
+    "IVA",
+    "ALA"
+   ],
+   "ligand_residues": 12,
+   "ligands": 2,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 2,
+    "ProteinScope (heuristic ranking)": 2,
+    "fpocket": 17,
+    "P2Rank": 11
+   },
+   "found": {
+    "ProteinScope": [
+     1,
+     1,
+     1
+    ],
+    "ProteinScope (heuristic ranking)": [
+     1,
+     1,
+     1
+    ],
+    "fpocket": [
+     1,
+     1,
+     1
+    ],
+    "P2Rank": [
+     1,
+     1,
+     1
+    ]
+   }
+  },
+  {
+   "protein": "coach420/1xnyA.pdb",
+   "pdb_id": "1XNY",
+   "ligand_codes": [
+    "191",
+    "BTN"
+   ],
+   "ligand_residues": 4,
+   "ligands": 4,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 5,
+    "ProteinScope (heuristic ranking)": 5,
+    "fpocket": 28,
+    "P2Rank": 15
+   },
+   "found": {
+    "ProteinScope": [
+     0,
+     0,
+     0
+    ],
+    "ProteinScope (heuristic ranking)": [
+     0,
+     0,
+     0
+    ],
+    "fpocket": [
+     0,
+     0,
+     1
+    ],
+    "P2Rank": [
+     1,
+     1,
+     1
+    ]
+   }
+  },
+  {
+   "protein": "coach420/1xpyC.pdb",
+   "pdb_id": "1XPY",
+   "ligand_codes": [
+    "NLQ"
+   ],
+   "ligand_residues": 1,
+   "ligands": 1,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 6,
+    "ProteinScope (heuristic ranking)": 6,
+    "fpocket": 21,
+    "P2Rank": 8
+   },
+   "found": {
+    "ProteinScope": [
+     1,
+     1,
+     1
+    ],
+    "ProteinScope (heuristic ranking)": [
+     1,
+     1,
+     1
+    ],
+    "fpocket": [
+     0,
+     0,
+     1
+    ],
+    "P2Rank": [
+     1,
+     1,
+     1
+    ]
+   }
+  },
+  {
+   "protein": "coach420/1xqpA.pdb",
+   "pdb_id": "1XQP",
+   "ligand_codes": [
+    "8HG"
+   ],
+   "ligand_residues": 2,
+   "ligands": 2,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 3,
+    "ProteinScope (heuristic ranking)": 3,
+    "fpocket": 14,
+    "P2Rank": 3
+   },
+   "found": {
+    "ProteinScope": [
+     1,
+     1,
+     1
+    ],
+    "ProteinScope (heuristic ranking)": [
+     1,
+     1,
+     1
+    ],
+    "fpocket": [
+     1,
+     1,
+     1
+    ],
+    "P2Rank": [
+     1,
+     1,
+     1
+    ]
+   }
+  },
+  {
+   "protein": "coach420/1xtbA.pdb",
+   "pdb_id": "1XTB",
+   "ligand_codes": [
+    "S6P"
+   ],
+   "ligand_residues": 1,
+   "ligands": 1,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 9,
+    "ProteinScope (heuristic ranking)": 9,
+    "fpocket": 38,
+    "P2Rank": 17
+   },
+   "found": {
+    "ProteinScope": [
+     1,
+     1,
+     1
+    ],
+    "ProteinScope (heuristic ranking)": [
+     0,
+     1,
+     1
+    ],
+    "fpocket": [
+     1,
+     1,
+     1
+    ],
+    "P2Rank": [
+     1,
+     1,
+     1
+    ]
+   }
+  },
+  {
+   "protein": "coach420/1xvtA.pdb",
+   "pdb_id": "1XVT",
+   "ligand_codes": [
+    "COA"
+   ],
+   "ligand_residues": 1,
+   "ligands": 1,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 9,
+    "ProteinScope (heuristic ranking)": 9,
+    "fpocket": 20,
+    "P2Rank": 11
+   },
+   "found": {
+    "ProteinScope": [
+     1,
+     1,
+     1
+    ],
+    "ProteinScope (heuristic ranking)": [
+     1,
+     1,
+     1
+    ],
+    "fpocket": [
+     0,
+     1,
+     1
+    ],
+    "P2Rank": [
+     0,
+     1,
+     1
+    ]
+   }
+  },
+  {
+   "protein": "coach420/1xwqA.pdb",
+   "pdb_id": "1XWQ",
+   "ligand_codes": [
+    "XYP"
+   ],
+   "ligand_residues": 3,
+   "ligands": 1,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 3,
+    "ProteinScope (heuristic ranking)": 3,
+    "fpocket": 17,
+    "P2Rank": 10
+   },
+   "found": {
+    "ProteinScope": [
+     1,
+     1,
+     1
+    ],
+    "ProteinScope (heuristic ranking)": [
+     1,
+     1,
+     1
+    ],
+    "fpocket": [
+     0,
+     1,
+     1
+    ],
+    "P2Rank": [
+     1,
+     1,
+     1
+    ]
+   }
+  },
+  {
+   "protein": "coach420/1y2vA.pdb",
+   "pdb_id": "1Y2V",
+   "ligand_codes": [
+    "SER",
+    "GAL",
+    "NGA"
+   ],
+   "ligand_residues": 3,
+   "ligands": 1,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 0,
+    "ProteinScope (heuristic ranking)": 0,
+    "fpocket": 8,
+    "P2Rank": 4
+   },
+   "found": {
+    "ProteinScope": [
+     0,
+     0,
+     0
+    ],
+    "ProteinScope (heuristic ranking)": [
+     0,
+     0,
+     0
+    ],
+    "fpocket": [
+     0,
+     0,
+     0
+    ],
+    "P2Rank": [
+     1,
+     1,
+     1
+    ]
+   }
+  },
+  {
+   "protein": "coach420/1y30A.pdb",
+   "pdb_id": "1Y30",
+   "ligand_codes": [
+    "FMN"
+   ],
+   "ligand_residues": 1,
+   "ligands": 1,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 1,
+    "ProteinScope (heuristic ranking)": 1,
+    "fpocket": 6,
+    "P2Rank": 2
+   },
+   "found": {
+    "ProteinScope": [
+     1,
+     1,
+     1
+    ],
+    "ProteinScope (heuristic ranking)": [
+     1,
+     1,
+     1
+    ],
+    "fpocket": [
+     1,
+     1,
+     1
+    ],
+    "P2Rank": [
+     1,
+     1,
+     1
+    ]
+   }
+  },
+  {
+   "protein": "coach420/1ybuA.pdb",
+   "pdb_id": "1YBU",
+   "ligand_codes": [
+    "APC"
+   ],
+   "ligand_residues": 1,
+   "ligands": 1,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 3,
+    "ProteinScope (heuristic ranking)": 3,
+    "fpocket": 6,
+    "P2Rank": 3
+   },
+   "found": {
+    "ProteinScope": [
+     0,
+     0,
+     0
+    ],
+    "ProteinScope (heuristic ranking)": [
+     0,
+     0,
+     0
+    ],
+    "fpocket": [
+     0,
+     0,
+     0
+    ],
+    "P2Rank": [
+     0,
+     0,
+     0
+    ]
+   }
+  },
+  {
+   "protein": "coach420/1ydsE.pdb",
+   "pdb_id": "1YDS",
+   "ligand_codes": [
+    "IQS"
+   ],
+   "ligand_residues": 1,
+   "ligands": 1,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 9,
+    "ProteinScope (heuristic ranking)": 9,
+    "fpocket": 23,
+    "P2Rank": 7
+   },
+   "found": {
+    "ProteinScope": [
+     0,
+     0,
+     0
+    ],
+    "ProteinScope (heuristic ranking)": [
+     0,
+     0,
+     0
+    ],
+    "fpocket": [
+     1,
+     1,
+     1
+    ],
+    "P2Rank": [
+     0,
+     0,
+     0
+    ]
+   }
+  },
+  {
+   "protein": "coach420/1ydtE.pdb",
+   "pdb_id": "1YDT",
+   "ligand_codes": [
+    "IQB"
+   ],
+   "ligand_residues": 1,
+   "ligands": 1,
+   "in_training_set": true,
+   "pockets": {
+    "ProteinScope": 9,
+    "ProteinScope (heuristic ranking)": 9,
+    "fpocket": 22,
+    "P2Rank": 6
+   },
+   "found": {
+    "ProteinScope": [
+     1,
+     1,
+     1
+    ],
+    "ProteinScope (heuristic ranking)": [
+     1,
+     1,
+     1
+    ],
+    "fpocket": [
+     1,
+     1,
+     1
+    ],
+    "P2Rank": [
+     1,
+     1,
+     1
+    ]
+   }
+  },
+  {
+   "protein": "coach420/1ytjA.pdb",
+   "pdb_id": "1YTJ",
+   "ligand_codes": [
+    "GLU",
+    "SER",
+    "ALA",
+    "NLE",
+    "PPN"
+   ],
+   "ligand_residues": 2,
+   "ligands": 1,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 2,
+    "ProteinScope (heuristic ranking)": 2,
+    "fpocket": 6,
+    "P2Rank": 3
+   },
+   "found": {
+    "ProteinScope": [
+     0,
+     0,
+     0
+    ],
+    "ProteinScope (heuristic ranking)": [
+     0,
+     0,
+     0
+    ],
+    "fpocket": [
+     0,
+     1,
+     1
+    ],
+    "P2Rank": [
+     0,
+     0,
+     0
+    ]
+   }
+  },
+  {
+   "protein": "coach420/1ytmA.pdb",
+   "pdb_id": "1YTM",
+   "ligand_codes": [
+    "OXD",
+    "ATP"
+   ],
+   "ligand_residues": 2,
+   "ligands": 2,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 9,
+    "ProteinScope (heuristic ranking)": 9,
+    "fpocket": 24,
+    "P2Rank": 13
+   },
+   "found": {
+    "ProteinScope": [
+     1,
+     1,
+     1
+    ],
+    "ProteinScope (heuristic ranking)": [
+     1,
+     1,
+     1
+    ],
+    "fpocket": [
+     1,
+     1,
+     1
+    ],
+    "P2Rank": [
+     1,
+     1,
+     1
+    ]
+   }
+  },
+  {
+   "protein": "coach420/1zajA.pdb",
+   "pdb_id": "1ZAJ",
+   "ligand_codes": [
+    "M2P"
+   ],
+   "ligand_residues": 1,
+   "ligands": 1,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 5,
+    "ProteinScope (heuristic ranking)": 5,
+    "fpocket": 24,
+    "P2Rank": 6
+   },
+   "found": {
+    "ProteinScope": [
+     0,
+     1,
+     1
+    ],
+    "ProteinScope (heuristic ranking)": [
+     1,
+     1,
+     1
+    ],
+    "fpocket": [
+     1,
+     1,
+     1
+    ],
+    "P2Rank": [
+     1,
+     1,
+     1
+    ]
+   }
+  },
+  {
+   "protein": "coach420/1zdfA.pdb",
+   "pdb_id": "1ZDF",
+   "ligand_codes": [
+    "UPG"
+   ],
+   "ligand_residues": 1,
+   "ligands": 1,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 5,
+    "ProteinScope (heuristic ranking)": 5,
+    "fpocket": 10,
+    "P2Rank": 8
+   },
+   "found": {
+    "ProteinScope": [
+     0,
+     1,
+     1
+    ],
+    "ProteinScope (heuristic ranking)": [
+     0,
+     1,
+     1
+    ],
+    "fpocket": [
+     1,
+     1,
+     1
+    ],
+    "P2Rank": [
+     1,
+     1,
+     1
+    ]
+   }
+  },
+  {
+   "protein": "coach420/1znzA.pdb",
+   "pdb_id": "1ZNZ",
+   "ligand_codes": [
+    "GDP"
+   ],
+   "ligand_residues": 1,
+   "ligands": 1,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 3,
+    "ProteinScope (heuristic ranking)": 3,
+    "fpocket": 11,
+    "P2Rank": 4
+   },
+   "found": {
+    "ProteinScope": [
+     1,
+     1,
+     1
+    ],
+    "ProteinScope (heuristic ranking)": [
+     1,
+     1,
+     1
+    ],
+    "fpocket": [
+     0,
+     0,
+     1
+    ],
+    "P2Rank": [
+     1,
+     1,
+     1
+    ]
+   }
+  },
+  {
+   "protein": "coach420/1zt9A.pdb",
+   "pdb_id": "1ZT9",
+   "ligand_codes": [
+    "TRP"
+   ],
+   "ligand_residues": 2,
+   "ligands": 2,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 2,
+    "ProteinScope (heuristic ranking)": 2,
+    "fpocket": 3,
+    "P2Rank": 2
+   },
+   "found": {
+    "ProteinScope": [
+     0,
+     0,
+     0
+    ],
+    "ProteinScope (heuristic ranking)": [
+     0,
+     0,
+     0
+    ],
+    "fpocket": [
+     1,
+     1,
+     1
+    ],
+    "P2Rank": [
+     0,
+     0,
+     0
+    ]
+   }
+  },
+  {
+   "protein": "coach420/2artA.pdb",
+   "pdb_id": "2ART",
+   "ligand_codes": [
+    "AMP",
+    "LPA"
+   ],
+   "ligand_residues": 2,
+   "ligands": 1,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 1,
+    "ProteinScope (heuristic ranking)": 1,
+    "fpocket": 15,
+    "P2Rank": 4
+   },
+   "found": {
+    "ProteinScope": [
+     1,
+     1,
+     1
+    ],
+    "ProteinScope (heuristic ranking)": [
+     1,
+     1,
+     1
+    ],
+    "fpocket": [
+     0,
+     1,
+     1
+    ],
+    "P2Rank": [
+     1,
+     1,
+     1
+    ]
+   }
+  },
+  {
+   "protein": "coach420/2ateA.pdb",
+   "pdb_id": "2ATE",
+   "ligand_codes": [
+    "NIA"
+   ],
+   "ligand_residues": 1,
+   "ligands": 1,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 1,
+    "ProteinScope (heuristic ranking)": 1,
+    "fpocket": 9,
+    "P2Rank": 5
+   },
+   "found": {
+    "ProteinScope": [
+     1,
+     1,
+     1
+    ],
+    "ProteinScope (heuristic ranking)": [
+     1,
+     1,
+     1
+    ],
+    "fpocket": [
+     0,
+     1,
+     1
+    ],
+    "P2Rank": [
+     1,
+     1,
+     1
+    ]
+   }
+  },
+  {
+   "protein": "coach420/2b3dA.pdb",
+   "pdb_id": "2B3D",
+   "ligand_codes": [
+    "FAD"
+   ],
+   "ligand_residues": 2,
+   "ligands": 2,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 2,
+    "ProteinScope (heuristic ranking)": 2,
+    "fpocket": 8,
+    "P2Rank": 4
+   },
+   "found": {
+    "ProteinScope": [
+     1,
+     1,
+     1
+    ],
+    "ProteinScope (heuristic ranking)": [
+     1,
+     1,
+     1
+    ],
+    "fpocket": [
+     1,
+     2,
+     2
+    ],
+    "P2Rank": [
+     1,
+     1,
+     1
+    ]
+   }
+  },
+  {
+   "protein": "coach420/2b99A.pdb",
+   "pdb_id": "2B99",
+   "ligand_codes": [
+    "RDL"
+   ],
+   "ligand_residues": 3,
+   "ligands": 3,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 2,
+    "ProteinScope (heuristic ranking)": 2,
+    "fpocket": 6,
+    "P2Rank": 4
+   },
+   "found": {
+    "ProteinScope": [
+     1,
+     1,
+     1
+    ],
+    "ProteinScope (heuristic ranking)": [
+     1,
+     1,
+     1
+    ],
+    "fpocket": [
+     2,
+     2,
+     2
+    ],
+    "P2Rank": [
+     1,
+     1,
+     1
+    ]
+   }
+  },
+  {
+   "protein": "coach420/2bawA.pdb",
+   "pdb_id": "2BAW",
+   "ligand_codes": [
+    "VCA"
+   ],
+   "ligand_residues": 1,
+   "ligands": 1,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 4,
+    "ProteinScope (heuristic ranking)": 4,
+    "fpocket": 20,
+    "P2Rank": 5
+   },
+   "found": {
+    "ProteinScope": [
+     1,
+     1,
+     1
+    ],
+    "ProteinScope (heuristic ranking)": [
+     1,
+     1,
+     1
+    ],
+    "fpocket": [
+     1,
+     1,
+     1
+    ],
+    "P2Rank": [
+     1,
+     1,
+     1
+    ]
+   }
+  },
+  {
+   "protein": "coach420/2bogX.pdb",
+   "pdb_id": "2BOG",
+   "ligand_codes": [
+    "MGL",
+    "SGC",
+    "BGC"
+   ],
+   "ligand_residues": 4,
+   "ligands": 1,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 3,
+    "ProteinScope (heuristic ranking)": 3,
+    "fpocket": 11,
+    "P2Rank": 8
+   },
+   "found": {
+    "ProteinScope": [
+     0,
+     1,
+     1
+    ],
+    "ProteinScope (heuristic ranking)": [
+     0,
+     1,
+     1
+    ],
+    "fpocket": [
+     1,
+     1,
+     1
+    ],
+    "P2Rank": [
+     1,
+     1,
+     1
+    ]
+   }
+  },
+  {
+   "protein": "coach420/2c6zA.pdb",
+   "pdb_id": "2C6Z",
+   "ligand_codes": [
+    "CIR"
+   ],
+   "ligand_residues": 1,
+   "ligands": 1,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 3,
+    "ProteinScope (heuristic ranking)": 3,
+    "fpocket": 14,
+    "P2Rank": 4
+   },
+   "found": {
+    "ProteinScope": [
+     0,
+     1,
+     1
+    ],
+    "ProteinScope (heuristic ranking)": [
+     0,
+     1,
+     1
+    ],
+    "fpocket": [
+     0,
+     1,
+     1
+    ],
+    "P2Rank": [
+     0,
+     1,
+     1
+    ]
+   }
+  },
+  {
+   "protein": "coach420/2c96A.pdb",
+   "pdb_id": "2C96",
+   "ligand_codes": [
+    "ATP"
+   ],
+   "ligand_residues": 1,
+   "ligands": 1,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 3,
+    "ProteinScope (heuristic ranking)": 3,
+    "fpocket": 7,
+    "P2Rank": 2
+   },
+   "found": {
+    "ProteinScope": [
+     1,
+     1,
+     1
+    ],
+    "ProteinScope (heuristic ranking)": [
+     1,
+     1,
+     1
+    ],
+    "fpocket": [
+     0,
+     1,
+     1
+    ],
+    "P2Rank": [
+     1,
+     1,
+     1
+    ]
+   }
+  },
+  {
+   "protein": "coach420/2chtF.pdb",
+   "pdb_id": "2CHT",
+   "ligand_codes": [
+    "TSA"
+   ],
+   "ligand_residues": 2,
+   "ligands": 2,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 3,
+    "ProteinScope (heuristic ranking)": 3,
+    "fpocket": 12,
+    "P2Rank": 3
+   },
+   "found": {
+    "ProteinScope": [
+     0,
+     0,
+     0
+    ],
+    "ProteinScope (heuristic ranking)": [
+     0,
+     0,
+     0
+    ],
+    "fpocket": [
+     0,
+     1,
+     1
+    ],
+    "P2Rank": [
+     0,
+     1,
+     1
+    ]
+   }
+  },
+  {
+   "protein": "coach420/2csnA.pdb",
+   "pdb_id": "2CSN",
+   "ligand_codes": [
+    "CKI"
+   ],
+   "ligand_residues": 1,
+   "ligands": 1,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 6,
+    "ProteinScope (heuristic ranking)": 6,
+    "fpocket": 14,
+    "P2Rank": 8
+   },
+   "found": {
+    "ProteinScope": [
+     1,
+     1,
+     1
+    ],
+    "ProteinScope (heuristic ranking)": [
+     1,
+     1,
+     1
+    ],
+    "fpocket": [
+     1,
+     1,
+     1
+    ],
+    "P2Rank": [
+     1,
+     1,
+     1
+    ]
+   }
+  },
+  {
+   "protein": "coach420/2cwhB.pdb",
+   "pdb_id": "2CWH",
+   "ligand_codes": [
+    "NDP",
+    "PYC"
+   ],
+   "ligand_residues": 3,
+   "ligands": 3,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 5,
+    "ProteinScope (heuristic ranking)": 5,
+    "fpocket": 15,
+    "P2Rank": 12
+   },
+   "found": {
+    "ProteinScope": [
+     0,
+     0,
+     0
+    ],
+    "ProteinScope (heuristic ranking)": [
+     0,
+     0,
+     0
+    ],
+    "fpocket": [
+     2,
+     2,
+     2
+    ],
+    "P2Rank": [
+     2,
+     2,
+     2
+    ]
+   }
+  },
+  {
+   "protein": "coach420/2dkcA.pdb",
+   "pdb_id": "2DKC",
+   "ligand_codes": [
+    "16G"
+   ],
+   "ligand_residues": 1,
+   "ligands": 1,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 6,
+    "ProteinScope (heuristic ranking)": 6,
+    "fpocket": 22,
+    "P2Rank": 8
+   },
+   "found": {
+    "ProteinScope": [
+     1,
+     1,
+     1
+    ],
+    "ProteinScope (heuristic ranking)": [
+     1,
+     1,
+     1
+    ],
+    "fpocket": [
+     1,
+     1,
+     1
+    ],
+    "P2Rank": [
+     1,
+     1,
+     1
+    ]
+   }
+  },
+  {
+   "protein": "coach420/2e0nB.pdb",
+   "pdb_id": "2E0N",
+   "ligand_codes": [
+    "SAH"
+   ],
+   "ligand_residues": 1,
+   "ligands": 1,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 3,
+    "ProteinScope (heuristic ranking)": 3,
+    "fpocket": 15,
+    "P2Rank": 3
+   },
+   "found": {
+    "ProteinScope": [
+     1,
+     1,
+     1
+    ],
+    "ProteinScope (heuristic ranking)": [
+     1,
+     1,
+     1
+    ],
+    "fpocket": [
+     0,
+     1,
+     1
+    ],
+    "P2Rank": [
+     1,
+     1,
+     1
+    ]
+   }
+  },
+  {
+   "protein": "coach420/2e1tA.pdb",
+   "pdb_id": "2E1T",
+   "ligand_codes": [
+    "MLC"
+   ],
+   "ligand_residues": 1,
+   "ligands": 1,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 9,
+    "ProteinScope (heuristic ranking)": 9,
+    "fpocket": 27,
+    "P2Rank": 12
+   },
+   "found": {
+    "ProteinScope": [
+     1,
+     1,
+     1
+    ],
+    "ProteinScope (heuristic ranking)": [
+     1,
+     1,
+     1
+    ],
+    "fpocket": [
+     1,
+     1,
+     1
+    ],
+    "P2Rank": [
+     1,
+     1,
+     1
+    ]
+   }
+  },
+  {
+   "protein": "coach420/2e3rA.pdb",
+   "pdb_id": "2E3R",
+   "ligand_codes": [
+    "18C"
+   ],
+   "ligand_residues": 1,
+   "ligands": 1,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 4,
+    "ProteinScope (heuristic ranking)": 4,
+    "fpocket": 18,
+    "P2Rank": 7
+   },
+   "found": {
+    "ProteinScope": [
+     1,
+     1,
+     1
+    ],
+    "ProteinScope (heuristic ranking)": [
+     1,
+     1,
+     1
+    ],
+    "fpocket": [
+     1,
+     1,
+     1
+    ],
+    "P2Rank": [
+     1,
+     1,
+     1
+    ]
+   }
+  },
+  {
+   "protein": "coach420/2e6uX.pdb",
+   "pdb_id": "2E6U",
+   "ligand_codes": [
+    "COA"
+   ],
+   "ligand_residues": 1,
+   "ligands": 1,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 1,
+    "ProteinScope (heuristic ranking)": 1,
+    "fpocket": 6,
+    "P2Rank": 2
+   },
+   "found": {
+    "ProteinScope": [
+     1,
+     1,
+     1
+    ],
+    "ProteinScope (heuristic ranking)": [
+     1,
+     1,
+     1
+    ],
+    "fpocket": [
+     1,
+     1,
+     1
+    ],
+    "P2Rank": [
+     1,
+     1,
+     1
+    ]
+   }
+  },
+  {
+   "protein": "coach420/2ed4A.pdb",
+   "pdb_id": "2ED4",
+   "ligand_codes": [
+    "NAD",
+    "FAD"
+   ],
+   "ligand_residues": 2,
+   "ligands": 2,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 2,
+    "ProteinScope (heuristic ranking)": 2,
+    "fpocket": 6,
+    "P2Rank": 7
+   },
+   "found": {
+    "ProteinScope": [
+     2,
+     2,
+     2
+    ],
+    "ProteinScope (heuristic ranking)": [
+     2,
+     2,
+     2
+    ],
+    "fpocket": [
+     1,
+     2,
+     2
+    ],
+    "P2Rank": [
+     2,
+     2,
+     2
+    ]
+   }
+  },
+  {
+   "protein": "coach420/2f9wA.pdb",
+   "pdb_id": "2F9W",
+   "ligand_codes": [
+    "PAU"
+   ],
+   "ligand_residues": 2,
+   "ligands": 2,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 2,
+    "ProteinScope (heuristic ranking)": 2,
+    "fpocket": 10,
+    "P2Rank": 1
+   },
+   "found": {
+    "ProteinScope": [
+     0,
+     0,
+     0
+    ],
+    "ProteinScope (heuristic ranking)": [
+     0,
+     0,
+     0
+    ],
+    "fpocket": [
+     0,
+     0,
+     0
+    ],
+    "P2Rank": [
+     0,
+     0,
+     0
+    ]
+   }
+  },
+  {
+   "protein": "coach420/2fhjA.pdb",
+   "pdb_id": "2FHJ",
+   "ligand_codes": [
+    "MFN",
+    "H4Z"
+   ],
+   "ligand_residues": 3,
+   "ligands": 3,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 5,
+    "ProteinScope (heuristic ranking)": 5,
+    "fpocket": 15,
+    "P2Rank": 4
+   },
+   "found": {
+    "ProteinScope": [
+     2,
+     2,
+     2
+    ],
+    "ProteinScope (heuristic ranking)": [
+     2,
+     2,
+     2
+    ],
+    "fpocket": [
+     2,
+     2,
+     2
+    ],
+    "P2Rank": [
+     2,
+     2,
+     2
+    ]
+   }
+  },
+  {
+   "protein": "coach420/2fk8A.pdb",
+   "pdb_id": "2FK8",
+   "ligand_codes": [
+    "SAM"
+   ],
+   "ligand_residues": 1,
+   "ligands": 1,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 2,
+    "ProteinScope (heuristic ranking)": 2,
+    "fpocket": 8,
+    "P2Rank": 5
+   },
+   "found": {
+    "ProteinScope": [
+     1,
+     1,
+     1
+    ],
+    "ProteinScope (heuristic ranking)": [
+     1,
+     1,
+     1
+    ],
+    "fpocket": [
+     1,
+     1,
+     1
+    ],
+    "P2Rank": [
+     1,
+     1,
+     1
+    ]
+   }
+  },
+  {
+   "protein": "coach420/2fsgA.pdb",
+   "pdb_id": "2FSG",
+   "ligand_codes": [
+    "ATP"
+   ],
+   "ligand_residues": 1,
+   "ligands": 1,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 12,
+    "ProteinScope (heuristic ranking)": 12,
+    "fpocket": 48,
+    "P2Rank": 24
+   },
+   "found": {
+    "ProteinScope": [
+     1,
+     1,
+     1
+    ],
+    "ProteinScope (heuristic ranking)": [
+     1,
+     1,
+     1
+    ],
+    "fpocket": [
+     1,
+     1,
+     1
+    ],
+    "P2Rank": [
+     0,
+     1,
+     1
+    ]
+   }
+  },
+  {
+   "protein": "coach420/2fv0A.pdb",
+   "pdb_id": "2FV0",
+   "ligand_codes": [
+    "GAD",
+    "BGC",
+    "RAM"
+   ],
+   "ligand_residues": 4,
+   "ligands": 1,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 2,
+    "ProteinScope (heuristic ranking)": 2,
+    "fpocket": 20,
+    "P2Rank": 7
+   },
+   "found": {
+    "ProteinScope": [
+     1,
+     1,
+     1
+    ],
+    "ProteinScope (heuristic ranking)": [
+     1,
+     1,
+     1
+    ],
+    "fpocket": [
+     1,
+     1,
+     1
+    ],
+    "P2Rank": [
+     1,
+     1,
+     1
+    ]
+   }
+  },
+  {
+   "protein": "coach420/2g25A.pdb",
+   "pdb_id": "2G25",
+   "ligand_codes": [
+    "TDK"
+   ],
+   "ligand_residues": 2,
+   "ligands": 2,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 12,
+    "ProteinScope (heuristic ranking)": 12,
+    "fpocket": 44,
+    "P2Rank": 33
+   },
+   "found": {
+    "ProteinScope": [
+     0,
+     0,
+     1
+    ],
+    "ProteinScope (heuristic ranking)": [
+     0,
+     0,
+     1
+    ],
+    "fpocket": [
+     1,
+     1,
+     2
+    ],
+    "P2Rank": [
+     1,
+     1,
+     2
+    ]
+   }
+  },
+  {
+   "protein": "coach420/2ggaA.pdb",
+   "pdb_id": "2GGA",
+   "ligand_codes": [
+    "GPJ",
+    "S3P"
+   ],
+   "ligand_residues": 2,
+   "ligands": 2,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 5,
+    "ProteinScope (heuristic ranking)": 5,
+    "fpocket": 19,
+    "P2Rank": 8
+   },
+   "found": {
+    "ProteinScope": [
+     1,
+     1,
+     1
+    ],
+    "ProteinScope (heuristic ranking)": [
+     1,
+     1,
+     1
+    ],
+    "fpocket": [
+     0,
+     2,
+     2
+    ],
+    "P2Rank": [
+     2,
+     2,
+     2
+    ]
+   }
+  },
+  {
+   "protein": "coach420/2gj5A.pdb",
+   "pdb_id": "2GJ5",
+   "ligand_codes": [
+    "VD3"
+   ],
+   "ligand_residues": 2,
+   "ligands": 2,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 1,
+    "ProteinScope (heuristic ranking)": 1,
+    "fpocket": 10,
+    "P2Rank": 1
+   },
+   "found": {
+    "ProteinScope": [
+     1,
+     1,
+     1
+    ],
+    "ProteinScope (heuristic ranking)": [
+     1,
+     1,
+     1
+    ],
+    "fpocket": [
+     1,
+     1,
+     2
+    ],
+    "P2Rank": [
+     1,
+     1,
+     1
+    ]
+   }
+  },
+  {
+   "protein": "coach420/2gteA.pdb",
+   "pdb_id": "2GTE",
+   "ligand_codes": [
+    "VA"
+   ],
+   "ligand_residues": 1,
+   "ligands": 1,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 1,
+    "ProteinScope (heuristic ranking)": 1,
+    "fpocket": 5,
+    "P2Rank": 3
+   },
+   "found": {
+    "ProteinScope": [
+     1,
+     1,
+     1
+    ],
+    "ProteinScope (heuristic ranking)": [
+     1,
+     1,
+     1
+    ],
+    "fpocket": [
+     1,
+     1,
+     1
+    ],
+    "P2Rank": [
+     1,
+     1,
+     1
+    ]
+   }
+  },
+  {
+   "protein": "coach420/2gwhA.pdb",
+   "pdb_id": "2GWH",
+   "ligand_codes": [
+    "PCI",
+    "A3P"
+   ],
+   "ligand_residues": 2,
+   "ligands": 2,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 2,
+    "ProteinScope (heuristic ranking)": 2,
+    "fpocket": 13,
+    "P2Rank": 8
+   },
+   "found": {
+    "ProteinScope": [
+     1,
+     1,
+     1
+    ],
+    "ProteinScope (heuristic ranking)": [
+     1,
+     1,
+     1
+    ],
+    "fpocket": [
+     2,
+     2,
+     2
+    ],
+    "P2Rank": [
+     2,
+     2,
+     2
+    ]
+   }
+  },
+  {
+   "protein": "coach420/2gz3A.pdb",
+   "pdb_id": "2GZ3",
+   "ligand_codes": [
+    "NAP"
+   ],
+   "ligand_residues": 1,
+   "ligands": 1,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 1,
+    "ProteinScope (heuristic ranking)": 1,
+    "fpocket": 14,
+    "P2Rank": 7
+   },
+   "found": {
+    "ProteinScope": [
+     1,
+     1,
+     1
+    ],
+    "ProteinScope (heuristic ranking)": [
+     1,
+     1,
+     1
+    ],
+    "fpocket": [
+     1,
+     1,
+     1
+    ],
+    "P2Rank": [
+     1,
+     1,
+     1
+    ]
+   }
+  },
+  {
+   "protein": "coach420/2hblA.pdb",
+   "pdb_id": "2HBL",
+   "ligand_codes": [
+    "AMP"
+   ],
+   "ligand_residues": 1,
+   "ligands": 1,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 8,
+    "ProteinScope (heuristic ranking)": 8,
+    "fpocket": 29,
+    "P2Rank": 10
+   },
+   "found": {
+    "ProteinScope": [
+     0,
+     0,
+     0
+    ],
+    "ProteinScope (heuristic ranking)": [
+     0,
+     0,
+     0
+    ],
+    "fpocket": [
+     0,
+     0,
+     1
+    ],
+    "P2Rank": [
+     1,
+     1,
+     1
+    ]
+   }
+  },
+  {
+   "protein": "coach420/2hk1A.pdb",
+   "pdb_id": "2HK1",
+   "ligand_codes": [
+    "FUD"
+   ],
+   "ligand_residues": 1,
+   "ligands": 1,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 4,
+    "ProteinScope (heuristic ranking)": 4,
+    "fpocket": 12,
+    "P2Rank": 5
+   },
+   "found": {
+    "ProteinScope": [
+     1,
+     1,
+     1
+    ],
+    "ProteinScope (heuristic ranking)": [
+     1,
+     1,
+     1
+    ],
+    "fpocket": [
+     1,
+     1,
+     1
+    ],
+    "P2Rank": [
+     1,
+     1,
+     1
+    ]
+   }
+  },
+  {
+   "protein": "coach420/2hl0A.pdb",
+   "pdb_id": "2HL0",
+   "ligand_codes": [
+    "A3S"
+   ],
+   "ligand_residues": 1,
+   "ligands": 1,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 2,
+    "ProteinScope (heuristic ranking)": 2,
+    "fpocket": 11,
+    "P2Rank": 5
+   },
+   "found": {
+    "ProteinScope": [
+     1,
+     1,
+     1
+    ],
+    "ProteinScope (heuristic ranking)": [
+     1,
+     1,
+     1
+    ],
+    "fpocket": [
+     1,
+     1,
+     1
+    ],
+    "P2Rank": [
+     1,
+     1,
+     1
+    ]
+   }
+  },
+  {
+   "protein": "coach420/2hxmA.pdb",
+   "pdb_id": "2HXM",
+   "ligand_codes": [
+    "302"
+   ],
+   "ligand_residues": 1,
+   "ligands": 1,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 1,
+    "ProteinScope (heuristic ranking)": 1,
+    "fpocket": 10,
+    "P2Rank": 8
+   },
+   "found": {
+    "ProteinScope": [
+     1,
+     1,
+     1
+    ],
+    "ProteinScope (heuristic ranking)": [
+     1,
+     1,
+     1
+    ],
+    "fpocket": [
+     1,
+     1,
+     1
+    ],
+    "P2Rank": [
+     1,
+     1,
+     1
+    ]
+   }
+  },
+  {
+   "protein": "coach420/2hzqA.pdb",
+   "pdb_id": "2HZQ",
+   "ligand_codes": [
+    "STR"
+   ],
+   "ligand_residues": 1,
+   "ligands": 1,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 3,
+    "ProteinScope (heuristic ranking)": 3,
+    "fpocket": 12,
+    "P2Rank": 4
+   },
+   "found": {
+    "ProteinScope": [
+     1,
+     1,
+     1
+    ],
+    "ProteinScope (heuristic ranking)": [
+     1,
+     1,
+     1
+    ],
+    "fpocket": [
+     1,
+     1,
+     1
+    ],
+    "P2Rank": [
+     1,
+     1,
+     1
+    ]
+   }
+  },
+  {
+   "protein": "coach420/2i56A.pdb",
+   "pdb_id": "2I56",
+   "ligand_codes": [
+    "RNS"
+   ],
+   "ligand_residues": 1,
+   "ligands": 1,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 11,
+    "ProteinScope (heuristic ranking)": 11,
+    "fpocket": 23,
+    "P2Rank": 18
+   },
+   "found": {
+    "ProteinScope": [
+     0,
+     0,
+     0
+    ],
+    "ProteinScope (heuristic ranking)": [
+     0,
+     0,
+     0
+    ],
+    "fpocket": [
+     0,
+     0,
+     0
+    ],
+    "P2Rank": [
+     1,
+     1,
+     1
+    ]
+   }
+  },
+  {
+   "protein": "coach420/2ihzA.pdb",
+   "pdb_id": "2IHZ",
+   "ligand_codes": [
+    "CSF",
+    "LBT"
+   ],
+   "ligand_residues": 2,
+   "ligands": 2,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 9,
+    "ProteinScope (heuristic ranking)": 9,
+    "fpocket": 22,
+    "P2Rank": 4
+   },
+   "found": {
+    "ProteinScope": [
+     1,
+     1,
+     1
+    ],
+    "ProteinScope (heuristic ranking)": [
+     1,
+     1,
+     1
+    ],
+    "fpocket": [
+     1,
+     1,
+     2
+    ],
+    "P2Rank": [
+     1,
+     1,
+     1
+    ]
+   }
+  },
+  {
+   "protein": "coach420/2irxA.pdb",
+   "pdb_id": "2IRX",
+   "ligand_codes": [
+    "GTP"
+   ],
+   "ligand_residues": 1,
+   "ligands": 1,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 2,
+    "ProteinScope (heuristic ranking)": 2,
+    "fpocket": 11,
+    "P2Rank": 6
+   },
+   "found": {
+    "ProteinScope": [
+     0,
+     1,
+     1
+    ],
+    "ProteinScope (heuristic ranking)": [
+     0,
+     1,
+     1
+    ],
+    "fpocket": [
+     0,
+     1,
+     1
+    ],
+    "P2Rank": [
+     1,
+     1,
+     1
+    ]
+   }
+  },
+  {
+   "protein": "coach420/2ixlA.pdb",
+   "pdb_id": "2IXL",
+   "ligand_codes": [
+    "TRH"
+   ],
+   "ligand_residues": 2,
+   "ligands": 2,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 4,
+    "ProteinScope (heuristic ranking)": 4,
+    "fpocket": 12,
+    "P2Rank": 5
+   },
+   "found": {
+    "ProteinScope": [
+     1,
+     1,
+     1
+    ],
+    "ProteinScope (heuristic ranking)": [
+     1,
+     1,
+     1
+    ],
+    "fpocket": [
+     1,
+     1,
+     1
+    ],
+    "P2Rank": [
+     1,
+     1,
+     1
+    ]
+   }
+  },
+  {
+   "protein": "coach420/2j72B.pdb",
+   "pdb_id": "2J72",
+   "ligand_codes": [
+    "GLC"
+   ],
+   "ligand_residues": 4,
+   "ligands": 1,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 0,
+    "ProteinScope (heuristic ranking)": 0,
+    "fpocket": 4,
+    "P2Rank": 3
+   },
+   "found": {
+    "ProteinScope": [
+     0,
+     0,
+     0
+    ],
+    "ProteinScope (heuristic ranking)": [
+     0,
+     0,
+     0
+    ],
+    "fpocket": [
+     1,
+     1,
+     1
+    ],
+    "P2Rank": [
+     1,
+     1,
+     1
+    ]
+   }
+  },
+  {
+   "protein": "coach420/2jgvD.pdb",
+   "pdb_id": "2JGV",
+   "ligand_codes": [
+    "ADP"
+   ],
+   "ligand_residues": 1,
+   "ligands": 1,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 2,
+    "ProteinScope (heuristic ranking)": 2,
+    "fpocket": 21,
+    "P2Rank": 5
+   },
+   "found": {
+    "ProteinScope": [
+     1,
+     1,
+     1
+    ],
+    "ProteinScope (heuristic ranking)": [
+     1,
+     1,
+     1
+    ],
+    "fpocket": [
+     0,
+     1,
+     1
+    ],
+    "P2Rank": [
+     1,
+     1,
+     1
+    ]
+   }
+  },
+  {
+   "protein": "coach420/2oalB.pdb",
+   "pdb_id": "2OAL",
+   "ligand_codes": [
+    "FAD"
+   ],
+   "ligand_residues": 1,
+   "ligands": 1,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 7,
+    "ProteinScope (heuristic ranking)": 7,
+    "fpocket": 31,
+    "P2Rank": 18
+   },
+   "found": {
+    "ProteinScope": [
+     1,
+     1,
+     1
+    ],
+    "ProteinScope (heuristic ranking)": [
+     0,
+     1,
+     1
+    ],
+    "fpocket": [
+     1,
+     1,
+     1
+    ],
+    "P2Rank": [
+     1,
+     1,
+     1
+    ]
+   }
+  },
+  {
+   "protein": "coach420/2ovdA.pdb",
+   "pdb_id": "2OVD",
+   "ligand_codes": [
+    "DAO"
+   ],
+   "ligand_residues": 1,
+   "ligands": 1,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 2,
+    "ProteinScope (heuristic ranking)": 2,
+    "fpocket": 14,
+    "P2Rank": 4
+   },
+   "found": {
+    "ProteinScope": [
+     1,
+     1,
+     1
+    ],
+    "ProteinScope (heuristic ranking)": [
+     1,
+     1,
+     1
+    ],
+    "fpocket": [
+     1,
+     1,
+     1
+    ],
+    "P2Rank": [
+     1,
+     1,
+     1
+    ]
+   }
+  },
+  {
+   "protein": "coach420/2pknA.pdb",
+   "pdb_id": "2PKN",
+   "ligand_codes": [
+    "ACP"
+   ],
+   "ligand_residues": 1,
+   "ligands": 1,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 3,
+    "ProteinScope (heuristic ranking)": 3,
+    "fpocket": 16,
+    "P2Rank": 4
+   },
+   "found": {
+    "ProteinScope": [
+     1,
+     1,
+     1
+    ],
+    "ProteinScope (heuristic ranking)": [
+     0,
+     1,
+     1
+    ],
+    "fpocket": [
+     1,
+     1,
+     1
+    ],
+    "P2Rank": [
+     1,
+     1,
+     1
+    ]
+   }
+  },
+  {
+   "protein": "coach420/2q6vA.pdb",
+   "pdb_id": "2Q6V",
+   "ligand_codes": [
+    "UDP"
+   ],
+   "ligand_residues": 1,
+   "ligands": 1,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 3,
+    "ProteinScope (heuristic ranking)": 3,
+    "fpocket": 12,
+    "P2Rank": 8
+   },
+   "found": {
+    "ProteinScope": [
+     0,
+     0,
+     0
+    ],
+    "ProteinScope (heuristic ranking)": [
+     0,
+     0,
+     0
+    ],
+    "fpocket": [
+     1,
+     1,
+     1
+    ],
+    "P2Rank": [
+     0,
+     0,
+     0
+    ]
+   }
+  },
+  {
+   "protein": "coach420/2qehA.pdb",
+   "pdb_id": "2QEH",
+   "ligand_codes": [
+    "SRO"
+   ],
+   "ligand_residues": 1,
+   "ligands": 1,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 3,
+    "ProteinScope (heuristic ranking)": 3,
+    "fpocket": 9,
+    "P2Rank": 2
+   },
+   "found": {
+    "ProteinScope": [
+     1,
+     1,
+     1
+    ],
+    "ProteinScope (heuristic ranking)": [
+     1,
+     1,
+     1
+    ],
+    "fpocket": [
+     0,
+     1,
+     1
+    ],
+    "P2Rank": [
+     0,
+     0,
+     0
+    ]
+   }
+  },
+  {
+   "protein": "coach420/2qo9A.pdb",
+   "pdb_id": "2QO9",
+   "ligand_codes": [
+    "ANP"
+   ],
+   "ligand_residues": 1,
+   "ligands": 1,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 8,
+    "ProteinScope (heuristic ranking)": 8,
+    "fpocket": 18,
+    "P2Rank": 5
+   },
+   "found": {
+    "ProteinScope": [
+     1,
+     1,
+     1
+    ],
+    "ProteinScope (heuristic ranking)": [
+     1,
+     1,
+     1
+    ],
+    "fpocket": [
+     0,
+     0,
+     1
+    ],
+    "P2Rank": [
+     1,
+     1,
+     1
+    ]
+   }
+  },
+  {
+   "protein": "coach420/2qttA.pdb",
+   "pdb_id": "2QTT",
+   "ligand_codes": [
+    "ADE",
+    "FMC"
+   ],
+   "ligand_residues": 1,
+   "ligands": 1,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 2,
+    "ProteinScope (heuristic ranking)": 2,
+    "fpocket": 11,
+    "P2Rank": 5
+   },
+   "found": {
+    "ProteinScope": [
+     1,
+     1,
+     1
+    ],
+    "ProteinScope (heuristic ranking)": [
+     1,
+     1,
+     1
+    ],
+    "fpocket": [
+     0,
+     0,
+     0
+    ],
+    "P2Rank": [
+     1,
+     1,
+     1
+    ]
+   }
+  },
+  {
+   "protein": "coach420/2qv7A.pdb",
+   "pdb_id": "2QV7",
+   "ligand_codes": [
+    "ADP"
+   ],
+   "ligand_residues": 1,
+   "ligands": 1,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 2,
+    "ProteinScope (heuristic ranking)": 2,
+    "fpocket": 17,
+    "P2Rank": 3
+   },
+   "found": {
+    "ProteinScope": [
+     1,
+     1,
+     1
+    ],
+    "ProteinScope (heuristic ranking)": [
+     1,
+     1,
+     1
+    ],
+    "fpocket": [
+     0,
+     0,
+     1
+    ],
+    "P2Rank": [
+     1,
+     1,
+     1
+    ]
+   }
+  },
+  {
+   "protein": "coach420/2qwiA.pdb",
+   "pdb_id": "2QWI",
+   "ligand_codes": [
+    "G20"
+   ],
+   "ligand_residues": 1,
+   "ligands": 1,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 5,
+    "ProteinScope (heuristic ranking)": 5,
+    "fpocket": 20,
+    "P2Rank": 5
+   },
+   "found": {
+    "ProteinScope": [
+     0,
+     1,
+     1
+    ],
+    "ProteinScope (heuristic ranking)": [
+     1,
+     1,
+     1
+    ],
+    "fpocket": [
+     0,
+     1,
+     1
+    ],
+    "P2Rank": [
+     1,
+     1,
+     1
+    ]
+   }
+  },
+  {
+   "protein": "coach420/2qzzA.pdb",
+   "pdb_id": "2QZZ",
+   "ligand_codes": [
+    "NAP",
+    "EMF"
+   ],
+   "ligand_residues": 2,
+   "ligands": 2,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 3,
+    "ProteinScope (heuristic ranking)": 3,
+    "fpocket": 15,
+    "P2Rank": 9
+   },
+   "found": {
+    "ProteinScope": [
+     1,
+     1,
+     1
+    ],
+    "ProteinScope (heuristic ranking)": [
+     1,
+     1,
+     1
+    ],
+    "fpocket": [
+     2,
+     2,
+     2
+    ],
+    "P2Rank": [
+     1,
+     1,
+     1
+    ]
+   }
+  },
+  {
+   "protein": "coach420/2r68A.pdb",
+   "pdb_id": "2R68",
+   "ligand_codes": [
+    "SUP"
+   ],
+   "ligand_residues": 1,
+   "ligands": 1,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 7,
+    "ProteinScope (heuristic ranking)": 7,
+    "fpocket": 29,
+    "P2Rank": 8
+   },
+   "found": {
+    "ProteinScope": [
+     0,
+     0,
+     0
+    ],
+    "ProteinScope (heuristic ranking)": [
+     0,
+     0,
+     0
+    ],
+    "fpocket": [
+     0,
+     1,
+     1
+    ],
+    "P2Rank": [
+     0,
+     1,
+     1
+    ]
+   }
+  },
+  {
+   "protein": "coach420/2rfhA.pdb",
+   "pdb_id": "2RFH",
+   "ligand_codes": [
+    "23N"
+   ],
+   "ligand_residues": 1,
+   "ligands": 1,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 3,
+    "ProteinScope (heuristic ranking)": 3,
+    "fpocket": 19,
+    "P2Rank": 10
+   },
+   "found": {
+    "ProteinScope": [
+     1,
+     1,
+     1
+    ],
+    "ProteinScope (heuristic ranking)": [
+     1,
+     1,
+     1
+    ],
+    "fpocket": [
+     1,
+     1,
+     1
+    ],
+    "P2Rank": [
+     1,
+     1,
+     1
+    ]
+   }
+  },
+  {
+   "protein": "coach420/2rk2A.pdb",
+   "pdb_id": "2RK2",
+   "ligand_codes": [
+    "NAP"
+   ],
+   "ligand_residues": 1,
+   "ligands": 1,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 0,
+    "ProteinScope (heuristic ranking)": 0,
+    "fpocket": 2,
+    "P2Rank": 0
+   },
+   "found": {
+    "ProteinScope": [
+     0,
+     0,
+     0
+    ],
+    "ProteinScope (heuristic ranking)": [
+     0,
+     0,
+     0
+    ],
+    "fpocket": [
+     0,
+     0,
+     0
+    ],
+    "P2Rank": [
+     0,
+     0,
+     0
+    ]
+   }
+  },
+  {
+   "protein": "coach420/2rkmA.pdb",
+   "pdb_id": "2RKM",
+   "ligand_codes": [
+    "LYS"
+   ],
+   "ligand_residues": 2,
+   "ligands": 1,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 10,
+    "ProteinScope (heuristic ranking)": 10,
+    "fpocket": 31,
+    "P2Rank": 22
+   },
+   "found": {
+    "ProteinScope": [
+     0,
+     0,
+     0
+    ],
+    "ProteinScope (heuristic ranking)": [
+     0,
+     0,
+     0
+    ],
+    "fpocket": [
+     1,
+     1,
+     1
+    ],
+    "P2Rank": [
+     0,
+     0,
+     1
+    ]
+   }
+  },
+  {
+   "protein": "coach420/2royA.pdb",
+   "pdb_id": "2ROY",
+   "ligand_codes": [
+    "P28"
+   ],
+   "ligand_residues": 1,
+   "ligands": 1,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 1,
+    "ProteinScope (heuristic ranking)": 1,
+    "fpocket": 5,
+    "P2Rank": 1
+   },
+   "found": {
+    "ProteinScope": [
+     0,
+     0,
+     0
+    ],
+    "ProteinScope (heuristic ranking)": [
+     0,
+     0,
+     0
+    ],
+    "fpocket": [
+     0,
+     0,
+     1
+    ],
+    "P2Rank": [
+     0,
+     0,
+     0
+    ]
+   }
+  },
+  {
+   "protein": "coach420/2uyqA.pdb",
+   "pdb_id": "2UYQ",
+   "ligand_codes": [
+    "SAM"
+   ],
+   "ligand_residues": 1,
+   "ligands": 1,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 4,
+    "ProteinScope (heuristic ranking)": 4,
+    "fpocket": 9,
+    "P2Rank": 4
+   },
+   "found": {
+    "ProteinScope": [
+     0,
+     1,
+     1
+    ],
+    "ProteinScope (heuristic ranking)": [
+     0,
+     1,
+     1
+    ],
+    "fpocket": [
+     0,
+     0,
+     0
+    ],
+    "P2Rank": [
+     0,
+     1,
+     1
+    ]
+   }
+  },
+  {
+   "protein": "coach420/2v8lA.pdb",
+   "pdb_id": "2V8L",
+   "ligand_codes": [
+    "GLC"
+   ],
+   "ligand_residues": 7,
+   "ligands": 1,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 0,
+    "ProteinScope (heuristic ranking)": 0,
+    "fpocket": 2,
+    "P2Rank": 2
+   },
+   "found": {
+    "ProteinScope": [
+     0,
+     0,
+     0
+    ],
+    "ProteinScope (heuristic ranking)": [
+     0,
+     0,
+     0
+    ],
+    "fpocket": [
+     1,
+     1,
+     1
+    ],
+    "P2Rank": [
+     0,
+     1,
+     1
+    ]
+   }
+  },
+  {
+   "protein": "coach420/2varA.pdb",
+   "pdb_id": "2VAR",
+   "ligand_codes": [
+    "ANP",
+    "AMP",
+    "KDF",
+    "KDG"
+   ],
+   "ligand_residues": 4,
+   "ligands": 2,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 1,
+    "ProteinScope (heuristic ranking)": 1,
+    "fpocket": 14,
+    "P2Rank": 1
+   },
+   "found": {
+    "ProteinScope": [
+     1,
+     1,
+     1
+    ],
+    "ProteinScope (heuristic ranking)": [
+     1,
+     1,
+     1
+    ],
+    "fpocket": [
+     1,
+     2,
+     2
+    ],
+    "P2Rank": [
+     2,
+     2,
+     2
+    ]
+   }
+  },
+  {
+   "protein": "coach420/2vcjA.pdb",
+   "pdb_id": "2VCJ",
+   "ligand_codes": [
+    "2EQ"
+   ],
+   "ligand_residues": 1,
+   "ligands": 1,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 1,
+    "ProteinScope (heuristic ranking)": 1,
+    "fpocket": 7,
+    "P2Rank": 5
+   },
+   "found": {
+    "ProteinScope": [
+     1,
+     1,
+     1
+    ],
+    "ProteinScope (heuristic ranking)": [
+     1,
+     1,
+     1
+    ],
+    "fpocket": [
+     1,
+     1,
+     1
+    ],
+    "P2Rank": [
+     1,
+     1,
+     1
+    ]
+   }
+  },
+  {
+   "protein": "coach420/2vflA.pdb",
+   "pdb_id": "2VFL",
+   "ligand_codes": [
+    "C5P"
+   ],
+   "ligand_residues": 1,
+   "ligands": 1,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 1,
+    "ProteinScope (heuristic ranking)": 1,
+    "fpocket": 11,
+    "P2Rank": 2
+   },
+   "found": {
+    "ProteinScope": [
+     1,
+     1,
+     1
+    ],
+    "ProteinScope (heuristic ranking)": [
+     1,
+     1,
+     1
+    ],
+    "fpocket": [
+     1,
+     1,
+     1
+    ],
+    "P2Rank": [
+     1,
+     1,
+     1
+    ]
+   }
+  },
+  {
+   "protein": "coach420/2vkmA.pdb",
+   "pdb_id": "2VKM",
+   "ligand_codes": [
+    "BSD"
+   ],
+   "ligand_residues": 1,
+   "ligands": 1,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 3,
+    "ProteinScope (heuristic ranking)": 3,
+    "fpocket": 22,
+    "P2Rank": 11
+   },
+   "found": {
+    "ProteinScope": [
+     0,
+     1,
+     1
+    ],
+    "ProteinScope (heuristic ranking)": [
+     0,
+     1,
+     1
+    ],
+    "fpocket": [
+     1,
+     1,
+     1
+    ],
+    "P2Rank": [
+     1,
+     1,
+     1
+    ]
+   }
+  },
+  {
+   "protein": "coach420/2vu9A.pdb",
+   "pdb_id": "2VU9",
+   "ligand_codes": [
+    "GAL",
+    "NGA",
+    "SIA",
+    "BGC"
+   ],
+   "ligand_residues": 6,
+   "ligands": 2,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 8,
+    "ProteinScope (heuristic ranking)": 8,
+    "fpocket": 23,
+    "P2Rank": 14
+   },
+   "found": {
+    "ProteinScope": [
+     0,
+     0,
+     1
+    ],
+    "ProteinScope (heuristic ranking)": [
+     0,
+     0,
+     1
+    ],
+    "fpocket": [
+     0,
+     0,
+     2
+    ],
+    "P2Rank": [
+     0,
+     1,
+     1
+    ]
+   }
+  },
+  {
+   "protein": "coach420/2w1aC.pdb",
+   "pdb_id": "2W1A",
+   "ligand_codes": [
+    "TSA"
+   ],
+   "ligand_residues": 1,
+   "ligands": 1,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 1,
+    "ProteinScope (heuristic ranking)": 1,
+    "fpocket": 2,
+    "P2Rank": 1
+   },
+   "found": {
+    "ProteinScope": [
+     1,
+     1,
+     1
+    ],
+    "ProteinScope (heuristic ranking)": [
+     1,
+     1,
+     1
+    ],
+    "fpocket": [
+     1,
+     1,
+     1
+    ],
+    "P2Rank": [
+     1,
+     1,
+     1
+    ]
+   }
+  },
+  {
+   "protein": "coach420/2wn7A.pdb",
+   "pdb_id": "2WN7",
+   "ligand_codes": [
+    "NAD"
+   ],
+   "ligand_residues": 1,
+   "ligands": 1,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 7,
+    "ProteinScope (heuristic ranking)": 7,
+    "fpocket": 25,
+    "P2Rank": 13
+   },
+   "found": {
+    "ProteinScope": [
+     0,
+     1,
+     1
+    ],
+    "ProteinScope (heuristic ranking)": [
+     1,
+     1,
+     1
+    ],
+    "fpocket": [
+     0,
+     1,
+     1
+    ],
+    "P2Rank": [
+     1,
+     1,
+     1
+    ]
+   }
+  },
+  {
+   "protein": "coach420/2wvaA.pdb",
+   "pdb_id": "2WVA",
+   "ligand_codes": [
+    "PYR",
+    "TPU"
+   ],
+   "ligand_residues": 2,
+   "ligands": 2,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 7,
+    "ProteinScope (heuristic ranking)": 7,
+    "fpocket": 23,
+    "P2Rank": 11
+   },
+   "found": {
+    "ProteinScope": [
+     1,
+     1,
+     1
+    ],
+    "ProteinScope (heuristic ranking)": [
+     1,
+     1,
+     1
+    ],
+    "fpocket": [
+     1,
+     1,
+     1
+    ],
+    "P2Rank": [
+     1,
+     1,
+     1
+    ]
+   }
+  },
+  {
+   "protein": "coach420/2wzmA.pdb",
+   "pdb_id": "2WZM",
+   "ligand_codes": [
+    "NA7"
+   ],
+   "ligand_residues": 1,
+   "ligands": 1,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 3,
+    "ProteinScope (heuristic ranking)": 3,
+    "fpocket": 14,
+    "P2Rank": 5
+   },
+   "found": {
+    "ProteinScope": [
+     1,
+     1,
+     1
+    ],
+    "ProteinScope (heuristic ranking)": [
+     1,
+     1,
+     1
+    ],
+    "fpocket": [
+     1,
+     1,
+     1
+    ],
+    "P2Rank": [
+     1,
+     1,
+     1
+    ]
+   }
+  },
+  {
+   "protein": "coach420/2x4oA.pdb",
+   "pdb_id": "2X4O",
+   "ligand_codes": [
+    "VAL",
+    "LYS",
+    "PRO",
+    "CYS",
+    "LEU",
+    "THR"
+   ],
+   "ligand_residues": 9,
+   "ligands": 1,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 4,
+    "ProteinScope (heuristic ranking)": 4,
+    "fpocket": 16,
+    "P2Rank": 3
+   },
+   "found": {
+    "ProteinScope": [
+     1,
+     1,
+     1
+    ],
+    "ProteinScope (heuristic ranking)": [
+     1,
+     1,
+     1
+    ],
+    "fpocket": [
+     1,
+     1,
+     1
+    ],
+    "P2Rank": [
+     0,
+     1,
+     1
+    ]
+   }
+  },
+  {
+   "protein": "coach420/2yw2A.pdb",
+   "pdb_id": "2YW2",
+   "ligand_codes": [
+    "ATP"
+   ],
+   "ligand_residues": 1,
+   "ligands": 1,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 5,
+    "ProteinScope (heuristic ranking)": 5,
+    "fpocket": 21,
+    "P2Rank": 9
+   },
+   "found": {
+    "ProteinScope": [
+     1,
+     1,
+     1
+    ],
+    "ProteinScope (heuristic ranking)": [
+     1,
+     1,
+     1
+    ],
+    "fpocket": [
+     1,
+     1,
+     1
+    ],
+    "P2Rank": [
+     1,
+     1,
+     1
+    ]
+   }
+  },
+  {
+   "protein": "coach420/2zasA.pdb",
+   "pdb_id": "2ZAS",
+   "ligand_codes": [
+    "1OH"
+   ],
+   "ligand_residues": 1,
+   "ligands": 1,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 5,
+    "ProteinScope (heuristic ranking)": 5,
+    "fpocket": 17,
+    "P2Rank": 6
+   },
+   "found": {
+    "ProteinScope": [
+     1,
+     1,
+     1
+    ],
+    "ProteinScope (heuristic ranking)": [
+     1,
+     1,
+     1
+    ],
+    "fpocket": [
+     1,
+     1,
+     1
+    ],
+    "P2Rank": [
+     1,
+     1,
+     1
+    ]
+   }
+  },
+  {
+   "protein": "coach420/2zgmB.pdb",
+   "pdb_id": "2ZGM",
+   "ligand_codes": [
+    "LAT"
+   ],
+   "ligand_residues": 1,
+   "ligands": 1,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 0,
+    "ProteinScope (heuristic ranking)": 0,
+    "fpocket": 4,
+    "P2Rank": 3
+   },
+   "found": {
+    "ProteinScope": [
+     0,
+     0,
+     0
+    ],
+    "ProteinScope (heuristic ranking)": [
+     0,
+     0,
+     0
+    ],
+    "fpocket": [
+     0,
+     0,
+     0
+    ],
+    "P2Rank": [
+     1,
+     1,
+     1
+    ]
+   }
+  },
+  {
+   "protein": "coach420/2zgzA.pdb",
+   "pdb_id": "2ZGZ",
+   "ligand_codes": [
+    "GNP"
+   ],
+   "ligand_residues": 1,
+   "ligands": 1,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 2,
+    "ProteinScope (heuristic ranking)": 2,
+    "fpocket": 16,
+    "P2Rank": 5
+   },
+   "found": {
+    "ProteinScope": [
+     0,
+     0,
+     0
+    ],
+    "ProteinScope (heuristic ranking)": [
+     0,
+     0,
+     0
+    ],
+    "fpocket": [
+     0,
+     0,
+     0
+    ],
+    "P2Rank": [
+     1,
+     1,
+     1
+    ]
+   }
+  },
+  {
+   "protein": "coach420/2zhzB.pdb",
+   "pdb_id": "2ZHZ",
+   "ligand_codes": [
+    "ATP"
+   ],
+   "ligand_residues": 2,
+   "ligands": 2,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 0,
+    "ProteinScope (heuristic ranking)": 0,
+    "fpocket": 8,
+    "P2Rank": 3
+   },
+   "found": {
+    "ProteinScope": [
+     0,
+     0,
+     0
+    ],
+    "ProteinScope (heuristic ranking)": [
+     0,
+     0,
+     0
+    ],
+    "fpocket": [
+     0,
+     1,
+     1
+    ],
+    "P2Rank": [
+     1,
+     1,
+     1
+    ]
+   }
+  },
+  {
+   "protein": "coach420/3a0tA.pdb",
+   "pdb_id": "3A0T",
+   "ligand_codes": [
+    "ADP"
+   ],
+   "ligand_residues": 1,
+   "ligands": 1,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 1,
+    "ProteinScope (heuristic ranking)": 1,
+    "fpocket": 11,
+    "P2Rank": 3
+   },
+   "found": {
+    "ProteinScope": [
+     1,
+     1,
+     1
+    ],
+    "ProteinScope (heuristic ranking)": [
+     1,
+     1,
+     1
+    ],
+    "fpocket": [
+     1,
+     1,
+     1
+    ],
+    "P2Rank": [
+     1,
+     1,
+     1
+    ]
+   }
+  },
+  {
+   "protein": "coach420/3aaqA.pdb",
+   "pdb_id": "3AAQ",
+   "ligand_codes": [
+    "ARU"
+   ],
+   "ligand_residues": 1,
+   "ligands": 1,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 2,
+    "ProteinScope (heuristic ranking)": 2,
+    "fpocket": 16,
+    "P2Rank": 6
+   },
+   "found": {
+    "ProteinScope": [
+     1,
+     1,
+     1
+    ],
+    "ProteinScope (heuristic ranking)": [
+     1,
+     1,
+     1
+    ],
+    "fpocket": [
+     1,
+     1,
+     1
+    ],
+    "P2Rank": [
+     1,
+     1,
+     1
+    ]
+   }
+  },
+  {
+   "protein": "coach420/3b3fA.pdb",
+   "pdb_id": "3B3F",
+   "ligand_codes": [
+    "SAH"
+   ],
+   "ligand_residues": 1,
+   "ligands": 1,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 1,
+    "ProteinScope (heuristic ranking)": 1,
+    "fpocket": 18,
+    "P2Rank": 4
+   },
+   "found": {
+    "ProteinScope": [
+     0,
+     0,
+     0
+    ],
+    "ProteinScope (heuristic ranking)": [
+     0,
+     0,
+     0
+    ],
+    "fpocket": [
+     1,
+     1,
+     1
+    ],
+    "P2Rank": [
+     1,
+     1,
+     1
+    ]
+   }
+  },
+  {
+   "protein": "coach420/3b4yA.pdb",
+   "pdb_id": "3B4Y",
+   "ligand_codes": [
+    "F42",
+    "FLC"
+   ],
+   "ligand_residues": 2,
+   "ligands": 2,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 2,
+    "ProteinScope (heuristic ranking)": 2,
+    "fpocket": 12,
+    "P2Rank": 5
+   },
+   "found": {
+    "ProteinScope": [
+     2,
+     2,
+     2
+    ],
+    "ProteinScope (heuristic ranking)": [
+     2,
+     2,
+     2
+    ],
+    "fpocket": [
+     1,
+     1,
+     1
+    ],
+    "P2Rank": [
+     2,
+     2,
+     2
+    ]
+   }
+  },
+  {
+   "protein": "coach420/3bazA.pdb",
+   "pdb_id": "3BAZ",
+   "ligand_codes": [
+    "NAP"
+   ],
+   "ligand_residues": 1,
+   "ligands": 1,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 2,
+    "ProteinScope (heuristic ranking)": 2,
+    "fpocket": 11,
+    "P2Rank": 6
+   },
+   "found": {
+    "ProteinScope": [
+     1,
+     1,
+     1
+    ],
+    "ProteinScope (heuristic ranking)": [
+     1,
+     1,
+     1
+    ],
+    "fpocket": [
+     0,
+     1,
+     1
+    ],
+    "P2Rank": [
+     1,
+     1,
+     1
+    ]
+   }
+  },
+  {
+   "protein": "coach420/3c2fA.pdb",
+   "pdb_id": "3C2F",
+   "ligand_codes": [
+    "PRP"
+   ],
+   "ligand_residues": 1,
+   "ligands": 1,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 4,
+    "ProteinScope (heuristic ranking)": 4,
+    "fpocket": 16,
+    "P2Rank": 7
+   },
+   "found": {
+    "ProteinScope": [
+     0,
+     1,
+     1
+    ],
+    "ProteinScope (heuristic ranking)": [
+     0,
+     1,
+     1
+    ],
+    "fpocket": [
+     1,
+     1,
+     1
+    ],
+    "P2Rank": [
+     1,
+     1,
+     1
+    ]
+   }
+  },
+  {
+   "protein": "coach420/3cagA.pdb",
+   "pdb_id": "3CAG",
+   "ligand_codes": [
+    "ARG"
+   ],
+   "ligand_residues": 4,
+   "ligands": 4,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 0,
+    "ProteinScope (heuristic ranking)": 0,
+    "fpocket": 4,
+    "P2Rank": 0
+   },
+   "found": {
+    "ProteinScope": [
+     0,
+     0,
+     0
+    ],
+    "ProteinScope (heuristic ranking)": [
+     0,
+     0,
+     0
+    ],
+    "fpocket": [
+     0,
+     0,
+     0
+    ],
+    "P2Rank": [
+     0,
+     0,
+     0
+    ]
+   }
+  },
+  {
+   "protein": "coach420/3cpaA.pdb",
+   "pdb_id": "3CPA",
+   "ligand_codes": [
+    "GLY",
+    "TYR"
+   ],
+   "ligand_residues": 2,
+   "ligands": 1,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 2,
+    "ProteinScope (heuristic ranking)": 2,
+    "fpocket": 13,
+    "P2Rank": 7
+   },
+   "found": {
+    "ProteinScope": [
+     0,
+     0,
+     0
+    ],
+    "ProteinScope (heuristic ranking)": [
+     0,
+     0,
+     0
+    ],
+    "fpocket": [
+     0,
+     1,
+     1
+    ],
+    "P2Rank": [
+     1,
+     1,
+     1
+    ]
+   }
+  },
+  {
+   "protein": "coach420/3ct5A.pdb",
+   "pdb_id": "3CT5",
+   "ligand_codes": [
+    "NAG"
+   ],
+   "ligand_residues": 3,
+   "ligands": 1,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 1,
+    "ProteinScope (heuristic ranking)": 1,
+    "fpocket": 5,
+    "P2Rank": 1
+   },
+   "found": {
+    "ProteinScope": [
+     1,
+     1,
+     1
+    ],
+    "ProteinScope (heuristic ranking)": [
+     1,
+     1,
+     1
+    ],
+    "fpocket": [
+     0,
+     1,
+     1
+    ],
+    "P2Rank": [
+     1,
+     1,
+     1
+    ]
+   }
+  },
+  {
+   "protein": "coach420/3cwkA.pdb",
+   "pdb_id": "3CWK",
+   "ligand_codes": [
+    "REA"
+   ],
+   "ligand_residues": 1,
+   "ligands": 1,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 1,
+    "ProteinScope (heuristic ranking)": 1,
+    "fpocket": 6,
+    "P2Rank": 2
+   },
+   "found": {
+    "ProteinScope": [
+     1,
+     1,
+     1
+    ],
+    "ProteinScope (heuristic ranking)": [
+     1,
+     1,
+     1
+    ],
+    "fpocket": [
+     1,
+     1,
+     1
+    ],
+    "P2Rank": [
+     1,
+     1,
+     1
+    ]
+   }
+  },
+  {
+   "protein": "coach420/3cxiA.pdb",
+   "pdb_id": "3CXI",
+   "ligand_codes": [
+    "VIT"
+   ],
+   "ligand_residues": 2,
+   "ligands": 2,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 2,
+    "ProteinScope (heuristic ranking)": 2,
+    "fpocket": 8,
+    "P2Rank": 4
+   },
+   "found": {
+    "ProteinScope": [
+     1,
+     1,
+     1
+    ],
+    "ProteinScope (heuristic ranking)": [
+     1,
+     1,
+     1
+    ],
+    "fpocket": [
+     1,
+     1,
+     1
+    ],
+    "P2Rank": [
+     1,
+     1,
+     1
+    ]
+   }
+  },
+  {
+   "protein": "coach420/3d1gA.pdb",
+   "pdb_id": "3D1G",
+   "ligand_codes": [
+    "322"
+   ],
+   "ligand_residues": 1,
+   "ligands": 1,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 7,
+    "ProteinScope (heuristic ranking)": 7,
+    "fpocket": 25,
+    "P2Rank": 8
+   },
+   "found": {
+    "ProteinScope": [
+     1,
+     1,
+     1
+    ],
+    "ProteinScope (heuristic ranking)": [
+     0,
+     0,
+     1
+    ],
+    "fpocket": [
+     0,
+     1,
+     1
+    ],
+    "P2Rank": [
+     1,
+     1,
+     1
+    ]
+   }
+  },
+  {
+   "protein": "coach420/3du4A.pdb",
+   "pdb_id": "3DU4",
+   "ligand_codes": [
+    "KAP"
+   ],
+   "ligand_residues": 2,
+   "ligands": 2,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 7,
+    "ProteinScope (heuristic ranking)": 7,
+    "fpocket": 23,
+    "P2Rank": 10
+   },
+   "found": {
+    "ProteinScope": [
+     1,
+     1,
+     1
+    ],
+    "ProteinScope (heuristic ranking)": [
+     1,
+     1,
+     1
+    ],
+    "fpocket": [
+     1,
+     1,
+     1
+    ],
+    "P2Rank": [
+     1,
+     1,
+     1
+    ]
+   }
+  },
+  {
+   "protein": "coach420/3duwA.pdb",
+   "pdb_id": "3DUW",
+   "ligand_codes": [
+    "SAH"
+   ],
+   "ligand_residues": 1,
+   "ligands": 1,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 5,
+    "ProteinScope (heuristic ranking)": 5,
+    "fpocket": 11,
+    "P2Rank": 5
+   },
+   "found": {
+    "ProteinScope": [
+     0,
+     1,
+     1
+    ],
+    "ProteinScope (heuristic ranking)": [
+     0,
+     1,
+     1
+    ],
+    "fpocket": [
+     0,
+     0,
+     0
+    ],
+    "P2Rank": [
+     1,
+     1,
+     1
+    ]
+   }
+  },
+  {
+   "protein": "coach420/3dzlB.pdb",
+   "pdb_id": "3DZL",
+   "ligand_codes": [
+    "3OC"
+   ],
+   "ligand_residues": 2,
+   "ligands": 2,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 1,
+    "ProteinScope (heuristic ranking)": 1,
+    "fpocket": 9,
+    "P2Rank": 1
+   },
+   "found": {
+    "ProteinScope": [
+     2,
+     2,
+     2
+    ],
+    "ProteinScope (heuristic ranking)": [
+     2,
+     2,
+     2
+    ],
+    "fpocket": [
+     2,
+     2,
+     2
+    ],
+    "P2Rank": [
+     2,
+     2,
+     2
+    ]
+   }
+  },
+  {
+   "protein": "coach420/3efvA.pdb",
+   "pdb_id": "3EFV",
+   "ligand_codes": [
+    "NAD"
+   ],
+   "ligand_residues": 1,
+   "ligands": 1,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 5,
+    "ProteinScope (heuristic ranking)": 5,
+    "fpocket": 20,
+    "P2Rank": 8
+   },
+   "found": {
+    "ProteinScope": [
+     1,
+     1,
+     1
+    ],
+    "ProteinScope (heuristic ranking)": [
+     0,
+     1,
+     1
+    ],
+    "fpocket": [
+     1,
+     1,
+     1
+    ],
+    "P2Rank": [
+     1,
+     1,
+     1
+    ]
+   }
+  },
+  {
+   "protein": "coach420/3ej0A.pdb",
+   "pdb_id": "3EJ0",
+   "ligand_codes": [
+    "11X"
+   ],
+   "ligand_residues": 2,
+   "ligands": 2,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 1,
+    "ProteinScope (heuristic ranking)": 1,
+    "fpocket": 10,
+    "P2Rank": 4
+   },
+   "found": {
+    "ProteinScope": [
+     0,
+     0,
+     0
+    ],
+    "ProteinScope (heuristic ranking)": [
+     0,
+     0,
+     0
+    ],
+    "fpocket": [
+     0,
+     0,
+     1
+    ],
+    "P2Rank": [
+     0,
+     0,
+     0
+    ]
+   }
+  },
+  {
+   "protein": "coach420/3ergA.pdb",
+   "pdb_id": "3ERG",
+   "ligand_codes": [
+    "GTS"
+   ],
+   "ligand_residues": 1,
+   "ligands": 1,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 3,
+    "ProteinScope (heuristic ranking)": 3,
+    "fpocket": 11,
+    "P2Rank": 2
+   },
+   "found": {
+    "ProteinScope": [
+     1,
+     1,
+     1
+    ],
+    "ProteinScope (heuristic ranking)": [
+     1,
+     1,
+     1
+    ],
+    "fpocket": [
+     1,
+     1,
+     1
+    ],
+    "P2Rank": [
+     1,
+     1,
+     1
+    ]
+   }
+  },
+  {
+   "protein": "coach420/3erkA.pdb",
+   "pdb_id": "3ERK",
+   "ligand_codes": [
+    "SB4"
+   ],
+   "ligand_residues": 1,
+   "ligands": 1,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 5,
+    "ProteinScope (heuristic ranking)": 5,
+    "fpocket": 23,
+    "P2Rank": 12
+   },
+   "found": {
+    "ProteinScope": [
+     1,
+     1,
+     1
+    ],
+    "ProteinScope (heuristic ranking)": [
+     1,
+     1,
+     1
+    ],
+    "fpocket": [
+     1,
+     1,
+     1
+    ],
+    "P2Rank": [
+     1,
+     1,
+     1
+    ]
+   }
+  },
+  {
+   "protein": "coach420/3exsA.pdb",
+   "pdb_id": "3EXS",
+   "ligand_codes": [
+    "5RP"
+   ],
+   "ligand_residues": 1,
+   "ligands": 1,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 1,
+    "ProteinScope (heuristic ranking)": 1,
+    "fpocket": 6,
+    "P2Rank": 6
+   },
+   "found": {
+    "ProteinScope": [
+     1,
+     1,
+     1
+    ],
+    "ProteinScope (heuristic ranking)": [
+     1,
+     1,
+     1
+    ],
+    "fpocket": [
+     1,
+     1,
+     1
+    ],
+    "P2Rank": [
+     1,
+     1,
+     1
+    ]
+   }
+  },
+  {
+   "protein": "coach420/3g1xA.pdb",
+   "pdb_id": "3G1X",
+   "ligand_codes": [
+    "U"
+   ],
+   "ligand_residues": 2,
+   "ligands": 2,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 1,
+    "ProteinScope (heuristic ranking)": 1,
+    "fpocket": 8,
+    "P2Rank": 6
+   },
+   "found": {
+    "ProteinScope": [
+     1,
+     1,
+     1
+    ],
+    "ProteinScope (heuristic ranking)": [
+     1,
+     1,
+     1
+    ],
+    "fpocket": [
+     1,
+     1,
+     1
+    ],
+    "P2Rank": [
+     0,
+     1,
+     1
+    ]
+   }
+  },
+  {
+   "protein": "coach420/3gd9A.pdb",
+   "pdb_id": "3GD9",
+   "ligand_codes": [
+    "GLC",
+    "BGC"
+   ],
+   "ligand_residues": 4,
+   "ligands": 1,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 8,
+    "ProteinScope (heuristic ranking)": 8,
+    "fpocket": 19,
+    "P2Rank": 13
+   },
+   "found": {
+    "ProteinScope": [
+     0,
+     1,
+     1
+    ],
+    "ProteinScope (heuristic ranking)": [
+     0,
+     1,
+     1
+    ],
+    "fpocket": [
+     0,
+     0,
+     1
+    ],
+    "P2Rank": [
+     1,
+     1,
+     1
+    ]
+   }
+  },
+  {
+   "protein": "coach420/3gdlA.pdb",
+   "pdb_id": "3GDL",
+   "ligand_codes": [
+    "UP6"
+   ],
+   "ligand_residues": 2,
+   "ligands": 2,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 4,
+    "ProteinScope (heuristic ranking)": 4,
+    "fpocket": 13,
+    "P2Rank": 4
+   },
+   "found": {
+    "ProteinScope": [
+     1,
+     1,
+     1
+    ],
+    "ProteinScope (heuristic ranking)": [
+     1,
+     1,
+     1
+    ],
+    "fpocket": [
+     1,
+     1,
+     1
+    ],
+    "P2Rank": [
+     1,
+     1,
+     1
+    ]
+   }
+  },
+  {
+   "protein": "coach420/3gpoA.pdb",
+   "pdb_id": "3GPO",
+   "ligand_codes": [
+    "APR"
+   ],
+   "ligand_residues": 1,
+   "ligands": 1,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 1,
+    "ProteinScope (heuristic ranking)": 1,
+    "fpocket": 8,
+    "P2Rank": 2
+   },
+   "found": {
+    "ProteinScope": [
+     1,
+     1,
+     1
+    ],
+    "ProteinScope (heuristic ranking)": [
+     1,
+     1,
+     1
+    ],
+    "fpocket": [
+     1,
+     1,
+     1
+    ],
+    "P2Rank": [
+     1,
+     1,
+     1
+    ]
+   }
+  },
+  {
+   "protein": "coach420/3gqkA.pdb",
+   "pdb_id": "3GQK",
+   "ligand_codes": [
+    "ATP"
+   ],
+   "ligand_residues": 1,
+   "ligands": 1,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 0,
+    "ProteinScope (heuristic ranking)": 0,
+    "fpocket": 6,
+    "P2Rank": 2
+   },
+   "found": {
+    "ProteinScope": [
+     0,
+     0,
+     0
+    ],
+    "ProteinScope (heuristic ranking)": [
+     0,
+     0,
+     0
+    ],
+    "fpocket": [
+     1,
+     1,
+     1
+    ],
+    "P2Rank": [
+     1,
+     1,
+     1
+    ]
+   }
+  },
+  {
+   "protein": "coach420/3h2kA.pdb",
+   "pdb_id": "3H2K",
+   "ligand_codes": [
+    "BOG"
+   ],
+   "ligand_residues": 2,
+   "ligands": 2,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 3,
+    "ProteinScope (heuristic ranking)": 3,
+    "fpocket": 19,
+    "P2Rank": 7
+   },
+   "found": {
+    "ProteinScope": [
+     1,
+     1,
+     1
+    ],
+    "ProteinScope (heuristic ranking)": [
+     1,
+     1,
+     1
+    ],
+    "fpocket": [
+     1,
+     1,
+     2
+    ],
+    "P2Rank": [
+     1,
+     1,
+     1
+    ]
+   }
+  },
+  {
+   "protein": "coach420/3h72A.pdb",
+   "pdb_id": "3H72",
+   "ligand_codes": [
+    "SIA"
+   ],
+   "ligand_residues": 1,
+   "ligands": 1,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 9,
+    "ProteinScope (heuristic ranking)": 9,
+    "fpocket": 25,
+    "P2Rank": 13
+   },
+   "found": {
+    "ProteinScope": [
+     0,
+     1,
+     1
+    ],
+    "ProteinScope (heuristic ranking)": [
+     0,
+     1,
+     1
+    ],
+    "fpocket": [
+     0,
+     0,
+     1
+    ],
+    "P2Rank": [
+     1,
+     1,
+     1
+    ]
+   }
+  },
+  {
+   "protein": "coach420/3hitA.pdb",
+   "pdb_id": "3HIT",
+   "ligand_codes": [
+    "DYN"
+   ],
+   "ligand_residues": 1,
+   "ligands": 1,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 2,
+    "ProteinScope (heuristic ranking)": 2,
+    "fpocket": 11,
+    "P2Rank": 5
+   },
+   "found": {
+    "ProteinScope": [
+     1,
+     1,
+     1
+    ],
+    "ProteinScope (heuristic ranking)": [
+     1,
+     1,
+     1
+    ],
+    "fpocket": [
+     1,
+     1,
+     1
+    ],
+    "P2Rank": [
+     1,
+     1,
+     1
+    ]
+   }
+  },
+  {
+   "protein": "coach420/3hiyA.pdb",
+   "pdb_id": "3HIY",
+   "ligand_codes": [
+    "UTP"
+   ],
+   "ligand_residues": 1,
+   "ligands": 1,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 3,
+    "ProteinScope (heuristic ranking)": 3,
+    "fpocket": 24,
+    "P2Rank": 10
+   },
+   "found": {
+    "ProteinScope": [
+     0,
+     0,
+     0
+    ],
+    "ProteinScope (heuristic ranking)": [
+     0,
+     0,
+     0
+    ],
+    "fpocket": [
+     0,
+     0,
+     0
+    ],
+    "P2Rank": [
+     1,
+     1,
+     1
+    ]
+   }
+  },
+  {
+   "protein": "coach420/3hp8A.pdb",
+   "pdb_id": "3HP8",
+   "ligand_codes": [
+    "SUC"
+   ],
+   "ligand_residues": 2,
+   "ligands": 2,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 1,
+    "ProteinScope (heuristic ranking)": 1,
+    "fpocket": 2,
+    "P2Rank": 0
+   },
+   "found": {
+    "ProteinScope": [
+     0,
+     0,
+     0
+    ],
+    "ProteinScope (heuristic ranking)": [
+     0,
+     0,
+     0
+    ],
+    "fpocket": [
+     0,
+     0,
+     0
+    ],
+    "P2Rank": [
+     0,
+     0,
+     0
+    ]
+   }
+  },
+  {
+   "protein": "coach420/3hpiA.pdb",
+   "pdb_id": "3HPI",
+   "ligand_codes": [
+    "SUC"
+   ],
+   "ligand_residues": 1,
+   "ligands": 1,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 7,
+    "ProteinScope (heuristic ranking)": 7,
+    "fpocket": 19,
+    "P2Rank": 9
+   },
+   "found": {
+    "ProteinScope": [
+     1,
+     1,
+     1
+    ],
+    "ProteinScope (heuristic ranking)": [
+     1,
+     1,
+     1
+    ],
+    "fpocket": [
+     1,
+     1,
+     1
+    ],
+    "P2Rank": [
+     1,
+     1,
+     1
+    ]
+   }
+  },
+  {
+   "protein": "coach420/3hvlA.pdb",
+   "pdb_id": "3HVL",
+   "ligand_codes": [
+    "SRL"
+   ],
+   "ligand_residues": 1,
+   "ligands": 1,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 5,
+    "ProteinScope (heuristic ranking)": 5,
+    "fpocket": 25,
+    "P2Rank": 5
+   },
+   "found": {
+    "ProteinScope": [
+     1,
+     1,
+     1
+    ],
+    "ProteinScope (heuristic ranking)": [
+     1,
+     1,
+     1
+    ],
+    "fpocket": [
+     1,
+     1,
+     1
+    ],
+    "P2Rank": [
+     1,
+     1,
+     1
+    ]
+   }
+  },
+  {
+   "protein": "coach420/3i0dA.pdb",
+   "pdb_id": "3I0D",
+   "ligand_codes": [
+    "UDP"
+   ],
+   "ligand_residues": 1,
+   "ligands": 1,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 3,
+    "ProteinScope (heuristic ranking)": 3,
+    "fpocket": 16,
+    "P2Rank": 9
+   },
+   "found": {
+    "ProteinScope": [
+     1,
+     1,
+     1
+    ],
+    "ProteinScope (heuristic ranking)": [
+     1,
+     1,
+     1
+    ],
+    "fpocket": [
+     0,
+     1,
+     1
+    ],
+    "P2Rank": [
+     0,
+     0,
+     1
+    ]
+   }
+  },
+  {
+   "protein": "coach420/3i6cA.pdb",
+   "pdb_id": "3I6C",
+   "ligand_codes": [
+    "GIA"
+   ],
+   "ligand_residues": 2,
+   "ligands": 2,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 0,
+    "ProteinScope (heuristic ranking)": 0,
+    "fpocket": 3,
+    "P2Rank": 3
+   },
+   "found": {
+    "ProteinScope": [
+     0,
+     0,
+     0
+    ],
+    "ProteinScope (heuristic ranking)": [
+     0,
+     0,
+     0
+    ],
+    "fpocket": [
+     1,
+     1,
+     1
+    ],
+    "P2Rank": [
+     2,
+     2,
+     2
+    ]
+   }
+  },
+  {
+   "protein": "coach420/3iesA.pdb",
+   "pdb_id": "3IES",
+   "ligand_codes": [
+    "M24"
+   ],
+   "ligand_residues": 1,
+   "ligands": 1,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 8,
+    "ProteinScope (heuristic ranking)": 8,
+    "fpocket": 19,
+    "P2Rank": 10
+   },
+   "found": {
+    "ProteinScope": [
+     1,
+     1,
+     1
+    ],
+    "ProteinScope (heuristic ranking)": [
+     1,
+     1,
+     1
+    ],
+    "fpocket": [
+     1,
+     1,
+     1
+    ],
+    "P2Rank": [
+     1,
+     1,
+     1
+    ]
+   }
+  },
+  {
+   "protein": "coach420/3iiqA.pdb",
+   "pdb_id": "3IIQ",
+   "ligand_codes": [
+    "JZA",
+    "GLY",
+    "ALA",
+    "DSE",
+    "5PG",
+    "TYR",
+    "DAL",
+    "M12"
+   ],
+   "ligand_residues": 7,
+   "ligands": 2,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 4,
+    "ProteinScope (heuristic ranking)": 4,
+    "fpocket": 7,
+    "P2Rank": 4
+   },
+   "found": {
+    "ProteinScope": [
+     2,
+     2,
+     2
+    ],
+    "ProteinScope (heuristic ranking)": [
+     0,
+     2,
+     2
+    ],
+    "fpocket": [
+     1,
+     1,
+     1
+    ],
+    "P2Rank": [
+     2,
+     2,
+     2
+    ]
+   }
+  },
+  {
+   "protein": "coach420/3jynA.pdb",
+   "pdb_id": "3JYN",
+   "ligand_codes": [
+    "NDP"
+   ],
+   "ligand_residues": 1,
+   "ligands": 1,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 3,
+    "ProteinScope (heuristic ranking)": 3,
+    "fpocket": 16,
+    "P2Rank": 6
+   },
+   "found": {
+    "ProteinScope": [
+     1,
+     1,
+     1
+    ],
+    "ProteinScope (heuristic ranking)": [
+     1,
+     1,
+     1
+    ],
+    "fpocket": [
+     1,
+     1,
+     1
+    ],
+    "P2Rank": [
+     1,
+     1,
+     1
+    ]
+   }
+  },
+  {
+   "protein": "coach420/3kakA.pdb",
+   "pdb_id": "3KAK",
+   "ligand_codes": [
+    "3GC"
+   ],
+   "ligand_residues": 1,
+   "ligands": 1,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 7,
+    "ProteinScope (heuristic ranking)": 7,
+    "fpocket": 27,
+    "P2Rank": 18
+   },
+   "found": {
+    "ProteinScope": [
+     0,
+     0,
+     0
+    ],
+    "ProteinScope (heuristic ranking)": [
+     0,
+     0,
+     0
+    ],
+    "fpocket": [
+     1,
+     1,
+     1
+    ],
+    "P2Rank": [
+     0,
+     1,
+     1
+    ]
+   }
+  },
+  {
+   "protein": "coach420/3kbnA.pdb",
+   "pdb_id": "3KBN",
+   "ligand_codes": [
+    "GLO"
+   ],
+   "ligand_residues": 1,
+   "ligands": 1,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 8,
+    "ProteinScope (heuristic ranking)": 8,
+    "fpocket": 27,
+    "P2Rank": 6
+   },
+   "found": {
+    "ProteinScope": [
+     0,
+     0,
+     0
+    ],
+    "ProteinScope (heuristic ranking)": [
+     0,
+     0,
+     0
+    ],
+    "fpocket": [
+     0,
+     0,
+     0
+    ],
+    "P2Rank": [
+     1,
+     1,
+     1
+    ]
+   }
+  },
+  {
+   "protein": "coach420/3kdiA.pdb",
+   "pdb_id": "3KDI",
+   "ligand_codes": [
+    "A8S"
+   ],
+   "ligand_residues": 1,
+   "ligands": 1,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 2,
+    "ProteinScope (heuristic ranking)": 2,
+    "fpocket": 8,
+    "P2Rank": 4
+   },
+   "found": {
+    "ProteinScope": [
+     1,
+     1,
+     1
+    ],
+    "ProteinScope (heuristic ranking)": [
+     1,
+     1,
+     1
+    ],
+    "fpocket": [
+     1,
+     1,
+     1
+    ],
+    "P2Rank": [
+     1,
+     1,
+     1
+    ]
+   }
+  },
+  {
+   "protein": "coach420/3kjgA.pdb",
+   "pdb_id": "3KJG",
+   "ligand_codes": [
+    "ADP"
+   ],
+   "ligand_residues": 1,
+   "ligands": 1,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 2,
+    "ProteinScope (heuristic ranking)": 2,
+    "fpocket": 13,
+    "P2Rank": 4
+   },
+   "found": {
+    "ProteinScope": [
+     1,
+     1,
+     1
+    ],
+    "ProteinScope (heuristic ranking)": [
+     1,
+     1,
+     1
+    ],
+    "fpocket": [
+     1,
+     1,
+     1
+    ],
+    "P2Rank": [
+     1,
+     1,
+     1
+    ]
+   }
+  },
+  {
+   "protein": "coach420/3kv8A.pdb",
+   "pdb_id": "3KV8",
+   "ligand_codes": [
+    "FAH"
+   ],
+   "ligand_residues": 5,
+   "ligands": 5,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 0,
+    "ProteinScope (heuristic ranking)": 0,
+    "fpocket": 3,
+    "P2Rank": 2
+   },
+   "found": {
+    "ProteinScope": [
+     0,
+     0,
+     0
+    ],
+    "ProteinScope (heuristic ranking)": [
+     0,
+     0,
+     0
+    ],
+    "fpocket": [
+     2,
+     2,
+     2
+    ],
+    "P2Rank": [
+     2,
+     2,
+     2
+    ]
+   }
+  },
+  {
+   "protein": "coach420/3lbzA.pdb",
+   "pdb_id": "3LBZ",
+   "ligand_codes": [
+    "Z89"
+   ],
+   "ligand_residues": 2,
+   "ligands": 2,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 0,
+    "ProteinScope (heuristic ranking)": 0,
+    "fpocket": 4,
+    "P2Rank": 2
+   },
+   "found": {
+    "ProteinScope": [
+     0,
+     0,
+     0
+    ],
+    "ProteinScope (heuristic ranking)": [
+     0,
+     0,
+     0
+    ],
+    "fpocket": [
+     0,
+     1,
+     1
+    ],
+    "P2Rank": [
+     0,
+     0,
+     0
+    ]
+   }
+  },
+  {
+   "protein": "coach420/3m4eA.pdb",
+   "pdb_id": "3M4E",
+   "ligand_codes": [
+    "BCD"
+   ],
+   "ligand_residues": 1,
+   "ligands": 1,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 3,
+    "ProteinScope (heuristic ranking)": 3,
+    "fpocket": 9,
+    "P2Rank": 5
+   },
+   "found": {
+    "ProteinScope": [
+     0,
+     0,
+     0
+    ],
+    "ProteinScope (heuristic ranking)": [
+     0,
+     0,
+     0
+    ],
+    "fpocket": [
+     0,
+     0,
+     0
+    ],
+    "P2Rank": [
+     0,
+     0,
+     0
+    ]
+   }
+  },
+  {
+   "protein": "coach420/3manA.pdb",
+   "pdb_id": "3MAN",
+   "ligand_codes": [
+    "BMA",
+    "MAN"
+   ],
+   "ligand_residues": 3,
+   "ligands": 1,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 3,
+    "ProteinScope (heuristic ranking)": 3,
+    "fpocket": 10,
+    "P2Rank": 5
+   },
+   "found": {
+    "ProteinScope": [
+     0,
+     1,
+     1
+    ],
+    "ProteinScope (heuristic ranking)": [
+     0,
+     1,
+     1
+    ],
+    "fpocket": [
+     1,
+     1,
+     1
+    ],
+    "P2Rank": [
+     1,
+     1,
+     1
+    ]
+   }
+  },
+  {
+   "protein": "coach420/3nk7A.pdb",
+   "pdb_id": "3NK7",
+   "ligand_codes": [
+    "SAM"
+   ],
+   "ligand_residues": 2,
+   "ligands": 2,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 4,
+    "ProteinScope (heuristic ranking)": 4,
+    "fpocket": 10,
+    "P2Rank": 3
+   },
+   "found": {
+    "ProteinScope": [
+     1,
+     1,
+     1
+    ],
+    "ProteinScope (heuristic ranking)": [
+     1,
+     1,
+     1
+    ],
+    "fpocket": [
+     1,
+     1,
+     1
+    ],
+    "P2Rank": [
+     1,
+     1,
+     1
+    ]
+   }
+  },
+  {
+   "protein": "coach420/3stdA.pdb",
+   "pdb_id": "3STD",
+   "ligand_codes": [
+    "MQ0"
+   ],
+   "ligand_residues": 1,
+   "ligands": 1,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 1,
+    "ProteinScope (heuristic ranking)": 1,
+    "fpocket": 12,
+    "P2Rank": 2
+   },
+   "found": {
+    "ProteinScope": [
+     1,
+     1,
+     1
+    ],
+    "ProteinScope (heuristic ranking)": [
+     1,
+     1,
+     1
+    ],
+    "fpocket": [
+     1,
+     1,
+     1
+    ],
+    "P2Rank": [
+     1,
+     1,
+     1
+    ]
+   }
+  },
+  {
+   "protein": "coach420/4f10A.pdb",
+   "pdb_id": "4F10",
+   "ligand_codes": [
+    "MAW",
+    "LGU",
+    "BEM"
+   ],
+   "ligand_residues": 4,
+   "ligands": 1,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 4,
+    "ProteinScope (heuristic ranking)": 4,
+    "fpocket": 18,
+    "P2Rank": 5
+   },
+   "found": {
+    "ProteinScope": [
+     1,
+     1,
+     1
+    ],
+    "ProteinScope (heuristic ranking)": [
+     1,
+     1,
+     1
+    ],
+    "fpocket": [
+     1,
+     1,
+     1
+    ],
+    "P2Rank": [
+     1,
+     1,
+     1
+    ]
+   }
+  },
+  {
+   "protein": "coach420/4stdA.pdb",
+   "pdb_id": "4STD",
+   "ligand_codes": [
+    "BFS"
+   ],
+   "ligand_residues": 1,
+   "ligands": 1,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 1,
+    "ProteinScope (heuristic ranking)": 1,
+    "fpocket": 10,
+    "P2Rank": 3
+   },
+   "found": {
+    "ProteinScope": [
+     1,
+     1,
+     1
+    ],
+    "ProteinScope (heuristic ranking)": [
+     1,
+     1,
+     1
+    ],
+    "fpocket": [
+     1,
+     1,
+     1
+    ],
+    "P2Rank": [
+     1,
+     1,
+     1
+    ]
+   }
+  },
+  {
+   "protein": "coach420/5galB.pdb",
+   "pdb_id": "5GAL",
+   "ligand_codes": [
+    "GAL",
+    "NAG"
+   ],
+   "ligand_residues": 2,
+   "ligands": 1,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 1,
+    "ProteinScope (heuristic ranking)": 1,
+    "fpocket": 6,
+    "P2Rank": 3
+   },
+   "found": {
+    "ProteinScope": [
+     0,
+     0,
+     0
+    ],
+    "ProteinScope (heuristic ranking)": [
+     0,
+     0,
+     0
+    ],
+    "fpocket": [
+     0,
+     0,
+     0
+    ],
+    "P2Rank": [
+     0,
+     0,
+     0
+    ]
+   }
+  },
+  {
+   "protein": "coach420/5stdA.pdb",
+   "pdb_id": "5STD",
+   "ligand_codes": [
+    "UNN"
+   ],
+   "ligand_residues": 1,
+   "ligands": 1,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 1,
+    "ProteinScope (heuristic ranking)": 1,
+    "fpocket": 7,
+    "P2Rank": 3
+   },
+   "found": {
+    "ProteinScope": [
+     1,
+     1,
+     1
+    ],
+    "ProteinScope (heuristic ranking)": [
+     1,
+     1,
+     1
+    ],
+    "fpocket": [
+     1,
+     1,
+     1
+    ],
+    "P2Rank": [
+     1,
+     1,
+     1
+    ]
+   }
+  },
+  {
+   "protein": "coach420/5tlnA.pdb",
+   "pdb_id": "5TLN",
+   "ligand_codes": [
+    "BAN"
+   ],
+   "ligand_residues": 1,
+   "ligands": 1,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 2,
+    "ProteinScope (heuristic ranking)": 2,
+    "fpocket": 10,
+    "P2Rank": 4
+   },
+   "found": {
+    "ProteinScope": [
+     1,
+     1,
+     1
+    ],
+    "ProteinScope (heuristic ranking)": [
+     1,
+     1,
+     1
+    ],
+    "fpocket": [
+     1,
+     1,
+     1
+    ],
+    "P2Rank": [
+     1,
+     1,
+     1
+    ]
+   }
+  },
+  {
+   "protein": "coach420/7dfrA.pdb",
+   "pdb_id": "7DFR",
+   "ligand_codes": [
+    "FOL",
+    "NAP"
+   ],
+   "ligand_residues": 2,
+   "ligands": 2,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 1,
+    "ProteinScope (heuristic ranking)": 1,
+    "fpocket": 5,
+    "P2Rank": 3
+   },
+   "found": {
+    "ProteinScope": [
+     2,
+     2,
+     2
+    ],
+    "ProteinScope (heuristic ranking)": [
+     2,
+     2,
+     2
+    ],
+    "fpocket": [
+     2,
+     2,
+     2
+    ],
+    "P2Rank": [
+     2,
+     2,
+     2
+    ]
+   }
+  },
+  {
+   "protein": "coach420/7estE.pdb",
+   "pdb_id": "7EST",
+   "ligand_codes": [
+    "0Z2"
+   ],
+   "ligand_residues": 1,
+   "ligands": 1,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 4,
+    "ProteinScope (heuristic ranking)": 4,
+    "fpocket": 8,
+    "P2Rank": 10
+   },
+   "found": {
+    "ProteinScope": [
+     0,
+     1,
+     1
+    ],
+    "ProteinScope (heuristic ranking)": [
+     0,
+     0,
+     1
+    ],
+    "fpocket": [
+     1,
+     1,
+     1
+    ],
+    "P2Rank": [
+     1,
+     1,
+     1
+    ]
+   }
+  },
+  {
+   "protein": "coach420/830cA.pdb",
+   "pdb_id": "830C",
+   "ligand_codes": [
+    "RS1"
+   ],
+   "ligand_residues": 1,
+   "ligands": 1,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 1,
+    "ProteinScope (heuristic ranking)": 1,
+    "fpocket": 8,
+    "P2Rank": 4
+   },
+   "found": {
+    "ProteinScope": [
+     1,
+     1,
+     1
+    ],
+    "ProteinScope (heuristic ranking)": [
+     1,
+     1,
+     1
+    ],
+    "fpocket": [
+     1,
+     1,
+     1
+    ],
+    "P2Rank": [
+     1,
+     1,
+     1
+    ]
+   }
+  },
+  {
+   "protein": "coach420/966cA.pdb",
+   "pdb_id": "966C",
+   "ligand_codes": [
+    "RS2"
+   ],
+   "ligand_residues": 1,
+   "ligands": 1,
+   "in_training_set": false,
+   "pockets": {
+    "ProteinScope": 1,
+    "ProteinScope (heuristic ranking)": 1,
+    "fpocket": 6,
+    "P2Rank": 4
+   },
+   "found": {
+    "ProteinScope": [
+     1,
+     1,
+     1
+    ],
+    "ProteinScope (heuristic ranking)": [
+     1,
+     1,
+     1
+    ],
+    "fpocket": [
+     1,
+     1,
+     1
+    ],
+    "P2Rank": [
+     1,
+     1,
+     1
+    ]
+   }
+  }
+ ]
+}
