@@ -7,7 +7,7 @@ report, a PDF and Markdown.
 Every number is computed from the coordinates by this package. Claude decides what to analyse
 and writes the prose; it never supplies a number.
 
-![A ProteinScope report page](docs/example-report.png)
+![The HTML report for EGFR (1M17): summary tiles, ChEMBL context and the 3D viewer with the detected pockets](docs/example-report.png)
 
 ## Install
 
@@ -52,6 +52,8 @@ paths = build_report(result, "output")   # paths.html, paths.pdf, paths.markdown
 ## Picking a protein in the browser
 
 `proteinscope serve` opens a page where you pick a protein instead of typing commands:
+
+![The proteinscope serve page: an ID field and the target catalogue with each card's status](docs/overview.png)
 
 - a **catalogue** of 23 well-known drug targets (EGFR, KRAS G12C, the SARS-CoV-2 protease,
   BRD4, HIV protease, the oestrogen receptor, two GPCRs and more), one structure each, filterable
