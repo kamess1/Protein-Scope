@@ -107,6 +107,7 @@ def fetches(monkeypatch):
         return Recorder.answer
 
     monkeypatch.setattr(webdata, "_fetch", fake_fetch)
+    monkeypatch.setattr(webdata, "_RETRY_DELAYS", (0.0, 0.0, 0.0))  # Same retries, no waiting.
     monkeypatch.delenv("PROTEINSCOPE_CACHE_DAYS", raising=False)
     return Recorder
 
@@ -158,3 +159,44 @@ def test_a_corrupt_cache_file_is_replaced(tmp_path: Path, fetches) -> None:
     path = _cache(tmp_path, "https://x/a", {}, age_days=1)
     path.write_text("{ broken", encoding="utf-8")
     assert webdata.get_json("https://x/a", tmp_path) == {"fresh": True}
+
+
+# --- retries -------------------------------------------------------------------------
+
+
+def _sequence(monkeypatch, *answers):
+    """Make _fetch answer with these responses/exceptions in turn; return the call log."""
+    calls = []
+    pending = list(answers)
+
+    def fake_fetch(url: str, deadline: float):
+        calls.append(url)
+        answer = pending.pop(0)
+        if isinstance(answer, Exception):
+            raise answer
+        return answer
+
+    monkeypatch.setattr(webdata, "_fetch", fake_fetch)
+    monkeypatch.setattr(webdata, "_RETRY_DELAYS", (0.0, 0.0, 0.0))
+    return calls
+
+
+def test_a_transient_server_error_is_retried(tmp_path: Path, monkeypatch) -> None:
+    calls = _sequence(monkeypatch, _FakeResponse({}, 500), webdata.DataSourceError("reset"),
+                      _FakeResponse({}, 503), _FakeResponse({"ok": True}))
+    assert webdata.get_json("https://x/r", tmp_path) == {"ok": True}
+    assert len(calls) == 4
+
+
+def test_a_persistent_server_error_is_reported(tmp_path: Path, monkeypatch) -> None:
+    calls = _sequence(monkeypatch, *[_FakeResponse({}, 500)] * 4)
+    with pytest.raises(webdata.DataSourceError, match="HTTP 500"):
+        webdata.get_json("https://x/r", tmp_path)
+    assert len(calls) == 1 + len(webdata._RETRY_DELAYS)
+
+
+def test_a_missing_record_is_not_retried(tmp_path: Path, monkeypatch) -> None:
+    calls = _sequence(monkeypatch, _FakeResponse({}, 404))
+    with pytest.raises(webdata.DataSourceError, match="Not found"):
+        webdata.get_json("https://x/r", tmp_path)
+    assert len(calls) == 1

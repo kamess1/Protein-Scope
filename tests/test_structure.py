@@ -49,6 +49,9 @@ def test_download_reports_a_missing_entry(tmp_path, monkeypatch) -> None:
         status_code = 404
         ok = False
 
+        def iter_content(self, size: int):  # The download streams, to bound its total time.
+            return iter(())
+
     monkeypatch.setattr("proteinscope.rcsb.requests.get", lambda *a, **k: _Response())
     with pytest.raises(rcsb.RCSBError, match="does not exist"):
         rcsb.download_structure("1ABC", tmp_path)

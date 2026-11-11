@@ -49,6 +49,9 @@ def test_alphafold_model_is_analysed_with_plddt(tmp_path) -> None:
 
 def test_target_context_and_ligand_chemistry_for_1hsg(tmp_path) -> None:
     result = run_analysis("1HSG", probe_pockets=0, cache_dir=tmp_path)
+    outages = [note for note in result.context.get("notes", []) if " returned HTTP 5" in note]
+    if outages:  # The service failed even after the retries: report it, do not blame the code.
+        pytest.skip(f"Upstream service unavailable: {outages[0][:160]}")
     chemistry = result.context["ligand_chemistry"]["MK1902:B"]
     assert chemistry["comp_id"] == "MK1" and chemistry["smiles"]
     assert result.context["targets"][0]["accession"] == "P03367"
